@@ -1,15 +1,12 @@
 <template lang="pug">
   .chart(:class='style' @keydown.esc='close')
-      button.max(v-if='data.length && !maximized' @click='max()')
-        span.icon.icon-cube
-      button.close(v-if='maximized' @click='close')
       h3.chart-title {{title}}
       .chart-cointainer(:style=' "height:" + size.h + "px"')
         d3-bar-chart(:data='data' :options='opts')
 </template>
 <script>
 import D3BarChart from 'vue-d3-barchart'
-import { mapState, mapActions } from 'vuex'
+import { mapState } from 'vuex'
 export default {
   name: 'bar-chart',
   components: {
@@ -51,15 +48,6 @@ export default {
     }
   },
   methods: {
-    ...mapActions([
-      'maximizeChart'
-    ]),
-    max () {
-      let title = this.title
-      let chart = this.chart
-      let options = this.maxOptions()
-      this.maximizeChart({ title, chart, options })
-    },
     close () {
       this.maximizeChart(null)
     },

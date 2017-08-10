@@ -5,6 +5,11 @@ export default function () {
         w: 0,
         h: 0
       },
+      selection: {
+        nodes: {},
+        links: {}
+      },
+      nodeDialogs: [],
     socketConnected: false
   }
 }
