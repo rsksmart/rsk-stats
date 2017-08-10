@@ -1,5 +1,8 @@
 <template lang="pug">
   #app.main(@keyup.esc='setTool("pointer")')
+    //- .drag-col(v-for='(col, index) in cols' :class='"drag-col-" + index' @dragover='dragCol(index)')
+    .maximized-chart(v-if='maxChart')
+       chart( :title='maxChart.title' :chart='maxChart.chart' :options='maxChart.options' maximized='true')
     .layout( v-if='connected')
       .col-a
         big-data(title="Best Block" :data="totals.bestBlock" icon="icon-cube")
@@ -8,7 +11,7 @@
         
         chart(title='Uncles' chart='uncleCountChart' :options='{colorInterpol:unclesColors}' )
         chart(title='Blocks Time' chart='lastBlocksTime'  :options='{ colors:["red", "yellow"] }')
-    chart(title='Difficulty' chart='difficultyChart' )
+        chart(title='Difficulty' chart='difficultyChart' )
         
       .col-b 
       .col-c
@@ -68,7 +71,7 @@
           @options="changeOptions"
           @reset="resetOptions"
           )
-
+      
       .options
         button.btn.menu(@click="showMenu = !showMenu")
           span(class="icon-equalizerh")
@@ -175,7 +178,7 @@ export default {
     blockChart () {
       return this.charts.blockPropagationChart.map((d) => {
         return d.x
-    })
+      })
     }
   },
   methods: {
@@ -253,4 +256,17 @@ export default {
 <style lang="stylus">
 @import './lib/styl/app.styl'
 @import './lib/styl/nodes.styl'
+  .maximized-chart
+    position:absolute
+    display: flex
+    justify-content: center
+    align-items: center
+    top:0
+    width: 100%
+    max-width: 100%
+    min-height: 100%
+    z-index: 900
+    .chart
+      padding: 2em
+
 </style>

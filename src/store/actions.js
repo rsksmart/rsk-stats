@@ -70,3 +70,6 @@ const findNodeDialog = (dialogs, nodeId) => {
   })
   return (index > -1) ? index : null
 }
+export const maximizeChart = ({ commit }, data) => {
+  commit('SET_MAXIMIZED_CHART', data)
+}
