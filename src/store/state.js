@@ -10,6 +10,8 @@ export default function () {
         links: {}
       },
       nodeDialogs: [],
+      maximizedChart: null
+    },
     socketConnected: false
   }
 }

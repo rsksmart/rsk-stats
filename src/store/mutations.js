@@ -58,3 +58,6 @@ export const UPDATE_NODE_DIALOG = (state, payload) => {
   state.app.nodeDialogs[payload.index] = payload.value
 }
 
+export const SET_MAXIMIZED_CHART = (state, payload) => {
+  state.app.maximizedChart = payload
+}
