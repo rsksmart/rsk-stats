@@ -1,6 +1,7 @@
 <template lang="pug">
   #app.main(@keyup.esc='setTool("pointer")')
     //-> Network
+    chart(title='Difficulty' chart='difficultyChart' )
     d3-network(
       v-if='connected'
       :netNodes="nodes"
@@ -19,10 +20,12 @@
 import { mapState, mapActions, mapGetters } from 'vuex'
 import defaultData from './data.js'
 import D3Network from 'vue-d3-network'
+import Chart from './components/Chart.vue'
 export default {
   name: 'NetStats',
   components: {
-    D3Network
+    D3Network,
+    Chart
   },
   data () {
     let data = Object.assign({}, defaultData)
