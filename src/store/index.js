@@ -5,6 +5,7 @@ import * as actions from './actions'
 import * as mutations from './mutations'
 import state from './state'
 import socket from '../socket.js'
+import backend from './modules/backend/'
 import socketPlugin from './socketPlugin.js'
 const wsPlugin = socketPlugin(socket)
 
@@ -17,7 +18,10 @@ const store = new Vuex.Store({
   getters,
   actions,
   mutations,
-  plugins: [wsPlugin]
+  plugins: [wsPlugin],
+  modules: {
+    backend
+  }
 })
 
 export default store
