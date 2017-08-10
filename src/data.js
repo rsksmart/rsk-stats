@@ -1,4 +1,7 @@
 export default {
+  showMenu: false,
+  selected: {},
+  linksSelected: {},
   options: {
     nodeSym: null,
     force: 2500,
