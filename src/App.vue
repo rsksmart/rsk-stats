@@ -129,6 +129,11 @@ export default {
     data.redGreen = redGreen
     return data
   },
+  created () {
+    let savedOptions = window.localStorage.options
+    if (savedOptions) {
+      this.options = Object.assign({}, JSON.parse(savedOptions))
+    }
     // updates time every second
     let vm = this
     setInterval(() => {
@@ -141,6 +146,12 @@ export default {
   },
   beforeDestroy () {
     window.removeEventListener('resize', this.onResize)
+  },
+  watch: {
+    options (newValue) {
+      if (newValue) localStorage.setItem('options', JSON.stringify(newValue))
+      this.options = newValue
+    }
   },
   computed: {
     ...mapState({
