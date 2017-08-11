@@ -54,8 +54,9 @@
       dialog-drag(v-for="(dialog,index) in dialogs"  
         :options='dialog'
         :key="index"
-        :id='index'
+        :id='dialog.node.id'
         @close='unSelectNode(dialog.node.id)'
+        @move='updateNodeDialog'
         )
         node-watcher( 
           :dialog='dialog'
@@ -116,7 +117,6 @@ export default {
     let data = Object.assign({}, defaultData)
     data.options.size = { w: 500, h: 500 }
     data.options.offset = { x: 0, y: 0 }
-    data.options.nodeSym = nodeIcon
     data.tools = {
       pointer: {
         tip: 'Select',
@@ -193,7 +193,8 @@ export default {
       'remoteRemoveLink',
       'setSize',
       'pinNode',
-      'socketUrl'
+      'socketUrl',
+      'updateNodeDialog'
     ]),
     ...mapGetters([
       'isNodeSelected',

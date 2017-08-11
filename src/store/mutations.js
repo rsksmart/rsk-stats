@@ -41,8 +41,8 @@ export const ADD_NODE_DIALOG = (state, node) => {
   let index = state.app.nodeDialogs.push({
     id: node.id,
     node: node,
-    x: 0,
-    y: 0,
+    x: node.x,
+    y: node.y,
     w: 0,
     h: 0
   })
