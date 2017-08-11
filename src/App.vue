@@ -25,6 +25,8 @@
         chart(title='Gas Limit' chart='lastGasLimit')
         chart(title='Gas Pending' chart='gasSpending')
         chart(title='Transaction Density' chart='transactionDensity' )
+    
+
     //-> Network
     d3-network(
       v-if='connected'
@@ -42,6 +44,9 @@
       img(class="logo" src="static/rsk-logo.png")
       h1.center connecting to server  
     
+    //- interface background
+    iface-back(:size='options.size')
+
     //-> Tools
     .tools
       ul
@@ -91,6 +96,7 @@ import defaultData from './data.js'
 import D3Network from 'vue-d3-network'
 import StatsMenu from './components/StatsMenu'
 import DialogDrag from 'vue-dialog-drag'
+import IfaceBack from './components/ifaceBack.vue'
 import NodeWatcher from './components/NodeWatcher.vue'
 import BigData from './components/BigData.vue'
 import Chart from './components/Chart.vue'
@@ -106,7 +112,8 @@ export default {
     DialogDrag,
     NodeWatcher,
     BigData,
-    Chart
+    Chart,
+    IfaceBack
   },
   filters: {
     secondsAgo,
@@ -259,6 +266,13 @@ export default {
 <style lang="stylus">
 @import './lib/styl/app.styl'
 @import './lib/styl/nodes.styl'
+  .iface-back
+    position: absolute
+    top: 0 
+    left: 0
+    z-index: 1
+    pointer-events: none
+
   .maximized-chart
     position:absolute
     display: flex
