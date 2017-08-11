@@ -31,6 +31,7 @@
       :netNodes="nodes"
       :netLinks="links"
       :selection="selection"
+      :node-sym='nodeSym'
       :options="options"
       @node-click="nodeClick"
       @link-click="linkClick"
@@ -95,7 +96,7 @@ import Chart from './components/Chart.vue'
 import { secondsAgo, sSeconds } from './filters/TimeFilters.js'
 import { Numerals } from './filters/NumberFilters.js'
 import { blues, redGreen } from './lib/js/charts.js'
-import nodeIcon from '!!raw-loader!./assets/cube.svg'
+import nodeIcon from '!!raw-loader!./assets/node2.svg'
 export default {
   name: 'NetStats',
   components: {
@@ -130,6 +131,7 @@ export default {
     data.now = Date.now()
     data.unclesColors = blues
     data.redGreen = redGreen
+    data.nodeSym = nodeIcon
     return data
   },
   created () {

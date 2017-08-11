@@ -3,7 +3,6 @@ export default {
   selected: {},
   linksSelected: {},
   options: {
-    nodeSym: null,
     force: 2500,
     nodeSize: 30,
     fontSize: 16,

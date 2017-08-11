@@ -1,25 +1,25 @@
 @import 'vars.styl'
+.node
+  #rsk-logo
+    stroke: none
 .node 
   stroke: $midlight
   stroke-width: 3px
   transition: fill 0.5s ease
   stroke: none
   fill: $white
-  .cube
+  .node-sym
     stroke: none
 
  .node-back
     stroke: none
-    fill: none
+    fill: $mid
 
 .node.pinned
-  stroke: $color
-  stroke-width: 5px
-  fill: $color2
-  color: $color2
   .node-back
-    stroke: alpha($color,.75)
+    stroke: alpha($warn,.75)
     stroke-width: 2px
+    fill: $warn
 .link
   stroke: alpha($mid,0.6)
 
@@ -34,7 +34,7 @@
   color: $color
   &:hover
       stroke: $warn
-      stroke-width: 5px
+     
       color: $warn
  .link.selected
     stroke: alpha($color2,0.6)
@@ -51,9 +51,8 @@
     stroke: $color2
     color: $color2
     .node-back
-      stroke: alpha($color2,.75)
       stroke-width: 2px
-      fill: $white
+      fill: $color2
  
  .node.inactive
     color: black !important   
