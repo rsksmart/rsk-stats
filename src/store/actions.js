@@ -51,9 +51,10 @@ export const pinNode = ({ state, commit }, node) => {
 }
 
 export const updateNodeDialog = ({ state, commit, getters }, payload) => {
-  let id = payload[0]
+  let id = payload.id
   let nodeDialogs = getters.getNodeDialogs
-  let values = payload[1]
+  let values = payload
+  delete (values.id)
   let index = findNodeDialog(nodeDialogs, id)
   if (index !== null) {
     let value = nodeDialogs[index]
