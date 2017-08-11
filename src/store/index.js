@@ -6,6 +6,7 @@ import * as mutations from './mutations'
 import state from './state'
 import socket from '../socket.js'
 import backend from './modules/backend/'
+import app from './modules/app/'
 import socketPlugin from './socketPlugin.js'
 const wsPlugin = socketPlugin(socket)
 
@@ -20,6 +21,7 @@ const store = new Vuex.Store({
   mutations,
   plugins: [wsPlugin],
   modules: {
+    app,
     backend
   }
 })
