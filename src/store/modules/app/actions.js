@@ -1,7 +1,3 @@
-export const setSize = ({ commit }, size) => {
-  commit('SET_SIZE', size)
-}
-
 // SELECTION actions
 export const clearSelection = ({ commit }) => {
   commit('EMPTY_SELECTION', 'nodes')

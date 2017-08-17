@@ -1,6 +1,9 @@
 import Vue from 'vue'
 import defaultState from './state.js'
 
+// catch socket emit
+export const SOCKET_EMIT = (payload) => { }
+
 export const RESET = (state, value) => {
   const initial = defaultState()
   if (value) state[value] = initial[value]

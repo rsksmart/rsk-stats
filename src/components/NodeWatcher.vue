@@ -2,7 +2,7 @@
   .watcher
       .header
         span.icon.icon-rsk
-        span.node-title {{node.info.name}} 
+        span.node-title {{node.info.name}}
       ul.node-data 
         //-li 
           //-span.icon(:class='osIcons[node.info.os] || "icon-xxx"' :title="node.info.os") 
@@ -67,7 +67,7 @@
 
 </template>
 <script>
-import { mapState, mapActions, mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 import D3BarChart from 'vue-d3-barchart'
 import ToolTip from './ToolTip.vue'
 import { redGreen } from '../lib/js/charts.js'
@@ -103,12 +103,12 @@ export default {
   mounted () {
     this.width = this.$el.clientWidth
     this.height = this.$el.clientHeight
-/*     this.updateNodeDialog([this.node.id, { w: this.width, h: this.height }])
-      .then(this.setNodeDialogPos(this.index).then(() => {
-        this.top = this.dialog.y
-        this.left = this.dialog.x
-      }
-      )) */
+    /*     this.updateNodeDialog([this.node.id, { w: this.width, h: this.height }])
+          .then(this.setNodeDialogPos(this.index).then(() => {
+            this.top = this.dialog.y
+            this.left = this.dialog.x
+          }
+          )) */
   },
   watch: {
     dialog (newValue) {
@@ -144,15 +144,11 @@ export default {
     }
   },
   computed: {
-    ...mapState({
-      cols: state => state.app.cols
-    }),
     ...mapGetters({
-      nodes: 'nodesSelected',
-      links: 'linksSelected'
+      nodes: 'getNodes'
     }),
     node () {
-      return this.dialog.node
+      return this.nodes[this.dialog.id]
     }
   }
 }

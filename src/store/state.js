@@ -1,6 +1,13 @@
 export default function () {
   return {
-    socketConnected: false
+    size: {
+      w: 0,
+      h: 0
+    },
+    socketConnected: false,
+    activeSnapshot: null,
+    backendData: {},
+    snapshots: {}
   }
 }
 

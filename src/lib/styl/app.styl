@@ -1,5 +1,7 @@
 @import './vars.styl'
 @import './dialogs.styl'
+@import './buttons.styl'
+
 
 html, body
   height: 100%
@@ -29,9 +31,9 @@ body
   max-height: 100%
 
 .center
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  display: flex
+  justify-content: center
+  align-items: center
 
 .net
   max-width: 100%
@@ -83,44 +85,7 @@ h6
   text-align: center
   margin:auto
 
-button
-  color: $color
-  font-size: 0.9em
-  border: none
-  background-color: transparent
 
-button.btn  
-   background-color: $white
-   padding .25em .5em
-   border-radius: .1em
-   box-shadow: 1px 1px 1px rgba(0,0,0,.5)
-
-button.menu
-  width: 1.5em
-  height: 1.5em
-  padding: 0
-  font-size 1.5em
-  font-weight: bold  
-
-button.circle
-  width: 4em
-  height: 4em
-  font-weight: bold
-  border-radius: 50%
-  border:$border  
-    span
-      font-size: 5m !important
-
-button.reset 
-  font-size: 1.5em
-  line-height: 1em
-  height: 1.25em
-  width: 1.25em
-  padding:0.0625em
-  border-radius: 50%
-  float:right
-  background-color: white
-  border: $color solid 1px
 .connected
   color: $color
 
