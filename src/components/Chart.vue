@@ -37,7 +37,7 @@ export default {
   },
   computed: {
     ...mapState({
-      charts: state => state.backend.charts
+      charts: state => state.backendData.charts
     }),
     data () {
       return this.charts[this.chart]
@@ -51,7 +51,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions([
+    ...mapActions('app/', [
       'maximizeChart'
     ]),
     max () {

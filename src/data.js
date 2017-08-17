@@ -1,5 +1,6 @@
 export default {
   showMenu: false,
+  showSnapshots: false,
   selected: {},
   linksSelected: {},
   options: {
@@ -8,6 +9,7 @@ export default {
     fontSize: 16,
     linkWidth: 2,
     nodeLabels: true,
-    strLinks: true
+    strLinks: true,
+    canvas: false
   }
 }

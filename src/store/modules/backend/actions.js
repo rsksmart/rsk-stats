@@ -140,9 +140,9 @@ export const addNodes = ({ dispatch }, nodes) => {
 }
 
 // ADD NODE
-export const addNode = ({ state, getters, commit }, node) => {
-  if (!node.x) node.x = getters.getSize.w / 2
-  if (!node.y) node.y = getters.getSize.h / 2
+export const addNode = ({ state, rootGetters, commit }, node) => {
+  if (!node.x) node.x = rootGetters.getSize.w / 2
+  if (!node.y) node.y = rootGetters.getSize.h / 2
   if (!node.name) node.name = node.id
   commit('ADD_NODE', node)
 }

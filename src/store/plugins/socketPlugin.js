@@ -1,7 +1,7 @@
 export default function (socket) {
   return store => {
     socket.on('data', (data) => {
-      let action = 'socket_' + data.action.replace('-', '_')
+      let action = 'backend/socket_' + data.action.replace('-', '_')
       if (store._actions[action]) {
         store.dispatch(action, data.data)
       } else {
@@ -10,7 +10,7 @@ export default function (socket) {
     })
 
     socket.on('init', (data) => {
-      store.dispatch('socket_INIT', data)
+      store.dispatch('backend/socket_INIT', data)
     })
 
     socket.on('open', () => {

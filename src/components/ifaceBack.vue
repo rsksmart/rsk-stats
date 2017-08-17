@@ -6,19 +6,21 @@
         path(:d='quadCurve(dialog)')
 </template>
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 export default {
   name: 'iface-background',
   props: ['size'],
   computed: {
     ...mapState({
-      state: state => state,
       dialogs: state => state.app.nodeDialogs
     })
   },
   methods: {
+    ...mapGetters(
+      ['getNode']
+    ),
     quadCurve (dialog) {
-      let node = dialog.node
+      let node = this.getNode()(dialog.id)
       let t = 0.6 + (0.1 / this.size.w * (dialog.x - dialog.w))
       let xx = (dialog.x < node.x) ? (dialog.x + dialog.w) : dialog.x
       let xy = dialog.y + (dialog.h / 2)

@@ -18,10 +18,6 @@ export const isLinkSelected = state => id => {
   return state.selection.links[id]
 }
 
-export const getSize = (state) => {
-  return state.size
-}
-
 export const getNodeDialogs = (state) => {
   return state.nodeDialogs
 }

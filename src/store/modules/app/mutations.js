@@ -1,10 +1,5 @@
 import Vue from 'vue'
 
-export const SET_SIZE = (state, size) => {
-  Vue.set(state.size, 'w', size.w)
-  Vue.set(state.size, 'h', size.h)
-}
-
 export const SELECT_ITEM = (state, payload) => {
   Vue.set(state.selection[payload.type], payload.item.id, payload.item)
 }
@@ -33,7 +28,6 @@ export const UPDATE_SELECTION_PROP = (state, payload) => {
 export const ADD_NODE_DIALOG = (state, node) => {
   let index = state.nodeDialogs.push({
     id: node.id,
-    node: node,
     x: node.x,
     y: node.y,
     w: 0,

@@ -1,6 +1,11 @@
 <template lang="pug">
   #app.main(@keyup.esc='setTool("pointer")')
     //- .drag-col(v-for='(col, index) in cols' :class='"drag-col-" + index' @dragover='dragCol(index)')
+    //-.debug
+    .snapshot-hint(v-if='!isLive')
+      small.hint running in snapthot mode
+      button.btn.live(@click='goLive()') go Live
+
     .maximized-chart(v-if='maxChart')
        chart( :title='maxChart.title' :chart='maxChart.chart' :options='maxChart.options' maximized='true')
     .layout( v-if='connected')
@@ -44,6 +49,8 @@
       img(class="logo" src="static/rsk-logo.png")
       h1.center connecting to server  
     
+    //- nodes-table
+
     //- interface background
     iface-back(:size='options.size')
 
@@ -59,8 +66,8 @@
       dialog-drag(v-for="(dialog,index) in dialogs"  
         :options='dialog'
         :key="index"
-        :id='dialog.node.id'
-        @close='unSelectNode(dialog.node.id)'
+        :id='dialog.id'
+        @close='unSelectNode(dialog.id)'
         @move='updateNodeDialog'
         )
         node-watcher( 
@@ -78,15 +85,18 @@
           @options="changeOptions"
           @reset="resetOptions"
           )
-      
+      snapshots-list(v-if='showSnapshots')
       .options
         button.btn.menu(@click="showMenu = !showMenu")
           span(class="icon-equalizerh")
+        button.btn.badge(@click='showSnapshots = !showSnapshots')
+          span(class="icon-versions")
+          span.badge(v-if='totalSnapshots') {{ totalSnapshots }}  
         h1
           span.icon-rsk
           span &nbsp; rsk network
         ul.inline
-          li nodes: {{activeNodes.length}} 
+          li nodes: {{ activeNodes.length }} 
           li actives: {{ nodes.length }}
 </template>
 <script>
@@ -100,10 +110,12 @@ import IfaceBack from './components/ifaceBack.vue'
 import NodeWatcher from './components/NodeWatcher.vue'
 import BigData from './components/BigData.vue'
 import Chart from './components/Chart.vue'
+import SnapshotsList from './components/SnapShotsList.vue'
 import { secondsAgo, sSeconds } from './filters/TimeFilters.js'
 import { Numerals } from './filters/NumberFilters.js'
 import { blues, redGreen } from './lib/js/charts.js'
 import nodeIcon from '!!raw-loader!./assets/node2.svg'
+// import NodesTable from './components/NodesTable.vue'
 export default {
   name: 'NetStats',
   components: {
@@ -113,7 +125,9 @@ export default {
     NodeWatcher,
     BigData,
     Chart,
-    IfaceBack
+    // NodesTable,
+    IfaceBack,
+    SnapshotsList
   },
   filters: {
     secondsAgo,
@@ -151,6 +165,7 @@ export default {
     setInterval(() => {
       vm.now = Date.now()
     }, 1000)
+    this.$store.dispatch('initData')
   },
   mounted () {
     this.onResize()
@@ -168,19 +183,24 @@ export default {
   computed: {
     ...mapState({
       state: state => state,
-      totals: state => state.backend.totals,
-      charts: state => state.backend.charts,
+      totals: state => state.backendData.totals,
+      charts: state => state.backendData.charts,
       maxChart: state => state.app.maximizedChart
     }),
     ...mapGetters({
-      size: 'getSize',
-      selection: 'selection',
-      dialogs: 'getNodeDialogs',
       connected: 'isConnected',
+      size: 'getSize',
+      activeNodes: 'getActivesNodes',
       nodes: 'getNodesArr',
       links: 'getLinksArr',
-      activeNodes: 'getActivesNodes'
+      isLive: 'isLive',
+      totalSnapshots: 'totalSnapshots'
     }),
+    ...mapGetters('app/', {
+      selection: 'selection',
+      dialogs: 'getNodeDialogs'
+    }),
+
     lastBlock () {
       return this.now - this.totals.lastBlock
     },
@@ -192,18 +212,21 @@ export default {
   },
   methods: {
     ...mapActions([
+      'setSize',
+      'takeSnapshot',
+      'loadSnapshot',
+      'goLive'
+    ]),
+    ...mapActions('app/', [
       'selectNode',
       'selectLink',
       'unSelectNode',
       'unSelectLink',
       'selectNodeLinks',
-      'remoteRemoveLink',
-      'setSize',
       'pinNode',
-      'socketUrl',
       'updateNodeDialog'
     ]),
-    ...mapGetters([
+    ...mapGetters('app/', [
       'isNodeSelected',
       'isLinkSelected'
     ]),
@@ -264,6 +287,7 @@ export default {
 </script>
 <style src="vue-d3-barchart/dist/vue-d3-barchart.css"></style>
 <style lang="stylus">
+@import './lib/styl/vars.styl'
 @import './lib/styl/app.styl'
 @import './lib/styl/nodes.styl'
   .iface-back
@@ -272,6 +296,10 @@ export default {
     left: 0
     z-index: 1
     pointer-events: none
+  
+  .debug
+    position: absolute
+    z-index: 100 
 
   .maximized-chart
     position:absolute
@@ -285,5 +313,19 @@ export default {
     z-index: 900
     .chart
       padding: 2em
+   .snapshot-hint
+    position: absolute
+    min-height: 99.5%
+    min-width: 99.5%
+    text-align: center
+    top: 0
+    left: 0
+    border: $warn dashed 1px
+    .live
+      position: absolute
+      z-index: 1000
+    .hint
+      color: $color2
+
 
 </style>
