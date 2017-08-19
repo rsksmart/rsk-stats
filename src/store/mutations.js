@@ -12,11 +12,17 @@ export const SET_SIZE = (state, size) => {
 export const SAVE_SNAPSHOT = (state, snapshot) => {
   Vue.set(state.snapshots, Date.now(), snapshot)
 }
+
 export const REMOVE_SNAPSHOT = (state, id) => {
   Vue.delete(state.snapshots, id)
 }
+
 export const ACTIVE_SNAPSHOT = (state, snapshot) => {
   state.activeSnapshot = snapshot
+}
+
+export const SET_SNAPSHOTS = (state, snapshots) => {
+  state.snapshots = snapshots
 }
 
 export const REPLACE_STATE = (state, payload) => {
@@ -26,3 +32,4 @@ export const REPLACE_STATE = (state, payload) => {
 export const SET_BACKEND_DATA = (state, payload) => {
   state.backendData = payload.backend
 }
+

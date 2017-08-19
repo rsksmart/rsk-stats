@@ -1,21 +1,22 @@
 <template lang="pug">
   .snapshots-list
+    button.close(@click='$emit("close")')
     h4.title snapshots
-    button.btn(@click='takeSnapshot()')
+    input(type="text" v-model='snapShotName')
+    button.btn(@click='takeSnapshot(snapShotName)')
       span.icon-save
       span Take Snapshot
     table.snapshots
       tr(v-for='snapshot,key in snapshots')
         td {{ snapshot.name }}
-         td {{ key | date-from-ts}}
+         td
+          small {{ key | date-from-ts}}
         td
           button(@click='removeSnapshot(key)')
             span.icon-delete 
         td
           button(@click='loadSnapshot(key)')
             span.icon-load  
-
-
 
 </template>
 <script>
@@ -25,6 +26,11 @@ export default {
   name: 'snapshots-list',
   filters: {
     dateFromTs
+  },
+  data () {
+    return {
+      snapShotName: 'snapshot'
+    }
   },
   computed: {
     ...mapState({
@@ -47,4 +53,8 @@ export default {
       padding: .5em
       max-height: 20em
       overflow: auto
+      button.close
+        position: absolute
+        right: 1.5em
+        top: 1em
 </style>

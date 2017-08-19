@@ -11,7 +11,9 @@
     .layout( v-if='connected')
       .col-a
         big-data(title="Best Block" :data="totals.bestBlock" icon="icon-cube")
+        //- REVIEW
         big-data(title="Last Block" :data='lastBlock | seconds-ago' sufix="s ago" icon="icon-cubes" )
+        //- p {{totals.lastBlock}} - {{lastBlock }} {{now}}
         big-data(title="Avg Block Time" :data="totals.avgBlockTime | s-seconds" icon="icon-stopwatch" )
         
         chart(title='Uncles' chart='uncleCountChart' :options='{colorInterpol:unclesColors}' )
@@ -49,7 +51,7 @@
       img(class="logo" src="static/rsk-logo.png")
       h1.center connecting to server  
     
-    //- nodes-table
+    nodes-table
 
     //- interface background
     iface-back(:size='options.size')
@@ -85,7 +87,7 @@
           @options="changeOptions"
           @reset="resetOptions"
           )
-      snapshots-list(v-if='showSnapshots')
+      snapshots-list(v-if='showSnapshots' @close='showSnapshots = false')
       .options
         button.btn.menu(@click="showMenu = !showMenu")
           span(class="icon-equalizerh")
@@ -100,7 +102,6 @@
           li actives: {{ nodes.length }}
 </template>
 <script>
-/* eslint-disable no-unused-vars */
 import { mapState, mapActions, mapGetters } from 'vuex'
 import defaultData from './data.js'
 import D3Network from 'vue-d3-network'
@@ -114,8 +115,9 @@ import SnapshotsList from './components/SnapShotsList.vue'
 import { secondsAgo, sSeconds } from './filters/TimeFilters.js'
 import { Numerals } from './filters/NumberFilters.js'
 import { blues, redGreen } from './lib/js/charts.js'
-import nodeIcon from '!!raw-loader!./assets/node2.svg'
-// import NodesTable from './components/NodesTable.vue'
+import nodeIcon from '!!raw-loader!./assets/node.svg'
+import storage from './lib/js/lStorage.js'
+import NodesTable from './components/NodesTable.vue'
 export default {
   name: 'NetStats',
   components: {
@@ -125,7 +127,7 @@ export default {
     NodeWatcher,
     BigData,
     Chart,
-    // NodesTable,
+    NodesTable,
     IfaceBack,
     SnapshotsList
   },
@@ -156,16 +158,15 @@ export default {
     return data
   },
   created () {
-    let savedOptions = window.localStorage.options
-    if (savedOptions) {
-      this.options = Object.assign({}, JSON.parse(savedOptions))
-    }
+    let savedOptions = storage.get('options')
+    if (savedOptions) this.options = Object.assign({}, savedOptions)
+    let savedSnapshots = storage.get('snapshots')
+    this.$store.dispatch('initData', { snapshots: savedSnapshots })
     // updates time every second
     let vm = this
     setInterval(() => {
       vm.now = Date.now()
     }, 1000)
-    this.$store.dispatch('initData')
   },
   mounted () {
     this.onResize()
@@ -176,8 +177,11 @@ export default {
   },
   watch: {
     options (newValue) {
-      if (newValue) localStorage.setItem('options', JSON.stringify(newValue))
+      if (newValue) storage.set('options', newValue)
       this.options = newValue
+    },
+    snapshots (newValue) {
+      storage.set('snapshots', newValue)
     }
   },
   computed: {
@@ -185,7 +189,8 @@ export default {
       state: state => state,
       totals: state => state.backendData.totals,
       charts: state => state.backendData.charts,
-      maxChart: state => state.app.maximizedChart
+      maxChart: state => state.app.maximizedChart,
+      snapshots: state => state.snapshots
     }),
     ...mapGetters({
       connected: 'isConnected',

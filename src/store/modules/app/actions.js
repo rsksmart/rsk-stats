@@ -39,7 +39,7 @@ export const pinNode = ({ state, commit }, node) => {
   node.fx = node.x
   node.fy = node.y
   node._pinned = true
-  commit('UPDATE_NODE', node)
+  // commit('UPDATE_NODE', node)
 }
 
 export const updateNodeDialog = ({ state, commit, getters }, payload) => {
