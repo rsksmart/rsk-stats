@@ -33,5 +33,6 @@ export const isLive = (state) => {
 }
 
 export const totalSnapshots = (state) => {
-  return Object.keys(state.snapshots).length
+  if (state.snapshots) return Object.keys(state.snapshots).length
+  return 0
 }

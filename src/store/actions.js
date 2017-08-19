@@ -8,15 +8,20 @@ export const setSize = ({ commit }, size) => {
   commit('SET_SIZE', size)
 }
 
-export const initData = ({ state, commit }) => {
+export const initData = ({ state, commit }, data) => {
   commit('SET_BACKEND_DATA', state)
+  if (data) {
+    for (let d in data) {
+      if (data[d]) commit('REPLACE_STATE', [d, data[d]])
+    }
+  }
 }
 
 export const takeSnapshot = ({ state, commit }, name) => {
   let snapshot = {
     name: name,
     data: {
-      backend: _.cloneDeep(state.backend),
+      backend: _.cloneDeep(state.backendData),
       app: _.cloneDeep(state.app)
     }
   }
