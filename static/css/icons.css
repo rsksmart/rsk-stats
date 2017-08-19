@@ -1,9 +1,9 @@
 @font-face {
   font-family: 'rsk-icons';
   src:
-    url('fonts/rsk-icons.ttf?yndsmi') format('truetype'),
-    url('fonts/rsk-icons.woff?yndsmi') format('woff'),
-    url('fonts/rsk-icons.svg?yndsmi#rsk-icons') format('svg');
+    url('fonts/rsk-icons.ttf?g8y95q') format('truetype'),
+    url('fonts/rsk-icons.woff?g8y95q') format('woff'),
+    url('fonts/rsk-icons.svg?g8y95q#rsk-icons') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -23,6 +23,78 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-copy:before {
+  content: "\e913";
+}
+.icon-reload-alt:before {
+  content: "\e904";
+}
+.icon-refresh:before {
+  content: "\e904";
+}
+.icon-reset:before {
+  content: "\e904";
+}
+.icon-arrow:before {
+  content: "\e904";
+}
+.icon-git-merge:before {
+  content: "\f023";
+}
+.icon-pulse:before {
+  content: "\f085";
+}
+.icon-pointer:before {
+  content: "\e900";
+}
+.icon-mouse:before {
+  content: "\e900";
+}
+.icon-move:before {
+  content: "\e901";
+}
+.icon-drag:before {
+  content: "\e901";
+}
+.icon-cubes:before {
+  content: "\e907";
+}
+.icon-cube:before {
+  content: "\e908";
+}
+.icon-pin:before {
+  content: "\e909";
+}
+.icon-menu:before {
+  content: "\e90a";
+}
+.icon-camera:before {
+  content: "\e90b";
+}
+.icon-delete_forever:before {
+  content: "\e90c";
+}
+.icon-delete:before {
+  content: "\e90d";
+}
+.icon-settings:before {
+  content: "\e90e";
+}
+.icon-pin2:before {
+  content: "\e902";
+}
+.icon-repo-forked:before {
+  content: "\e903";
+}
+.icon-equalizerh:before {
+  content: "\e992";
+}
+.icon-equalizerv:before {
+  content: "\e993";
+}
+.icon-github:before {
+  content: "\eab0";
+}
 .icon-browser:before {
   content: "\f0c5";
 }
@@ -94,75 +166,6 @@
 }
 .icon-rsk:before {
   content: "\e911";
-}
-.icon-reload-alt:before {
-  content: "\e904";
-}
-.icon-refresh:before {
-  content: "\e904";
-}
-.icon-reset:before {
-  content: "\e904";
-}
-.icon-arrow:before {
-  content: "\e904";
-}
-.icon-git-merge:before {
-  content: "\f023";
-}
-.icon-pulse:before {
-  content: "\f085";
-}
-.icon-pointer:before {
-  content: "\e900";
-}
-.icon-mouse:before {
-  content: "\e900";
-}
-.icon-move:before {
-  content: "\e901";
-}
-.icon-drag:before {
-  content: "\e901";
-}
-.icon-cubes:before {
-  content: "\e907";
-}
-.icon-cube:before {
-  content: "\e908";
-}
-.icon-pin:before {
-  content: "\e909";
-}
-.icon-menu:before {
-  content: "\e90a";
-}
-.icon-camera:before {
-  content: "\e90b";
-}
-.icon-delete_forever:before {
-  content: "\e90c";
-}
-.icon-delete:before {
-  content: "\e90d";
-}
-.icon-settings:before {
-  content: "\e90e";
-}
-.icon-pin2:before {
-  content: "\e902";
-}
-.icon-repo-forked:before {
-  content: "\e903";
-}
-.icon-equalizerh:before {
-  content: "\e992";
-}
-.icon-equalizerv:before {
-  content: "\e993";
-}
-.icon-github:before {
-  content: "\eab0";
 }
 .icon-linux:before {
   content: "\e910";
