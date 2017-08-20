@@ -33,3 +33,6 @@ export const SET_BACKEND_DATA = (state, payload) => {
   state.backendData = payload.backend
 }
 
+export const SET_APP_PREVSTATE = (state, prevState) => {
+  state.appPrevState = prevState
+}

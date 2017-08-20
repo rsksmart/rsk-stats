@@ -6,6 +6,7 @@ export default function () {
     },
     socketConnected: false,
     activeSnapshot: null,
+    appPrevState: null,
     backendData: {},
     snapshots: {}
   }

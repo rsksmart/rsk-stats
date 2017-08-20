@@ -33,9 +33,11 @@ export const removeSnapshot = ({ state, commit }, id) => {
     commit('REMOVE_SNAPSHOT', id)
   }
 }
-export const loadSnapshot = ({ state, commit }, id) => {
+export const loadSnapshot = ({ state, commit, getters }, id) => {
   let snapshot = _.cloneDeep(state.snapshots[id])
   if (snapshot) {
+    // save app state
+    if (getters.isLive) commit('SET_APP_PREVSTATE', _.cloneDeep(state.app))
     commit('ACTIVE_SNAPSHOT', snapshot)
     snapshot = state.activeSnapshot
     commit('REPLACE_STATE', ['app', snapshot.data['app']])
@@ -43,8 +45,15 @@ export const loadSnapshot = ({ state, commit }, id) => {
   }
 }
 
+export const loadPrevState = ({ state, commit }) => {
+  if (state.appPrevState) {
+    let appPrevState = _.cloneDeep(state.appPrevState)
+    commit('REPLACE_STATE', ['app', appPrevState])
+  }
+}
+
 export const goLive = ({ state, dispatch, commit }) => {
   commit('ACTIVE_SNAPSHOT', null)
   dispatch('initData')
+  dispatch('loadPrevState')
 }
-
