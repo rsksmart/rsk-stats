@@ -3,6 +3,7 @@ export default function () {
     config: {
       MAX_BINS: 40
     },
+    serverTime: Date.now(),
     nodes: {},
     links: {},
     pendingNodes: {},

@@ -25,10 +25,12 @@ export const socket_pending = ({ state, commit }, data) => {
 }
 
 export const socket_client_ping = ({ commit }, data) => {
+  let time = data.serverTime
   let send = {
-    serverTime: data.serverTime,
+    serverTime: time,
     clientTime: new Date().getTime()
   }
+  commit('SET_SERVER_TIME', time)
   commit('SOCKET_EMIT', { event: 'client-pong', data: send })
 }
 
