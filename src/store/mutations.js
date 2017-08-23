@@ -9,8 +9,18 @@ export const SET_SIZE = (state, size) => {
   Vue.set(state.size, 'h', size.h)
 }
 
+export const SET_DATE_INTERVAL = (state, interval) => {
+  state.dateInterval = interval
+}
+
+export const SET_DATE = (state) => {
+  state.date = Date.now()
+}
+
 export const SAVE_SNAPSHOT = (state, snapshot) => {
-  Vue.set(state.snapshots, Date.now(), snapshot)
+  let date = Date.now()
+  snapshot.date = date
+  Vue.set(state.snapshots, date, snapshot)
 }
 
 export const REMOVE_SNAPSHOT = (state, id) => {
