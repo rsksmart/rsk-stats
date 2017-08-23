@@ -17,8 +17,8 @@
         //- LAST BLOCK time
         li
           entity-icon(:entity='entity.lastBlockTime')
-          .txt {{ fields.lastBlockTime | seconds-ago }}
-            small s ago
+          .txt {{ fields.lastBlockTime }}
+            small &nbsp; ago
 
         //- LAST BLOCK
         li.double 

@@ -10,7 +10,13 @@ export default function () {
     activeSnapshot: null,
     appPrevState: null,
     backendData: {},
-    snapshots: {}
+    snapshots: {},
+    snapshotsListOptions: {
+      buttonPin: false,
+      x: 0,
+      y: 0,
+      width: 350
+    }
   }
 }
 

@@ -21,3 +21,7 @@ export const isLinkSelected = state => id => {
 export const getNodeDialogs = (state) => {
   return state.nodeDialogs
 }
+
+export const tableFields = (state, getters, rootState) => {
+  return state.tableFields
+}

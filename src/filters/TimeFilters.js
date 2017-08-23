@@ -1,13 +1,25 @@
 import Vue from 'vue'
 import * as moment from 'moment'
 
-export const secondsAgo = Vue.filter('seconds-ago', (timestamp) => {
+export const tSecondsAgo = Vue.filter('t-seconds-ago', (timestamp) => {
   let time = moment(timestamp).format('s')
+  return sAgo(time)
+})
+
+export const mSecondsAgo = Vue.filter('m-seconds-ago', (miliseconds) => {
+  let seconds = Math.floor(miliseconds / 1000)
+  seconds = (seconds >= 0) ? seconds : 0
+  return sAgo(seconds)
+})
+
+const sAgo = (time) => {
   if (time > 60) {
     time = moment.duration(time, 'seconds').humanize()
+  } else {
+    time += 's'
   }
   return time
-})
+}
 
 export const sSeconds = Vue.filter('sSeconds', (time) => {
   if (time < 60) return parseFloat(time).toFixed(2) + ' s'

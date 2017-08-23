@@ -1,18 +1,25 @@
 <template lang="pug">
   #app.main(@keyup.esc='setTool("pointer")')
-    //- .drag-col(v-for='(col, index) in cols' :class='"drag-col-" + index' @dragover='dragCol(index)')
-    //-.debug
+    
+    //- snapshots hint
     .snapshot-hint(v-if='!isLive')
       small.hint running in snapthot mode
       button.btn.live(@click='goLive()') go Live
 
+    //- Maximized chart
     .maximized-chart(v-if='maxChart')
        chart( :title='maxChart.title' :chart='maxChart.chart' :options='maxChart.options' maximized='true')
+    
+    //- Nodes table
+    dialog-drag(v-if='showTable' id='table' @close='showHideTable()' class='dialog-table')
+      nodes-table
+    
+    //- Layout
     .layout( v-if='connected')
       .col-a
         big-data(title="Best Block" :data="totals.bestBlock" icon="icon-cube")
         //- REVIEW
-        big-data(title="Last Block" :data='lastBlock | seconds-ago' sufix="s ago" icon="icon-cubes" )
+        big-data(title="Last Block" :data='lastBlock | m-seconds-ago' sufix=" ago" icon="icon-cubes" )
         //- p {{totals.lastBlock}} - {{lastBlock }} {{now}}
         big-data(title="Avg Block Time" :data="totals.avgBlockTime | s-seconds" icon="icon-stopwatch" )
         
@@ -30,7 +37,7 @@
         //-chart(:data='blockChart')
         
         chart(title='Gas Limit' chart='lastGasLimit')
-        chart(title='Gas Pending' chart='gasSpending')
+        chart(title='Gas Spending' chart='gasSpending')
         chart(title='Transaction Density' chart='transactionDensity' )
     
 
@@ -50,8 +57,6 @@
     .center.loading(v-else)
       img(class="logo" src="static/rsk-logo.png")
       h1.center connecting to server  
-    
-    nodes-table
 
     //- interface background
     iface-back(:size='options.size')
@@ -77,23 +82,30 @@
           :index='index'
           )
     .over
-      //-> Menu
+    
+      //- Menu
       .menu(v-if="showMenu")
         .close(@click="showMenu=false")
-        stats-menu(
-          :nodes="nodes" 
-          :links="links" 
-          :options="options" 
-          @options="changeOptions"
-          @reset="resetOptions"
+        stats-menu(:nodes="nodes" :links="links" :options="options" @options="changeOptions" @reset="resetOptions")
+      
+      //- Snapshots dialog  
+      dialog-drag(v-if='showSnapshots' title='Snapshots' id='snapshots-list'
+          @move='updateSnapshotsListPos'
+          @close='showSnapshots = false' 
+          :options='snapshotsListOptions'
           )
-      snapshots-list(v-if='showSnapshots' @close='showSnapshots = false')
+        snapshots-list
       .options
+        //- menu button 
         button.btn.menu(@click="showMenu = !showMenu")
-          span(class="icon-equalizerh")
+          span.icon-settings
+        //- snapshots button  
         button.btn.badge(@click='showSnapshots = !showSnapshots')
-          span(class="icon-versions")
-          span.badge(v-if='totalSnapshots') {{ totalSnapshots }}  
+          span.icon-versions
+          span.badge(v-if='totalSnapshots') {{ totalSnapshots }}
+        //- table button
+        button.btn(@click='showHideTable()')
+          span.icon-table
         h1
           span.icon-rsk
           span &nbsp; rsk network
@@ -112,7 +124,7 @@ import NodeWatcher from './components/NodeWatcher.vue'
 import BigData from './components/BigData.vue'
 import Chart from './components/Chart.vue'
 import SnapshotsList from './components/SnapShotsList.vue'
-import { secondsAgo, sSeconds } from './filters/TimeFilters.js'
+import { tSecondsAgo, mSecondsAgo, sSeconds } from './filters/TimeFilters.js'
 import { numerals } from './filters/NumberFilters.js'
 import { blues, redGreen } from './lib/js/charts.js'
 import nodeIcon from '!!raw-loader!./assets/node.svg'
@@ -132,7 +144,8 @@ export default {
     SnapshotsList
   },
   filters: {
-    secondsAgo,
+    tSecondsAgo,
+    mSecondsAgo,
     sSeconds,
     numerals
   },
@@ -160,7 +173,7 @@ export default {
     let savedOptions = storage.get('options')
     if (savedOptions) this.options = Object.assign({}, savedOptions)
     let savedSnapshots = storage.get('snapshots')
-    this.$store.dispatch('initData', { snapshots: savedSnapshots })
+    this.$store.dispatch('init', { snapshots: savedSnapshots })
   },
   mounted () {
     this.onResize()
@@ -184,7 +197,8 @@ export default {
       totals: state => state.backendData.totals,
       charts: state => state.backendData.charts,
       maxChart: state => state.app.maximizedChart,
-      snapshots: state => state.snapshots
+      snapshots: state => state.snapshots,
+      showTable: state => state.app.showTable
     }),
     ...mapGetters({
       connected: 'isConnected',
@@ -193,6 +207,8 @@ export default {
       nodes: 'getNodesArr',
       links: 'getLinksArr',
       isLive: 'isLive',
+      totalSnapshots: 'totalSnapshots',
+      snapshotsListOptions: 'getSnapshotsListOptions',
       now: 'getDate'
     }),
     ...mapGetters('app/', {
@@ -201,7 +217,8 @@ export default {
     }),
 
     lastBlock () {
-      return this.now - this.totals.lastBlock
+      let lb = this.totals.lastBlock
+      return (lb) ? this.now - lb : 0
     },
     blockChart () {
       return this.charts.blockPropagationChart.map((d) => {
@@ -214,7 +231,8 @@ export default {
       'setSize',
       'takeSnapshot',
       'loadSnapshot',
-      'goLive'
+      'goLive',
+      'updateSnapshotsListPos'
     ]),
     ...mapActions('app/', [
       'selectNode',
@@ -223,7 +241,8 @@ export default {
       'unSelectLink',
       'selectNodeLinks',
       'pinNode',
-      'updateNodeDialog'
+      'updateNodeDialog',
+      'showHideTable'
     ]),
     ...mapGetters('app/', [
       'isNodeSelected',
@@ -325,6 +344,7 @@ export default {
       z-index: 1000
     .hint
       color: $color2
+  
 
 
 </style>
