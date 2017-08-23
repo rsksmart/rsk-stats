@@ -4,6 +4,10 @@ import defaultState from './state.js'
 // catch socket emit
 export const SOCKET_EMIT = (payload) => { }
 
+export const SET_SERVER_TIME = (state, time) => {
+  state.serverTime = time
+}
+
 export const RESET = (state, value) => {
   const initial = defaultState()
   if (value) state[value] = initial[value]
