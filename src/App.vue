@@ -113,7 +113,7 @@ import BigData from './components/BigData.vue'
 import Chart from './components/Chart.vue'
 import SnapshotsList from './components/SnapShotsList.vue'
 import { secondsAgo, sSeconds } from './filters/TimeFilters.js'
-import { Numerals } from './filters/NumberFilters.js'
+import { numerals } from './filters/NumberFilters.js'
 import { blues, redGreen } from './lib/js/charts.js'
 import nodeIcon from '!!raw-loader!./assets/node.svg'
 import storage from './lib/js/lStorage.js'
@@ -134,7 +134,7 @@ export default {
   filters: {
     secondsAgo,
     sSeconds,
-    Numerals
+    numerals
   },
   data () {
     let data = Object.assign({}, defaultData)
