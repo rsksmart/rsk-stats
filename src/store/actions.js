@@ -4,6 +4,11 @@ export const connectionUpdate = ({ commit }, connected) => {
   commit('SOCKET_CONNECTION', (connected === true))
 }
 
+export const init = ({ dispatch }, data) => {
+  dispatch('setDateInterval')
+  dispatch('initData', data)
+}
+
 export const setSize = ({ commit }, size) => {
   commit('SET_SIZE', size)
 }
@@ -15,6 +20,16 @@ export const initData = ({ state, commit }, data) => {
       if (data[d]) commit('REPLACE_STATE', [d, data[d]])
     }
   }
+}
+
+export const setDateInterval = ({ state, commit }) => {
+  // update date every second
+  if (!state.dateInterval) {
+    let interval = setInterval(() => {
+    commit('SET_DATE')
+  }, 1000)
+    commit('SET_DATE_INTERVAL', interval)
+}
 }
 
 export const takeSnapshot = ({ state, commit }, name) => {

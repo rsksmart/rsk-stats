@@ -151,7 +151,6 @@ export default {
       }
     }
     data.tool = 'pointer'
-    data.now = Date.now()
     data.unclesColors = blues
     data.redGreen = redGreen
     data.nodeSym = nodeIcon
@@ -162,11 +161,6 @@ export default {
     if (savedOptions) this.options = Object.assign({}, savedOptions)
     let savedSnapshots = storage.get('snapshots')
     this.$store.dispatch('initData', { snapshots: savedSnapshots })
-    // updates time every second
-    let vm = this
-    setInterval(() => {
-      vm.now = Date.now()
-    }, 1000)
   },
   mounted () {
     this.onResize()
@@ -199,7 +193,7 @@ export default {
       nodes: 'getNodesArr',
       links: 'getLinksArr',
       isLive: 'isLive',
-      totalSnapshots: 'totalSnapshots'
+      now: 'getDate'
     }),
     ...mapGetters('app/', {
       selection: 'selection',

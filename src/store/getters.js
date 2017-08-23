@@ -5,6 +5,12 @@ export const isConnected = (state) => {
 export const getSize = (state) => {
   return state.size
 }
+
+export const getDate = (state) => {
+  let snapshot = state.activeSnapshot
+  return (snapshot) ? snapshot.date : state.date
+}
+
 // temp
 export const getActivesNodes = (state) => {
   return Object.values(state.backendData.nodes).filter((node) => {
