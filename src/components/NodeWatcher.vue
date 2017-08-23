@@ -10,56 +10,31 @@
         //- li is mining: {{ node.stats.mining }}
         
         //- UPTime
-        li 
-          .icon.icon-plug(title='uptime')
-          .txt {{ node.stats.uptime | percent }}
-        
-        //- PEERS
-        li 
-          .icon.icon-server(title='peers')
-          .txt {{ node.stats.peers }}
-        
-        //- PENDING TRANS
-        li 
-          .icon.icon-credit-card(title='pending trans')
-          .txt {{ node.stats.pending }}
-        
-        //- UNCLES
-        li 
-          .icon.icon-git-merge(title='uncles')
-          .txt {{node.stats.block.uncles.length || 0}}
-        
-        //- TRANS
-        li
-          .icon.icon-rocket(title='block trans')
-          .txt {{node.stats.block.transactions.length || 0}}
-
-        //- AVG PROPAGATION
-        li
-          .icon.icon-stopwatch(title='avg propagation time')
-          .txt {{ node.stats.block.propagation }}  
+        li(v-for='ent in ["uptime","peers","pending","uncles","blockTrans","blockPropagation"]')
+          entity-icon(:entity='entity[ent]')
+          .txt {{ fields[ent] }} 
 
         //- LAST BLOCK time
         li
-          .icon.icon-cube(title='last block time')
-          .txt {{ node.stats.block.received | seconds-ago }}
+          entity-icon(:entity='entity.lastBlockTime')
+          .txt {{ fields.lastBlockTime | seconds-ago }}
             small s ago
 
         //- LAST BLOCK
         li.double 
-          .label last block: 
-          .data {{ node.stats.block.number }}
+          .label {{ entity.lastBlock.title }}:
+          .data {{ fields.lastBlock }}
         
         //- BEST BLOCK
         li.double 
-          .label best block
+          .label {{ entity.bestBlock.title }}:
           .data
-            tool-tip(:value='node.stats.block.hash' trim='8' :options='{ trimend:true }')
+            tool-tip(:value='fields.bestBlock' trim='8' :options='{ trimend:true }')
         
         //- TOTAL Diff
         li.quad 
           .label Total diff 
-          .data {{node.stats.block.totalDifficulty}}
+          .data {{fields.totalDiff}}
             //-tool-tip(:value='node.stats.block.totalDifficulty' trim='8' trimend='true')
 
       //- CHART Node History 
@@ -70,12 +45,14 @@
 import { mapActions, mapGetters } from 'vuex'
 import D3BarChart from 'vue-d3-barchart'
 import ToolTip from './ToolTip.vue'
+import EntityIcon from './EntityIcon.vue'
 import { redGreen } from '../lib/js/charts.js'
 export default {
   name: 'node-watcher',
   components: {
     D3BarChart,
-    ToolTip
+    ToolTip,
+    EntityIcon
   },
   props: ['dialog', 'index'],
   data () {
@@ -121,34 +98,21 @@ export default {
       'unSelectNode',
       'updateNodeDialog',
       'setNodeDialogPos'
-    ]),
-    close () {
-      this.unSelectNode(this.node.id)
-    },
-    setDrag () {
-      this.drag = !this.drag
-    },
-    dragStart (event) {
-      let x = 0
-      let y = 0
-      event.target.style.opacity = 1
-      x = this.left - event.clientX
-      y = this.top - event.clientY
-      this.offset = { x, y }
-    },
-    dragEnd (event) {
-      this.left = event.clientX + this.offset.x
-      this.top = event.clientY + this.offset.y
-      this.wclass = 'free'
-      this.updateNodeDialog([this.node.id, { x: this.left, y: this.top }])
-    }
+    ])
   },
   computed: {
     ...mapGetters({
       nodes: 'getNodes'
     }),
+    ...mapGetters('app/entity', {
+      entity: 'getEntities',
+      nodesEntity: 'getNodesEntities'
+    }),
     node () {
       return this.nodes[this.dialog.id]
+    },
+    fields () {
+      return this.nodesEntity[this.dialog.id]
     }
   }
 }

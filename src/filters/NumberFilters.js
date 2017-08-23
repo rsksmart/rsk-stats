@@ -2,7 +2,7 @@ import Vue from 'vue'
 import * as d3format from 'd3-format'
 const d3 = Object.assign({}, d3format)
 
-export const Numerals = Vue.filter('numerals', (num, fixed) => {
+export const numerals = Vue.filter('numerals', (num, fixed) => {
   num = Number(num)
   if (!fixed) fixed = 1
   fixed++
@@ -10,7 +10,7 @@ export const Numerals = Vue.filter('numerals', (num, fixed) => {
   return prefix(num)
 })
 
-export const Percent = Vue.filter('percent', (value) => {
+export const percent = Vue.filter('percent', (value) => {
   return parseInt(value) + '%'
 })
 
