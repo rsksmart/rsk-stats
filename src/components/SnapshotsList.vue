@@ -1,7 +1,5 @@
 <template lang="pug">
   .snapshots-list
-    button.close(@click='$emit("close")')
-    h4.title snapshots
     input(type="text" v-model='snapShotName')
     button.btn(@click='takeSnapshot(snapShotName)')
       span.icon-save

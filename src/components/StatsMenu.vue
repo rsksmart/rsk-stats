@@ -16,11 +16,11 @@
       li
         label Nodes spread: 
         input(type="range" v-model.number="opts.force" @input="change" min="1" max="5000" step="10")  
-      li
+      //-li
         label Offset X: 
           span {{ opts.offset.x }}
         input(type="range" v-model.number="opts.offset.x" @input="change" min="-100" max="100" step="1") 
-      li
+      //-li
         label Offset Y: 
           span {{ opts.offset.y }}
         input(type="range" v-model.number="opts.offset.y" @input="change" min="-100" max="100" step="1") 
@@ -72,8 +72,8 @@ export default {
       this.$emit('options', this.opts)
     },
     reset () {
-      this.options.width = this.$el.clientWidth
-      this.options.height = this.$el.clientHeight
+      // this.options.width = this.$el.clientWidth
+      // this.options.height = this.$el.clientHeight
       this.$emit('reset', this.options)
     }
   }

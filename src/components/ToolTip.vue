@@ -1,6 +1,7 @@
 <template lang="pug">
   .tooltip(@mouseleave='setShow' @mouseenter='setShow($event,true)' @touchend='touch')
-    .trim {{trimed}}
+    .trim(v-if='trim') {{trimed}}
+    slot(v-else)
     .points(v-if='trim' :class='[(opts.trimend) ? "left": "right", (clicked) ? "clicked" : "" ]')
         button(v-if='clicked || !show') 
           span.icon {{ opts.trimTxt }}
@@ -12,9 +13,9 @@
       .value(:class=' (clicked) ? "clicked" : ""' )
         //- Touch buttons
         .head(v-if='show && clicked')
-          button.copy(@click='copyText' v-if='opts.copy')
+          button.copy(@click='copyText' @touchstart='copyText' v-if='opts.copy')
             span.icon.icon-copy
-          button.close(@click.prevent='touch(false)')
+          button.close(@click.prevent='touch(false)' @touchstart='touch(false)')
         //- copy msg
         .msg(v-if='show && opts.copyMsg' :class='(anim) ? "anim" : ""') copied!
         .copy-txt
@@ -107,17 +108,18 @@ export default {
   }
 }
 </script>
-<style lang="stylus" scoped>
+<style lang="stylus">
 @import '../lib/styl/vars.styl'
+  $tip-arrow-size = 5px
+  $tip-bg = white 
+  $tip-bc = $color
+  $tip-border = 1px
+  
   
   .tooltip, .trim
     position: relative
     display: inline-block
-  
-$tip-arrow-size = 5px
-$tip-bg = white 
-$tip-bc = $color
-$tip-border = 3px
+    overflow visible
  
   // Arrow mixin
   arrow(pos)
@@ -144,14 +146,13 @@ $tip-border = 3px
       filter: drop-shadow($box-sh)
       border-radius: 2px
       width: 100%
-      margin: 1em
       font-size: 0.7em
       .value
         position: relative
         background-color: $tip-bg
-        padding: .5em
+        padding: .25em
+        overflow visible
         word-break: break-all
-        border-radius: 2px
   .tip:after 
   .tip:before
     border: solid transparent
@@ -224,8 +225,7 @@ button.close
     width: 1em
     padding: .25em
 .head
-  display: inline-block
-  margin-bottom: 2em
+  display: block
 .msg
   color: $color
   position:absolute

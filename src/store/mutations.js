@@ -46,3 +46,9 @@ export const SET_BACKEND_DATA = (state, payload) => {
 export const SET_APP_PREVSTATE = (state, prevState) => {
   state.appPrevState = prevState
 }
+
+export const SET_SNAPSHOTS_LIST_OPTIONS = (state, payload) => {
+  for (let op in payload) {
+    state.snapshotsListOptions[op] = payload[op]
+  }
+}

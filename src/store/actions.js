@@ -26,10 +26,10 @@ export const setDateInterval = ({ state, commit }) => {
   // update date every second
   if (!state.dateInterval) {
     let interval = setInterval(() => {
-    commit('SET_DATE')
-  }, 1000)
+      commit('SET_DATE')
+    }, 1000)
     commit('SET_DATE_INTERVAL', interval)
-}
+  }
 }
 
 export const takeSnapshot = ({ state, commit }, name) => {
@@ -71,4 +71,9 @@ export const goLive = ({ state, dispatch, commit }) => {
   commit('ACTIVE_SNAPSHOT', null)
   dispatch('initData')
   dispatch('loadPrevState')
+}
+
+export const updateSnapshotsListPos = ({ state, commit }, payload) => {
+  let options = Object.assign({}, { x: payload.x, y: payload.y })
+  commit('SET_SNAPSHOTS_LIST_OPTIONS', options)
 }

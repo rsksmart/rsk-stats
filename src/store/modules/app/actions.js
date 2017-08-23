@@ -66,3 +66,9 @@ const findNodeDialog = (dialogs, nodeId) => {
 export const maximizeChart = ({ commit }, data) => {
   commit('SET_MAXIMIZED_CHART', data)
 }
+
+export const showHideTable = ({ state, commit }, show) => {
+  // optional show argument
+  show = show || !state.showTable
+  commit('SET_SHOW_TABLE', show)
+}

@@ -48,3 +48,7 @@ export const UPDATE_NODE_DIALOG = (state, payload) => {
 export const SET_MAXIMIZED_CHART = (state, payload) => {
   state.maximizedChart = payload
 }
+
+export const SET_SHOW_TABLE = (state, show) => {
+  state.showTable = show
+}

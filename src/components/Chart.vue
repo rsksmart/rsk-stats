@@ -1,7 +1,7 @@
 <template lang="pug">
   .chart(:class='style' @keydown.esc='close')
-      button.max(v-if='data.length && !maximized' @click='max()')
-        span.icon.icon-cube
+      button.max(v-if='data.length && !maximized' @click='max()' @touchstart='max()')
+        span.icon.icon-resize
       button.close(v-if='maximized' @click='close')
       h3.chart-title {{title}}
       .chart-cointainer(:style=' "height:" + size.h + "px"')
@@ -36,7 +36,7 @@ export default {
     window.removeEventListener('resize', this.onResize)
   },
   computed: {
-    ...mapState({
+    ...mapState({ // review..............
       charts: state => state.backendData.charts
     }),
     data () {

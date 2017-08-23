@@ -8,25 +8,34 @@ export const getEntities = (state) => {
   return entities
 }
 
-export const NodeEntity = (state, getters) => node => {
+export const NodeEntity = (state, getters, rootState) => node => {
   if (node) {
     let fields = {
+      name: node.info.name,
+      type: node.info.node,
+      latency: node.stats.latency,
       uptime: node.stats.uptime,
       peers: node.stats.peers,
       pending: node.stats.pending,
       uncles: node.stats.block.uncles.length || 0,
       blockTrans: node.stats.block.transactions.length || 0,
       blockPropagation: node.stats.block.propagation,
-      lastBlockTime: node.stats.block.received,
+      lastBlockTime: rootState.date - node.stats.block.received,
       lastBlock: node.stats.block.number,
       bestBlock: node.stats.block.hash,
-      totalDiff: node.stats.block.totalDifficulty
+      totalDiff: node.stats.block.totalDifficulty,
+      propTime: node.stats.block.propagation,
+      avgPropTime: node.stats.propagationAvg
     }
     return getters.filterFields(fields)
   }
   return
 }
-
+/*
+'name',
+  'propTime',
+  'avgPropTime',
+  'uptime' */
 export const getNodesEntities = (state, getters, rootState, rootGetters) => {
   let nodes = rootGetters.getNodes
   let nEntities = {}

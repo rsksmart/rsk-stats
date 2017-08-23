@@ -11,6 +11,10 @@ export const getDate = (state) => {
   return (snapshot) ? snapshot.date : state.date
 }
 
+export const timeDifference = (state) => {
+  return state.backendData.serverTime - state.date
+}
+
 // temp
 export const getActivesNodes = (state) => {
   return Object.values(state.backendData.nodes).filter((node) => {
@@ -41,4 +45,8 @@ export const isLive = (state) => {
 export const totalSnapshots = (state) => {
   if (state.snapshots) return Object.keys(state.snapshots).length
   return 0
+}
+
+export const getSnapshotsListOptions = (state) => {
+  return state.snapshotsListOptions
 }
