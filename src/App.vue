@@ -258,6 +258,7 @@ export default {
     resetOptions () {
       this.options = Object.assign({}, defaultData.options)
       this.options.offset = { x: 0, y: 0 }
+      this.options.size = this.size
     },
     showSelection () {
       return Object.keys(this.selection.nodes).length + Object.keys(this.selection.links).length
