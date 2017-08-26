@@ -41,7 +41,9 @@ export const getNode = state => id => {
 export const isLive = (state) => {
   return state.backendData === state.backend
 }
-
+export const getSnapshots = (state) => {
+  return state.snapshots
+}
 export const totalSnapshots = (state) => {
   if (state.snapshots) return Object.keys(state.snapshots).length
   return 0

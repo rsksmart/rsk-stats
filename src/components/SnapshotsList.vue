@@ -6,22 +6,32 @@
       span Take Snapshot
     table.snapshots
       tr(v-for='snapshot,key in snapshots')
-        td {{ snapshot.name }}
-         td
-          small {{ key | date-from-ts}}
         td
           button(@click='removeSnapshot(key)')
-            span.icon-delete 
+            tool-tip(:value='"delete"')
+              .icon-delete-forever 
+        td {{ snapshot.name }}
+        td
+          small {{ key | date-from-ts}}
+        td
+          button(@click='downloadSnapshot(key)')
+            tool-tip(:value='"download"')
+              .icon-download 
         td
           button(@click='loadSnapshot(key)')
-            span.icon-load  
+            tool-tip(:value='"load"')
+              .icon-load  
 
 </template>
 <script>
-import { mapState, mapActions } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import { dateFromTs } from '../filters/TimeFilters.js'
+import ToolTip from './ToolTip.vue'
 export default {
   name: 'snapshots-list',
+  components: {
+    ToolTip
+  },
   filters: {
     dateFromTs
   },
@@ -31,15 +41,16 @@ export default {
     }
   },
   computed: {
-    ...mapState({
-      snapshots: state => state.snapshots
+    ...mapGetters({
+      snapshots: 'getSnapshots'
     })
   },
   methods: {
     ...mapActions([
       'loadSnapshot',
       'takeSnapshot',
-      'removeSnapshot'
+      'removeSnapshot',
+      'downloadSnapshot'
     ])
   }
 }
