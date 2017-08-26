@@ -1,4 +1,4 @@
-import * as _ from 'lodash'
+import { cloneObj, downloadJSON } from './utils.js'
 
 export const connectionUpdate = ({ commit }, connected) => {
   commit('SOCKET_CONNECTION', (connected === true))
@@ -36,8 +36,8 @@ export const takeSnapshot = ({ state, commit }, name) => {
   let snapshot = {
     name: name,
     data: {
-      backend: _.cloneDeep(state.backendData),
-      app: _.cloneDeep(state.app)
+      backend: cloneObj(state.backendData),
+      app: cloneObj(state.app)
     }
   }
   commit('SAVE_SNAPSHOT', snapshot)
@@ -49,10 +49,10 @@ export const removeSnapshot = ({ state, commit }, id) => {
   }
 }
 export const loadSnapshot = ({ state, commit, getters }, id) => {
-  let snapshot = _.cloneDeep(state.snapshots[id])
+  let snapshot = cloneSnapshot(state, id)
   if (snapshot) {
     // save app state
-    if (getters.isLive) commit('SET_APP_PREVSTATE', _.cloneDeep(state.app))
+    if (getters.isLive) commit('SET_APP_PREVSTATE', cloneObj(state.app))
     commit('ACTIVE_SNAPSHOT', snapshot)
     snapshot = state.activeSnapshot
     commit('REPLACE_STATE', ['app', snapshot.data['app']])
@@ -62,7 +62,7 @@ export const loadSnapshot = ({ state, commit, getters }, id) => {
 
 export const loadPrevState = ({ state, commit }) => {
   if (state.appPrevState) {
-    let appPrevState = _.cloneDeep(state.appPrevState)
+    let appPrevState = cloneObj(state.appPrevState)
     commit('REPLACE_STATE', ['app', appPrevState])
   }
 }
@@ -77,3 +77,19 @@ export const updateSnapshotsListPos = ({ state, commit }, payload) => {
   let options = Object.assign({}, { x: payload.x, y: payload.y })
   commit('SET_SNAPSHOTS_LIST_OPTIONS', options)
 }
+
+export const downloadSnapshot = ({ state }, id) => {
+  let snapshot = cloneSnapshot(state, id)
+  if (snapshot) {
+    let name = snapshot.name || 'snapshot'
+    name += '--' + snapshot.date
+    downloadJSON(JSON.stringify(snapshot), name)
+  }
+}
+
+// Helpers
+
+const cloneSnapshot = (state, id) => {
+  return cloneObj(state.snapshots[id])
+}
+
