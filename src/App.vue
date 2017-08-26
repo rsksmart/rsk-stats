@@ -49,6 +49,7 @@
       :selection="selection"
       :node-sym='nodeSym'
       :options="options"
+      :nodeCb='nodeFilter'
       @node-click="nodeClick"
       @link-click="linkClick"
       class="net"
@@ -110,8 +111,8 @@
           span.icon-rsk
           span &nbsp; rsk network
         ul.inline
-          li nodes: {{ activeNodes.length }} 
-          li actives: {{ nodes.length }}
+          li nodes: {{ nodes.length }}
+          li actives: {{ activeNodes.length }} 
 </template>
 <script>
 import { mapState, mapActions, mapGetters } from 'vuex'
@@ -130,6 +131,7 @@ import { blues, redGreen } from './lib/js/charts.js'
 import nodeIcon from '!!raw-loader!./assets/node.svg'
 import { locStorage as storage } from './lib/js/io.js'
 import NodesTable from './components/NodesTable.vue'
+import { nodeFilter } from './filters/nodes.js'
 export default {
   name: 'NetStats',
   components: {
@@ -167,6 +169,7 @@ export default {
     data.unclesColors = blues
     data.redGreen = redGreen
     data.nodeSym = nodeIcon
+    data.nodeFilter = nodeFilter
     return data
   },
   created () {

@@ -1,7 +1,11 @@
 <template lang="pug">
-  .entity-icon
+  .entity-icon(v-if='entity' :class='($slots.badge) ? "w-badge" : ""' )
     tool-tip(:value='entity.title')
-      .icon(v-if='entity' :class='entity.icon')
+      .icon(:class='entity.icon')
+    slot  
+    .badge(v-if='$slots.badge')
+      slot(name="badge")
+    
 </template>
 <script>
 import ToolTip from './ToolTip.vue'
@@ -14,12 +18,12 @@ export default {
 }
 </script>
 <style lang="stylus">
-  .entity-icon
+  .entity-icon, .icon
     .tip
       overflow visible
       word-break: unset
       .value
-        word-break: unset
+        word-break: none
         min-width: 10em
 </style>
 
