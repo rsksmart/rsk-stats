@@ -3,6 +3,7 @@ export const getEntities = (state) => {
   for (let e in state.entities) {
     let entity = state.entities[e]
     entity.title = entity.title || e
+    entity.id = e
     entities[e] = entity
   }
   return entities
@@ -27,7 +28,7 @@ export const NodeEntity = (state, getters, rootState) => node => {
       propTime: node.stats.block.propagation,
       avgPropTime: node.stats.propagationAvg
     }
-    return getters.filterFields(fields)
+    return fields
   }
   return
 }
@@ -40,26 +41,13 @@ export const getNodesEntities = (state, getters, rootState, rootGetters) => {
   let nodes = rootGetters.getNodes
   let nEntities = {}
   for (let nid in nodes) {
-    nEntities[nid] = getters.NodeEntity(nodes[nid])
+    let node = getters.NodeEntity(nodes[nid])
+    node.id = nid
+    nEntities[nid] = node
   }
   return nEntities
 }
 
-export const filterFields = (state, getters) => (fields) => {
-  let entities = state.entities
-  for (let f in fields) {
-    let entity = entities[f]
-    if (entity && entity.filters) {
-      let filters = (typeof (filters) === Array) ? entity.filters : [entity.filters]
-      for (let filterName of filters) {
-        fields[f] = getters.applyFilter(filterName, fields[f])
-      }
-    }
-  }
-  return fields
-}
-
-export const applyFilter = (state) => (filterName, value) => {
-  let filter = state.filters[filterName]
-  return (filter) ? filter(value) : value
+export const getNodesEntitiesArr = (state, getters) => {
+  return Object.values(getters.getNodesEntities)
 }

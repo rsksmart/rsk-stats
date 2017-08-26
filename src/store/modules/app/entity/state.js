@@ -1,16 +1,5 @@
-/* eslint-disable no-unused-vars */
-import { percent } from '../../../../filters/NumberFilters.js'
-import { nodeType } from '../../../../filters/TextFilters.js'
-import { tSecondsAgo, mSecondsAgo, sSeconds } from '../../../../filters/TimeFilters.js'
 export default function () {
   return {
-    filters: {
-      percent,
-      nodeType,
-      tSecondsAgo,
-      mSecondsAgo,
-      sSeconds
-    },
     entities: {
       name: {
         icon: 'icon-rsk',
@@ -63,7 +52,9 @@ export default function () {
       },
       totalDiff: {
         icon: 'icon-puzzle',
-        title: 'total difficulty'
+        title: 'total difficulty',
+        filters: 'numerals',
+        suffix: 'H'
       },
       propTime: {
         icon: 'icon-stopwatch'
