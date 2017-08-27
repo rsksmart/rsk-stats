@@ -6,21 +6,6 @@ export default function () {
     },
     nodeDialogs: [],
     maximizedChart: null,
-    showTable: false,
-    tableFields: [
-      'name',
-      'type',
-      'latency',
-      'peers',
-      'pending',
-      'lastBlock',
-      'totalDiff',
-      'blockTrans',
-      'uncles',
-      'lastBlockTime',
-      'propTime',
-      'avgPropTime',
-      'uptime'
-    ]
+    showTable: false
   }
 }

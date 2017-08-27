@@ -1,49 +1,88 @@
 <template lang="pug">
   .nodes-table
+    .search
+      .icon.icon-search
+        input(name="search" type='search' v-model='filterRows' id="search" placeholder="type to filter")
     table.nodes(v-if='fields')
       tr
-        th(v-for='field in fields')
+        th(v-for='field,key in fields' @click='sortBy(field)')
           entity-icon(:entity='entity[field]')
+            .order(slot='badge' v-if='field === sortKey')
+              span.arrow.up(v-if='sortOrders[field] > 0')
+              span.arrow.down(v-else)
         th
-        th 
-      tr(v-for='node,id,index in nodes' :class='(index % 2) ? "odd" : "even"')
+          .icon.icon-pulse
+        th
+          .icon.icon-pin
+      tr(v-for='node,index in rows' :class='rowClass(index,node.id)')
         td(v-for='field,key in fields') 
           entity-value(:value='node[field]' :entity='entity[field]')
         td
-          d3-bar-chart(:data='nodeChart(id)' class="node-history")
+          d3-bar-chart(:data='nodeChart(node.id)' class="node-history")
         td
-          span.icon-pin(@click='pinRow()')
+          .pin(@click='pinRow(node.id)')
+            .icon-pinned.color2(v-if='isPinned()([node.id])' )
+            .icon-pin(v-else)
     .loading(v-else)
       h2 loading data...
 
 </template>
 <script>
-import { mapGetters } from 'vuex'
-import EntityIcon from './EntityIcon.vue'
-import EntityValue from './EntityValue.vue'
+import { mapGetters, mapActions } from 'vuex'
+
 import D3BarChart from 'vue-d3-barchart'
+import EntityMixin from '../mixins/Entity.vue'
 export default {
-  name: 'data-table',
+  name: 'nodes-table',
+  mixins: [
+    EntityMixin
+  ],
   components: {
-    EntityIcon,
-    EntityValue,
     D3BarChart
   },
-  props: ['pinned'],
+  created () {
+    this.initTable()
+  },
   computed: {
     ...mapGetters('app/entity/', {
-      nodes: 'getNodesEntities',
+      nodes: 'getNodesEntitiesArr',
       entity: 'getEntities'
     }),
-    ...mapGetters('app/', {
-      fields: 'tableFields'
-    })
+    ...mapGetters('app/nodesTable', [
+      'fields',
+      'rows',
+      'sortKey',
+      'sortOrders'
+    ]),
+    filterRows: {
+      get () {
+        return this.$store.state.app.nodesTable.filterKey
+      },
+      set (value) {
+        this.updateFilterKey(value)
+      }
+    }
   },
   methods: {
     ...mapGetters(['getNode']),
+    ...mapGetters('app/nodesTable', [
+      'isPinned']
+    ),
+    ...mapActions('app/nodesTable', [
+      'initTable',
+      'sortBy',
+      'pinRow',
+      'updateFilterKey'
+    ]),
+
     nodeChart (id) {
+      return this.getNode()(id).history
+    },
+    rowClass (index, id) {
       let node = this.getNode()(id)
-      return node.history
+      let cssClass = (index % 2) ? 'odd' : 'even'
+      if (node && !node.stats.active) cssClass += ' inactive'
+      return cssClass
     }
   }
 }
@@ -66,6 +105,14 @@ $border-color = alpha($color,.2)
       padding: .5em 1em 
       border-bottom: $border-color dashed 1px
       background-color $head-bg
+      .entity-icon
+        .icon 
+          font-size: 1.5em
+        .badge
+          font-size: .5em
+          bottom: 0
+          right: -1.5em
+          font-size: .6em
     td
      font-size: 0.8em
      padding: .25em 1em
@@ -81,5 +128,12 @@ $border-color = alpha($color,.2)
     .node-history
       max-width 10em
       max-height 2em   
+  .search
+    margin-bottom: .25em
+    input
+      margin-left: .25em
+    .icon
+      font-size: .8em
+      line-height: 1em
 </style>
 
