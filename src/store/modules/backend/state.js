@@ -4,6 +4,7 @@ export default function () {
       MAX_BINS: 40
     },
     serverTime: Date.now(),
+    clientTime: Date.now(),
     nodes: {},
     links: {},
     pendingNodes: {},
