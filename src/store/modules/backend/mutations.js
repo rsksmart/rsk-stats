@@ -8,6 +8,10 @@ export const SET_SERVER_TIME = (state, time) => {
   state.serverTime = time
 }
 
+export const SET_CLIENT_TIME = (state, time) => {
+  state.clientTime = time
+}
+
 export const RESET = (state, value) => {
   const initial = defaultState()
   if (value) state[value] = initial[value]
@@ -66,6 +70,13 @@ export const UPDATE_NODE_STATS = (state, stats) => {
     }
   }
 }
+export const UPDATE_NODE_HISTORY = (state, payload) => {
+  let id = payload.id
+  let history = payload.history
+  if (id && history && state.nodes[id]) {
+    Vue.set(state.nodes[id], 'history', history)
+  }
+}
 
 export const SET_MINERS = (state, miners) => {
   state.miners = miners
@@ -74,4 +85,3 @@ export const SET_MINERS = (state, miners) => {
 export const UPDATE_MINER_NAME = (state, payload) => {
   state.miners[payload.key].name = payload.name
 }
-

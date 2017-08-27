@@ -26,11 +26,13 @@ export const socket_pending = ({ state, commit }, data) => {
 
 export const socket_client_ping = ({ commit }, data) => {
   let time = data.serverTime
+  let clientTime = new Date().getTime()
   let send = {
     serverTime: time,
-    clientTime: new Date().getTime()
+    clientTime: clientTime
   }
   commit('SET_SERVER_TIME', time)
+  commit('SET_CLIENT_TIME', clientTime)
   commit('SOCKET_EMIT', { event: 'client-pong', data: send })
 }
 
@@ -83,44 +85,34 @@ export const setMinnersNames = ({ state, commit }) => {
 }
 
 export const socket_block = ({ state, getters, dispatch, commit }, data) => {
-  let node = state.nodes[data.id]
-  if (node && node.stats && node.stats.block && node.stats.block.number) {
-    if (node.stats.block.number < data.block.number) {
-      let best = _.max(getters.getNodesArr, (node) => { return parseInt(node.stats.block.number) }).stats.block
+  let id = data.id
+  let node = state.nodes[id]
+  let block = data.block
 
-      if (data.block.number > best.number) {
-        data.block.arrived = _.now()
-      } else {
-        data.block.arrived = best.arrived
-      }
-      let newNode = { id: node.id, history: data.history }
-      let stats = { block: data.block, propagationAvg: data.propagationAvg }
-      commit('UPDATE_NODE', newNode)
-      commit('UPDATE_NODE_STATS', { id: node.id, stats }) // ------------------------------- review
-      dispatch('updateBestBlock')
+  if (node && node.stats) {
+    if (node.stats.block.number < block.number) {
+      let best = getters.bestBlockNode.stats.block
+      block.arrived = (block.number > best.number) ? _.now() : best.arrived
     }
+    commit('UPDATE_NODE_HISTORY', { id, history: data.history })
+    commit('UPDATE_NODE_STATS', { id, stats: { block, propagationAvg: data.propagationAvg } })
+    dispatch('updateBestBlock')
   }
 }
 
 export const updateBestBlock = ({ state, getters, commit }) => {
-  let totalNodes = getters.totalNodes
-  if (totalNodes > 0) {
-    let nodesArr = getters.getNodesArr
-    let bestBlock = _.max(nodesArr, (node) => {
-      return node.stats.block.number
-    })
-    bestBlock = bestBlock.stats.block.number
+  if (getters.totalNodes > 0) {
+    let bestNode = getters.bestBlockNode
+    let bestBlock = bestNode.stats.block.number
 
     if (bestBlock !== state.totals.bestBlock) {
-      commit('SET_TOTALS', { bestBlock })
-      let bestStats = _.max(nodesArr, (node) => {
-        return parseInt(node.stats.block.number)
-      }).stats
-      commit('SET_TOTALS', { bestStats })
-      let lastBlock = state.totals.bestStats.block.arrived
-      let lastDifficulty = state.totals.bestStats.block.difficulty
-      commit('SET_TOTALS', { lastBlock })
-      commit('SET_TOTALS', { lastDifficulty })
+      let bestStats = bestNode.stats
+      commit('SET_TOTALS', {
+        bestBlock,
+        bestStats,
+        lastBlock: bestStats.block.arrived,
+        lastDifficulty: bestStats.block.difficulty
+      })
     }
   }
 }
@@ -153,6 +145,7 @@ export const updateNodes = ({ commit, dispatch }, nodes) => {
   if (nodes) {
     commit('RESET', 'nodes')
     dispatch('addNodes', nodes)
+      .then(dispatch('updateBestBlock'))
   }
 }
 
