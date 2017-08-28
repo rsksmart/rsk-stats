@@ -1,23 +1,19 @@
 <template lang="pug">
   .watcher
       .header
-        span.icon.icon-rsk
+        span.icon.icon-rsk.med
         span.node-title {{node.info.name}}
       ul.node-data 
-        //-li 
-          //-span.icon(:class='osIcons[node.info.os] || "icon-xxx"' :title="node.info.os") 
-        //-li type: {{ node.info.node }}
-        //- li is mining: {{ node.stats.mining }}
         
         //- UPTime
-        li(v-for='ent in ["uptime","peers","pending","uncles","blockTrans","blockPropagation"]')
+        li(v-for='ent in ["uptime","peers","pending","uncles","blockTrans","blockPropagation","totalDiff"]')
           entity-icon(:entity='entity[ent]')
-          .txt {{ fields[ent] }} 
+          entity-value.txt(:entity='entity[ent]' :value='fields[ent]')
 
         //- LAST BLOCK time
         li
           entity-icon(:entity='entity.lastBlockTime')
-          .txt {{ fields.lastBlockTime }}
+          entity-value.txt(:entity='entity.lastBlockTime' :value='fields.lastBlockTime')
             small &nbsp; ago
 
         //- LAST BLOCK
@@ -32,37 +28,34 @@
             tool-tip(:value='fields.bestBlock' trim='8' :options='{ trimend:true }')
         
         //- TOTAL Diff
-        li.quad 
-          .label Total diff 
+        //-li.quad 
+          .label {{entity.totalDiff.title}}
           .data {{fields.totalDiff}}
             //-tool-tip(:value='node.stats.block.totalDifficulty' trim='8' trimend='true')
 
       //- CHART Node History 
-      d3-bar-chart(:data='node.history' class="node-chart dark-chart" :options='chartOptions')
+      node-chart.dark-chart(:data='node.history')
 
 </template>
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import D3BarChart from 'vue-d3-barchart'
+import NodeChart from './NodeChart.vue'
 import ToolTip from './ToolTip.vue'
-import EntityIcon from './EntityIcon.vue'
-import { redGreen } from '../lib/js/charts.js'
+import EntityMixin from '../mixins/Entity.vue'
 export default {
   name: 'node-watcher',
+  mixins: [
+    EntityMixin
+  ],
   components: {
-    D3BarChart,
-    ToolTip,
-    EntityIcon
+    NodeChart,
+    ToolTip
   },
   props: ['dialog', 'index'],
   data () {
     return {
       width: 0,
       height: 0,
-      chartOptions: {
-        colorInterpol: redGreen,
-        yUnits: 'ms'
-      },
       wclass: 'fixed',
       offset: {
         x: 0,
@@ -120,27 +113,7 @@ export default {
 <style lang="stylus">
  @import '../lib/styl/vars.styl'
   
-$btn-size = 1.5em
 
-button.icon
-  background-color: white
-  border-style: none
-  color: black
-  font-size: 1em
-  text-shadow: $txt-sh
-  height: $btn-size
-  width: $btn-size
-  line-height: 1.25em
-  border-radius: 50%
-  padding:0
-  margin:0
-  box-shadow: none
-
-button.icon:hover
-  background-color: $color2
-
-.mini
-  font-size: 0.75em
 
 .watcher
   width: auto
@@ -155,11 +128,15 @@ button.icon:hover
     color: $darkness
     box-shadow: $hard-sh
     position:relative
-
     .close
       position:absolute
       right: 0
       top: 0
+  
+  .node-chart
+    height: 50px
+    margin-top: 10px
+    margin-bottom: .5em
 
 .node-dialog.fixed
   border-color: $color2
@@ -172,16 +149,9 @@ button.icon:hover
 
   .icon 
     color:$color
-    font-size: 2em
 
   .node-title
     color: $darknes
-
-.node-chart
-  height: 50px
-  margin-top: 10px
-  margin-bottom: 1em
-  background-color: $darkness
 
 $item-min = 6em 
 $item-margin = .25em
@@ -200,9 +170,11 @@ $item-margin = .25em
     box-shadow: 1px 1px 0.5px rgba(0,0,0,.2)
     min-width: $item-min
     padding: 0.25em
-    .icon
+    .entity-icon .icon
       font-size: 3em
       display: block
+    .entity-icon .tip
+      font-size: 1.5em    
     .txt
       display: inline-block
       font-size: 2em
