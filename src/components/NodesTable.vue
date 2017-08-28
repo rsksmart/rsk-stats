@@ -18,7 +18,7 @@
         td(v-for='field,key in fields') 
           entity-value(:value='node[field]' :entity='entity[field]')
         td
-          d3-bar-chart(:data='nodeChart(node.id)' class="node-history")
+          node-chart(:data='nodeChart(node.id)' class="node-history")
         td
           .pin(@click='pinRow(node.id)')
             .icon-pinned.color2(v-if='isPinned()([node.id])' )
@@ -29,8 +29,7 @@
 </template>
 <script>
 import { mapGetters, mapActions } from 'vuex'
-
-import D3BarChart from 'vue-d3-barchart'
+import NodeChart from './NodeChart.vue'
 import EntityMixin from '../mixins/Entity.vue'
 export default {
   name: 'nodes-table',
@@ -38,7 +37,7 @@ export default {
     EntityMixin
   ],
   components: {
-    D3BarChart
+    NodeChart
   },
   created () {
     this.initTable()
