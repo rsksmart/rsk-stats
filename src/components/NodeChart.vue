@@ -4,7 +4,7 @@
 </template>
 <script>
 import D3BarChart from 'vue-d3-barchart'
-import { redGreen } from '../lib/js/charts.js'
+import { redGreen } from '../lib/js/colors.js'
 export default {
   name: 'node-chart',
   components: {
@@ -15,7 +15,8 @@ export default {
     return {
       options: {
         colorInterpol: redGreen,
-        yUnits: 'ms'
+        yUnits: 'ms',
+        padding: 0.2
       }
     }
   }
