@@ -16,7 +16,6 @@
     "d3-scale-chromatic": "^1.1.1",
     "lodash": "^4.17.4",
     "moment": "^2.18.1",
-    "normalize.css": "^7.0.0",
     "vue": "^2.3.3",
     "vue-d3-barchart": "latest",
     "vue-d3-network": "latest",
