@@ -1,16 +1,38 @@
 <template lang="pug">
   .big-data
-    .bd-icon
-      span(:class="icon")
+    entity-icon.bd-icon(:entity='entity')
     .bd-main
-      .bd-title {{title}}
-      .bd-data {{data}}
-        small {{sufix}}
+      .bd-title {{entity.title}}
+      entity-value.bd-data(:entity='entity' :value='value')
 </template>
 <script>
+import { mapGetters } from 'vuex'
+import EntityMixin from '../mixins/Entity.vue'
 export default {
   name: 'big-data',
-  props: ['data', 'title', 'icon', 'sufix']
+  mixins: [
+    EntityMixin
+  ],
+  props: {
+    name: {
+      type: String,
+      required: true
+    }
+  },
+  computed: {
+    entity () {
+      return this.getEntity()(this.name)
+    },
+    value () {
+      return this.getTotalEntity()(this.name)
+    }
+  },
+  methods: {
+    ...mapGetters('app/entity', [
+      'getEntity',
+      'getTotalEntity'
+    ])
+  }
 }
 </script>
 <style lang="stylus">

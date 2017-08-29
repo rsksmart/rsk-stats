@@ -1,37 +1,47 @@
 <template lang="pug">
-  .entity(v-if='entity') {{ filteredValue }}
+  .entity(v-if='entity' :style='styleObj' :class='(color) ? "colored" :""') {{ filteredValue }}
     span.suffix(v-if='entity.suffix') {{ entity.suffix }}
     slot
 </template>
 <script>
-import { percent, numerals } from '../filters/NumberFilters.js'
-import { nodeType } from '../filters/TextFilters.js'
-import { tSecondsAgo, mSecondsAgo, sSeconds } from '../filters/TimeFilters.js'
+import { mapGetters } from 'vuex'
 export default {
   name: 'entity-value',
   props: ['entity', 'value'],
-  filters: {
-    percent,
-    numerals,
-    nodeType,
-    tSecondsAgo,
-    mSecondsAgo,
-    sSeconds
+  data () {
+    return {
+      colorFunc: null
+    }
+  },
+  created () {
+    let threshold = this.entity.threshold
+    let cf = this.thresholdColors()(threshold)
+    if (cf) this.colorFunc = cf
   },
   computed: {
     filteredValue () {
-      let value = this.value
-      let filters = this.entity.filters
-      if (filters) {
-        filters = (typeof (filters) === Array) ? filters : [filters]
-        for (let filterName of filters) {
-          let filter = this.$options.filters[filterName]
-          if (filter) value = filter(value)
-          else console.info('The entity ' + this.entity.id + ' call unknown filter ' + filterName)
-        }
-      }
-      return value
+      return this.filterValue()(this.entity, this.value)
+    },
+    color () {
+      let cf = this.colorFunc
+      return (cf) ? cf(this.value) : ''
+    },
+    styleObj () {
+      let style = {}
+      if (this.color) style.color = this.color
+      return style
     }
+  },
+  methods: {
+    ...mapGetters('app/entity', [
+      'thresholdColors',
+      'filterValue'
+    ])
   }
 }
 </script>
+<style lang="stylus">
+  .colored
+    opacity: .8
+</style>
+

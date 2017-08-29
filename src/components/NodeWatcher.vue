@@ -5,23 +5,18 @@
         span.node-title {{node.info.name}}
       ul.node-data 
         
-        //- UPTime
-        li(v-for='ent in ["uptime","peers","pending","uncles","blockTrans","blockPropagation","totalDiff"]')
+        li(v-for='ent in ["uptime","peers","pending","uncles","blockTrans","propTime","totalDiff"]')
           entity-icon(:entity='entity[ent]')
           entity-value.txt(:entity='entity[ent]' :value='fields[ent]')
 
-        //- LAST BLOCK time
         li
           entity-icon(:entity='entity.lastBlockTime')
           entity-value.txt(:entity='entity.lastBlockTime' :value='fields.lastBlockTime')
-            small &nbsp; ago
 
-        //- LAST BLOCK
         li.double 
           .label {{ entity.lastBlock.title }}:
           .data {{ fields.lastBlock }}
         
-        //- BEST BLOCK
         li.double 
           .label {{ entity.bestBlock.title }}:
           .data

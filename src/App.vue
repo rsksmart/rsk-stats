@@ -17,11 +17,9 @@
     //- Layout
     .layout( v-if='connected')
       .col-a
-        big-data(title="Best Block" :data="totals.bestBlock" icon="icon-cube")
-        //- REVIEW
-        big-data(title="Last Block" :data='lastBlock | m-seconds-ago' sufix=" ago" icon="icon-cubes" )
-        //- p {{totals.lastBlock}} - {{lastBlock }} {{now}}
-        big-data(title="Avg Block Time" :data="totals.avgBlockTime | s-seconds" icon="icon-stopwatch" )
+        big-data(name='bestBlock')
+        big-data(name='lastBlockTime')
+        big-data(name='avgBlockTime')
         
         chart(title='Uncles' chart='uncleCountChart' :options='{colorInterpol:unclesColors}' )
         chart(title='Blocks Time' chart='lastBlocksTime'  :options='{ colors:["red", "yellow"] }')
@@ -29,9 +27,9 @@
         
       .col-b 
       .col-c
-        big-data(title="Difficulty" :data='totals.lastDifficulty | numerals' sufix="H" icon="icon-puzzle"  )
-        big-data(title="Avg Network Hash Rate" :data='totals.avgHashrate | numerals(1)' sufix="Hs" icon="icon-zap" )
-        big-data(title="Uncles" :data='totals.bestStats.block.uncles.length + "/" + totals.uncleCount' icon="icon-git-merge" )
+        big-data(name='lastDifficulty')
+        big-data(name='avgHashrate')
+        big-data(name='uncles')
         
         //- h6 blockPropagationChart
         //-chart(:data='blockChart')
@@ -116,7 +114,9 @@
 </template>
 <script>
 import { mapState, mapActions, mapGetters } from 'vuex'
-import defaultData from './data.js'
+import { blues, redGreen } from './config/colorsInterpolators.js'
+import { locStorage as storage } from './lib/js/io.js'
+
 import D3Network from 'vue-d3-network'
 import StatsMenu from './components/StatsMenu'
 import DialogDrag from 'vue-dialog-drag'
@@ -125,15 +125,18 @@ import NodeWatcher from './components/NodeWatcher.vue'
 import BigData from './components/BigData.vue'
 import Chart from './components/Chart.vue'
 import SnapshotsList from './components/SnapShotsList.vue'
-import { tSecondsAgo, mSecondsAgo, sSeconds } from './filters/TimeFilters.js'
-import { numerals } from './filters/NumberFilters.js'
-import { blues, redGreen } from './lib/js/colors.js'
-import nodeIcon from '!!raw-loader!./assets/node.svg'
-import { locStorage as storage } from './lib/js/io.js'
 import NodesTable from './components/NodesTable.vue'
+
 import { nodeFilter } from './filters/nodes.js'
+import { tSecondsAgo, mSecondsAgo, sSeconds } from './filters/TimeFilters.js'
+import { nodeType } from './filters/TextFilters.js'
+import { percent, numerals } from './filters/NumberFilters.js'
+
+import nodeIcon from '!!raw-loader!./assets/node.svg'
+import defaultData from './data.js'
+
 export default {
-  name: 'NetStats',
+  name: 'rsk-stats',
   components: {
     D3Network,
     StatsMenu,
@@ -149,7 +152,9 @@ export default {
     tSecondsAgo,
     mSecondsAgo,
     sSeconds,
-    numerals
+    numerals,
+    nodeType,
+    percent
   },
   data () {
     let data = Object.assign({}, defaultData)
