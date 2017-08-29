@@ -38,9 +38,10 @@ button.reset
   background-color: white
   border: $color solid 1px
 
-.btn.badge
+.btn.badge, .w-badge
   position: relative
   margin-right: .75em
+  display: inline-block
   .badge
     position: absolute
     bottom: -1em
@@ -53,5 +54,27 @@ button.reset
     color: $white
     width: 1.5em
     height: 1.5em
+    display: inline-block
 
 
+$btn-size = 1.5em
+
+button.icon
+  background-color: white
+  border-style: none
+  color: black
+  font-size: 1em
+  text-shadow: $txt-sh
+  height: $btn-size
+  width: $btn-size
+  line-height: 1.25em
+  border-radius: 50%
+  padding:0
+  margin:0
+  box-shadow: none
+
+button.icon:hover
+  background-color: $color2
+
+.mini
+  font-size: 0.75em

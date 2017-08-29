@@ -3,15 +3,15 @@
 .dialog-drag
   z-index: 101
   width: auto
+  height: auto
   position: absolute
   border: $color solid 2px
   background-color: white
   box-shadow: $sh
-  height: auto
   animation-duration: 0.2s
   animation-name: dialog-anim
   animation-timing-function: ease-in
-    
+
   .dialog-header
     position:relative
     text-align: left
@@ -19,6 +19,7 @@
     width: auto
     font-size: 0.9em
     color: white
+    margin-bottom: .5em
     
     .buttons 
       position: absolute
@@ -26,6 +27,7 @@
       top:0
       margin: .25em .25em 0 0
       z-index: 105
+      width: 4em
 
     button.close, button.pin
       background: transparent
@@ -38,21 +40,26 @@
     button.close
       &:after
         content: '✖'
-    button.pin 
+    button.pin
+      font-family: $icon-font
+      font-size: 1.5em
+      line-height: 1.5em
+      width: 1.5em
       &:after
-        content: '🔓'   
+        content: "\e918"   
   
   .dialog-body
-    padding: 1em   
+    padding: 1em
 
-.dialog-drag.fixed
+
+.dialog-drag.fixed  // dialog pinned
   border-color: $color2
   user-select: auto 
   
-  button.pin 
-    font-weight: bold
+  button.pin // pinned button
     &:after
-      content: '🔒'
+      color: $color2
+      content: "\e909"
 
 @keyframes dialog-anim
   0%
@@ -66,3 +73,18 @@
 .watchers
   .dialog-body
     padding-top:0
+
+.dialog-table
+  background-color: $darkness
+  input
+    background-color: $darkness
+    color: $color
+    border: $dark solid 1px
+  .dialog-header
+    width: 0
+    float: right
+  .search
+    input
+      color: $color2 
+    .icon
+      color: $color  
