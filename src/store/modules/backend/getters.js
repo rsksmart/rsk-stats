@@ -25,5 +25,7 @@ export const bestBlockNode = (state, getters) => {
 }
 
 export const bestBlock = (state, getters) => {
-  return getters.bestBlockNode.stats.block.number
+  let node = getters.bestBlockNode
+  if (node) return node.stats.block.number
+  return
 }

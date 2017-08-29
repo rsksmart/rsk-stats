@@ -3,7 +3,7 @@
     .search
       .icon.icon-search
         input(name="search" type='search' v-model='filterRows' id="search" placeholder="type to filter")
-    table.nodes(v-if='fields')
+    table.nodes.dark(v-if='fields')
       tr
         th(v-for='field,key in fields' @click='sortBy(field)')
           entity-icon(:entity='entity[field]')
@@ -73,7 +73,6 @@ export default {
       'pinRow',
       'updateFilterKey'
     ]),
-
     nodeChart (id) {
       return this.getNode()(id).history
     },
@@ -88,46 +87,26 @@ export default {
 </script>
 <style lang="stylus">
 @import '../lib/styl/vars.styl'
-$head-bg = $white
-$row-odd-bg = $darkness
-$row-even-bg = lightness($row-odd-bg, 15%)
-$border-color = alpha($color,.2)
   table.nodes
-    border:none
-    padding:0
-    margin:0
-    border-spacing: 0
-    color: $color
-    tr
-      border: $color solid 1px
-    th
-      padding: .5em 1em 
-      border-bottom: $border-color dashed 1px
-      background-color $head-bg
-      .entity-icon
-        .icon 
-          font-size: 1.5em
-        .badge
-          font-size: .5em
-          bottom: 0
-          right: -1.5em
-          font-size: .6em
-    td
-     font-size: 0.8em
-     padding: .25em 1em
-     white-space: nowrap
-    tr.odd td
-      background-color $row-odd-bg
-    tr.even td   
-      background-color $row-even-bg
-    tr:last-child td
-      border-bottom: solid 1px $border-color
-    tr:hover td
-      background-color: $darkness2 
+    td, th
+     animation-name: row-anim
+     animation-duration: .5s
+     animation-timing-function: ease-out 
+    
+    @keyframes row-anim
+      0%
+        transform: rotateX(-90deg) rotateZ(-90deg)
+      40%
+        rotateZ(10deg)   
+      50%
+        transform: rotateX(45deg) rotateZ(0)  
+      100% 
+        transform: rotateX(0) 
     .node-history
       max-width 10em
       max-height 2em   
-  .search
+   
+   .search
     margin-bottom: .25em
     input
       margin-left: .25em

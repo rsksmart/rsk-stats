@@ -21,7 +21,7 @@ const sAgo = (time) => {
   return time
 }
 
-export const sSeconds = Vue.filter('sSeconds', (time) => {
+export const sSeconds = Vue.filter('s-seconds', (time) => {
   if (time < 60) return parseFloat(time).toFixed(2) + ' s'
   return moment.duration(Math.round(time), 's').humanize()
 })
@@ -36,4 +36,12 @@ export const dateFromTs = Vue.filter('date-from-ts', (timestamp) => {
     date.getMinutes() + ':' +
     date.getSeconds()
   return datetime
+})
+
+export const miliseconds = Vue.filter('miliseconds', (time) => {
+  time = parseInt(time)
+  if (time === 0) return time
+  if (time < 1000) return time + ' ms'
+  let seconds = Math.floor(time / 1000)
+  return sAgo(seconds)
 })

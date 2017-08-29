@@ -1,8 +1,40 @@
-import * as d3interpolate from 'd3-interpolate'
-import * as d3Chromatic from 'd3-scale-chromatic'
-const d3 = Object.assign({}, d3interpolate, d3Chromatic)
-/*      let colors = d3.scaleLinear()
-        .domain([1000, 3000, 7000, 10000])
-        .range(['#7bcc3a', '#FFD162', '#ff8a00', '#F74B4B']) */
-export const blues = d3.interpolateBlues
-export const redGreen = d3.interpolateRdYlGn
+import * as d3array from 'd3-array'
+import * as d3scale from 'd3-scale'
+const d3 = Object.assign({}, d3array, d3scale)
+
+export const mapColor = (domain, range, type) => {
+  let cf
+  switch (type) {
+    case 'fixed':
+      d3.scaleQuantize()
+        .domain(domain)
+        .range(range)
+      break
+    default:
+      cf = d3.scaleLinear()
+        .domain(domain)
+        .range(range)
+      break
+  }
+  return cf
+}
+
+export const interpolColor = (domain, interpolator) => {
+  return d3.scaleSequential()
+    .interpolator(interpolator)
+    .domain(domain)
+}
+
+export const arrMax = (data) => {
+  return d3.max(data)
+}
+
+export const arrMin = (data) => {
+  return d3.min(data)
+}
+
+export const arrMinMaxRange = (arr, min, max) => {
+  if (undefined !== min) arr.unshift(min)
+  if (undefined !== max) arr.push(max)
+  return arr
+}
