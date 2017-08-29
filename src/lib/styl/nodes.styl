@@ -42,11 +42,14 @@
 .curve
   fill: none
 
-.node-names 
+.node-label
   fill: $midlight
   stroke: rgba(0,0,0,0.7)
   paint-order: stroke
 
+.node-label.inactive
+  fill: alpha($graylight,.5)
+  
  .node.selected
     stroke: $color2
     color: $color2
@@ -54,10 +57,9 @@
       stroke-width: 2px
       fill: $color2
  
- .node.inactive
-    color: black !important   
+.node.inactive
+    .node-back
+      fill: $gray
 
-$cube = $color
-
-.selected.cube
-  color: blue 
+.inactive
+  color: alpha($graylight,.5)
