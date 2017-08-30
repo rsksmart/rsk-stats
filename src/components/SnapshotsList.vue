@@ -1,9 +1,10 @@
 <template lang="pug">
   .snapshots-list
+    button.close(@click='close')
+    slot.title(name='title')
     input(type="text" v-model='snapShotName')
     button.btn(@click='takeSnapshot(snapShotName)')
       span.icon-save
-      span Take Snapshot
     table.snapshots
       tr(v-for='snapshot,key in snapshots')
         td
@@ -51,19 +52,27 @@ export default {
       'takeSnapshot',
       'removeSnapshot',
       'downloadSnapshot'
-    ])
+    ]),
+    close () {
+      this.$emit('close')
+    }
   }
 }
 </script>
 <style lang="stylus">
 @import '../lib/styl/vars.styl'
   .snapshots-list
-      background-color: $white
+      background-color: $light
       padding: .5em
       max-height: 20em
       overflow: auto
+      display inline-block
+      position: relative
+      .title 
+        padding: 0
+        margin: 0
       button.close
         position: absolute
-        right: 1.5em
-        top: 1em
+        right: .5em
+        top: .5em
 </style>

@@ -5,3 +5,23 @@
 
 .color2
   color:$color2
+
+ color-dark()
+    color: $mid
+    background: $darkness-even
+ 
+ color-darkness()
+  color: $color
+  background: $darkness-odd
+ 
+ .dark
+    color-dark()
+    .title, h1, h2,h3,h4,h5,h6
+      color: $white
+     .tolltip
+        color: $color
+
+.darkness
+  color-darkness()
+    .title, h1, h2,h3,h4,h5,h6
+      color: $light

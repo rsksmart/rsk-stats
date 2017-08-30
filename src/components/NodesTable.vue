@@ -2,27 +2,31 @@
   .nodes-table
     .search
       .icon.icon-search
-        input(name="search" type='search' v-model='filterRows' id="search" placeholder="type to filter")
+      input(name="search" type='search' v-model='filterRows' id="search" placeholder="type to filter")
     table.nodes.dark(v-if='fields')
-      tr
-        th(v-for='field,key in fields' @click='sortBy(field)')
-          entity-icon(:entity='entity[field]')
-            .order(slot='badge' v-if='field === sortKey')
-              span.arrow.up(v-if='sortOrders[field] > 0')
-              span.arrow.down(v-else)
-        th
-          .icon.icon-pulse
-        th
-          .icon.icon-pin
-      tr(v-for='node,index in rows' :class='rowClass(index,node.id)')
-        td(v-for='field,key in fields') 
-          entity-value(:value='node[field]' :entity='entity[field]')
-        td
-          node-chart(:data='nodeChart(node.id)' class="node-history")
-        td
-          .pin(@click='pinRow(node.id)')
-            .icon-pinned.color2(v-if='isPinned()([node.id])' )
-            .icon-pin(v-else)
+      thead
+        tr
+          th(v-for='field,key in fields' @click='sortBy(field)')
+            entity-icon(:entity='entity[field]')
+              .order(slot='badge' v-if='field === sortKey')
+                span.arrow.up(v-if='sortOrders[field] > 0')
+                span.arrow.down(v-else)
+          th
+            .icon.icon-pulse
+          th
+            .icon.icon-pin
+      tbody
+        tr.full(v-if='rows.length === 0')
+          td(:colspan='fields.length + 2') There are no results that match your search
+        tr(v-for='node,index in rows' :class='rowClass(index,node.id)')
+          td(v-for='field,key in fields') 
+            entity-value(:value='node[field]' :entity='entity[field]')
+          td
+            node-chart(:data='nodeChart(node.id)' class="node-history")
+          td
+            .pin(@click='pinRow(node.id)')
+              .icon-pinned.color2(v-if='isPinned()([node.id])' )
+              .icon-pin(v-else)
     .loading(v-else)
       h2 loading data...
 
@@ -80,6 +84,7 @@ export default {
       let node = this.getNode()(id)
       let cssClass = (index % 2) ? 'odd' : 'even'
       if (node && !node.stats.active) cssClass += ' inactive'
+      if (this.isPinned()(id)) cssClass += ' pinned'
       return cssClass
     }
   }
@@ -88,6 +93,9 @@ export default {
 <style lang="stylus">
 @import '../lib/styl/vars.styl'
   table.nodes
+    min-width 100%
+    tr.full 
+      min-width: 100%  
     td, th
      animation-name: row-anim
      animation-duration: .5s
@@ -105,13 +113,7 @@ export default {
     .node-history
       max-width 10em
       max-height 2em   
-   
-   .search
-    margin-bottom: .25em
-    input
-      margin-left: .25em
-    .icon
-      font-size: .8em
-      line-height: 1em
+
+
 </style>
 

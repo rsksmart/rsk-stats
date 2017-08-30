@@ -80,7 +80,7 @@ export default {
     filters: 's-seconds'
   },
   avgHashrate: {
-    title: 'avg net hash rate',
+    title: 'avg hash rate',
     icon: 'icon-zap',
     filters: 'numerals',
     suffix: 'Hs'

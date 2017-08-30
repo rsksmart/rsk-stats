@@ -46,3 +46,7 @@ export const sortKey = (state) => {
 export const sortOrders = (state) => {
   return state.sortOrders
 }
+
+export const options = (state) => {
+  return state.options
+}

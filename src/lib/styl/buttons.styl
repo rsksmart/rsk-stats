@@ -1,3 +1,4 @@
+
 button
   color: $color
   font-size: 0.9em
@@ -56,6 +57,18 @@ button.reset
     height: 1.5em
     display: inline-block
 
+button.close
+  display: inline-block
+  min-height: $action-btn-size
+  &:after
+    content: $sym-close
+    font-size: $action-btn-size
+    color: $color
+    font-family: sans-serif
+    text-shadow: $txt-sh
+  &:hover
+    &:after
+      color: $dark
 
 $btn-size = 1.5em
 

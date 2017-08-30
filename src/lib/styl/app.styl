@@ -23,7 +23,9 @@ body
   max-width: 100%
   font-family: 'Titillium Web', sans-serif
   background-color: $darkness !important
-  
+
+h1,h2,h3,h4,h5,h6
+  color: $dark
 
 :focus 
     outline: 0
@@ -101,45 +103,13 @@ h6
   z-index: 100
   padding: 1em
 
-.menu
-  position: relative
-  display: inline-block
-  padding-right: 3em
-  border-radius: .25em
-    
-  .close
-    &:after
-      width: .8em
-      height: .8em
-      line-height: .8em
-      border-radius: 50%
-      right: .5em
-      top: 1.25em
-      border: $border
-      padding: .25em
-      background-color: white
-      box-shadow: $hard-sh
 
 .options
   padding: .5em 2em
   border-radius: .5em
   text-align: center
 
-.close
-  display: inline-block
-  min-height: 1em
-  &:after
-    content: $sym-close
-    position: absolute
-    right: 1em
-    top: .5em
-    font-size: 1.25em
-    color: $color
-    font-family: sans-serif
-    text-shadow: $txt-sh
-  &:hover
-    &:after
-      color: $dark
+
 h1
   color: $color
   text-shadow:  $hard-sh
@@ -206,13 +176,6 @@ ul.inline
     button
     span
       color: $color2
-.tools
-  .tip
-    margin-right: 1em
-    font-style: italic
-    font-size: .8em
-    color: $light
-    text-shadow: $txt-sh
 
 .drag-col
   position: absolute

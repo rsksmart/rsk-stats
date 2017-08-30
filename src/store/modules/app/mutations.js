@@ -30,6 +30,7 @@ export const ADD_NODE_DIALOG = (state, node) => {
     id: node.id,
     x: node.x,
     y: node.y,
+    name: node.info.name,
     w: 0,
     h: 0
   })

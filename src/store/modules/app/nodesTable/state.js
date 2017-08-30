@@ -18,6 +18,10 @@ export default function () {
     sortOrders: {},
     pinned: {},
     sortKey: null,
-    filterKey: ''
+    filterKey: '',
+    options: {
+      x: 0,
+      y: 0
+    }
   }
 }
