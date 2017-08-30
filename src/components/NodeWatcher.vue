@@ -1,11 +1,10 @@
 <template lang="pug">
   .watcher
-      .header
-        span.icon.icon-rsk.med
-        span.node-title {{node.info.name}}
+      //-.header
+        .icon.icon-rsk.med
+        .node-title.title {{node.info.name}}
       ul.node-data 
-        
-        li(v-for='ent in ["uptime","peers","pending","uncles","blockTrans","propTime","totalDiff"]')
+        li(v-for='ent in ["uptime","latency","peers","pending","uncles","blockTrans","propTime","avgPropTime","totalDiff"]')
           entity-icon(:entity='entity[ent]')
           entity-value.txt(:entity='entity[ent]' :value='fields[ent]')
 
@@ -14,13 +13,13 @@
           entity-value.txt(:entity='entity.lastBlockTime' :value='fields.lastBlockTime')
 
         li.double 
-          .label {{ entity.lastBlock.title }}:
+          .label {{ entity.lastBlock.title }}
           .data {{ fields.lastBlock }}
         
-        li.double 
-          .label {{ entity.bestBlock.title }}:
+        li.quad 
+          .label {{ entity.bestBlock.title }}
           .data
-            tool-tip(:value='fields.bestBlock' trim='8' :options='{ trimend:true }')
+            tool-tip(:value='fields.bestBlock' trim='16' :options='{ trimend:true }')
         
         //- TOTAL Diff
         //-li.quad 
@@ -107,48 +106,35 @@ export default {
 </script>
 <style lang="stylus">
  @import '../lib/styl/vars.styl'
+  @import '../lib/styl/colors.styl'
   
 
 
 .watcher
   width: auto
   max-width: 20em
-
-  .node-dialog
-    padding: .5em 1em 
-    box-shadow: $box-sh
-    border: $border
-    border-radius: 0.2s5em
-    background-color: $light
-    color: $darkness
-    box-shadow: $hard-sh
-    position:relative
-    .close
-      position:absolute
-      right: 0
-      top: 0
-  
   .node-chart
     height: 50px
-    margin-top: 10px
-    margin-bottom: .5em
-
-.node-dialog.fixed
-  border-color: $color2
+    padding-top 1em
+    border: none
 
  .header 
-    display: table-cell
-    vertical-align: middle
+    display block
+    position relative
+    background $darkness
     .icon
        margin-right: .25em
 
   .icon 
     color:$color
+    display inline
 
   .node-title
-    color: $darknes
+    display inline-block
+    color: $darkness
+    position relative
 
-$item-min = 6em 
+$item-min = 7.25em
 $item-margin = .25em
 .node-data
   font-size: 0.6em
@@ -157,14 +143,20 @@ $item-margin = .25em
   flex-wrap: wrap
   list-style: none
   padding:  0 .125em
+  background $darkness-even
+  margin 0
   li
     display: inline-block
     margin: $item-margin
     text-align: center
-    //border: 1px dotted $color
-    box-shadow: 1px 1px 0.5px rgba(0,0,0,.2)
+    box-shadow: 1px 1px 0.5px alpha(black,.5)
     min-width: $item-min
-    padding: 0.25em
+    padding: .5em .25em
+    color-dark()
+    
+    .label, .entity-icon .icon
+      color: $dark
+
     .entity-icon .icon
       font-size: 3em
       display: block
@@ -172,21 +164,21 @@ $item-margin = .25em
       font-size: 1.5em    
     .txt
       display: inline-block
-      font-size: 2em
+      font-size: 1.75em
 
   li.double
-    min-width: ($item-min * 2) + 4 * $item-margin 
+    min-width: ($item-min * 2) + (4 * $item-margin) 
     .label
       font-size: 1.5em
     .data
       font-size: 2em  
   li.quad
-    min-width: ($item-min * 4) + 16 * $item-margin 
+    min-width: ($item-min * 4) + (12 * $item-margin) 
     .label
       font-size: 1.5em
      .data
-        font-size: 1.5em 
-      
+        font-size: 2em 
+  
 
 
 </style>

@@ -1,16 +1,27 @@
 @import 'vars.styl'
 
+ $buttons-margin = $action-btn-size / 8   
+ dialog()
+  border: 3px solid $color
+  
+ dialog-pinned()
+  border: 3px solid $color2
+
 .dialog-drag
   z-index: 101
   width: auto
   height: auto
   position: absolute
+  overflow: visible
+  display: flex
+  flex-direction: column
   border: $color solid 2px
-  background-color: white
-  box-shadow: $sh
+  background-color: $white
+  box-shadow: $box-sh
   animation-duration: 0.2s
   animation-name: dialog-anim
   animation-timing-function: ease-in
+  border-radius: 1px
 
   .dialog-header
     position:relative
@@ -19,15 +30,14 @@
     width: auto
     font-size: 0.9em
     color: white
-    margin-bottom: .5em
-    
+   
+
     .buttons 
       position: absolute
       right: 0
       top:0
-      margin: .25em .25em 0 0
-      z-index: 105
-      width: 4em
+      margin: $buttons-margin $buttons-margin 0 0
+      width: $action-btn-size * 2
 
     button.close, button.pin
       background: transparent
@@ -37,9 +47,6 @@
       &:hover
         color: $color2 
       
-    button.close
-      &:after
-        content: '✖'
     button.pin
       font-family: $icon-font
       font-size: 1.5em
@@ -53,7 +60,7 @@
 
 
 .dialog-drag.fixed  // dialog pinned
-  border-color: $color2
+  dialog-pinned()
   user-select: auto 
   
   button.pin // pinned button
@@ -70,21 +77,55 @@
   100%
     opacity: 1  
 
-.watchers
-  .dialog-body
-    padding-top:0
-
+$searchBg = $darkness
+// Nodes Table
 .dialog-table
-  background-color: $darkness
+  .buttons 
+    margin-right: 1em
   input
-    background-color: $darkness
+    background-color: $searchBg
     color: $color
     border: $dark solid 1px
   .dialog-header
-    width: 0
     float: right
   .search
+    float right 
+    position: absolute
+    top: .5em
+    left 1em
     input
-      color: $color2 
+      color: $color2
+      margin-left: .25em
     .icon
-      color: $color  
+      color: $dark
+
+// Nodes Dialogs
+.watchers
+  .dialog-body
+    padding-top:0
+  
+  .dialog-drag
+    border:none
+  
+  .dialog-drag.fixed
+    dialog-pinned() 
+  
+  .node-title
+    margin: 0
+  .dialog-header .title
+    color: $dark
+  
+  .dialog-body
+    padding:  0 .5em 1em .5em 
+  
+  .node-header
+    display: flex
+    align-items: center
+    margin-top: .25em
+    .title
+      margin-left .5em
+    .icon
+      // background: $darkness-even
+      border-radius: 50%
+      padding: .125em
+

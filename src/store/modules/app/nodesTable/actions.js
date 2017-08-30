@@ -22,3 +22,9 @@ export const pinRow = ({ state, commit }, id) => {
 export const updateFilterKey = ({ state, commit }, key) => {
   commit('FILTER_KEY', key)
 }
+
+export const updateOptions = ({ commit }, options) => {
+  for (let op in options) {
+    commit('UPDATE_OPTION', [op, options[op]])
+  }
+}

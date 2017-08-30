@@ -1,6 +1,4 @@
 @import './vars.styl'
-
-
   table
     border:none
     padding:0
@@ -21,10 +19,11 @@
      padding: .25em 1em
      white-space: nowrap
 
-$head-bg = $white
-$row-odd-bg = $darkness
-$row-even-bg = lightness($row-odd-bg, 15%)
+$head-bg = $darkness
+$row-odd-bg = $darkness-odd
+$row-even-bg = $darkness-even
 $border-color = alpha($color,.2)
+$pinned-border = $color2 solid 1px
 
   table.dark
     color: $color
@@ -41,4 +40,4 @@ $border-color = alpha($color,.2)
       border-bottom: solid 1px $border-color
     tr:hover td
       background-color: $darkness2 
-
+    

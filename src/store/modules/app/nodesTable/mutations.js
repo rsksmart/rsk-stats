@@ -17,3 +17,7 @@ export const PIN_ROW = (state, payload) => {
 export const FILTER_KEY = (state, key) => {
   state.filterKey = key
 }
+
+export const UPDATE_OPTION = (state, payload) => {
+  Vue.set(state.options, payload[0], payload[1])
+}

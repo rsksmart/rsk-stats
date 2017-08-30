@@ -1,18 +1,8 @@
 <template lang="pug">
   #menu
-    ul.test-menu(v-if="setts")
-      li
-        label Nodes: 
-          span {{ setts.maxNodes }}
-        input(type="range" v-model.number="setts.maxNodes" @input="change" min="1" max="1000" step="10")
-      li
-        label Max Links per Node: 
-          span {{ setts.maxLinks }}
-        input(type="range" v-model.number="setts.maxLinks" @input="change" min="1" max="20" step="1") 
-      li
-        button(@click="$emit('simulate')") Simulate
-    
-    ul.test-menu
+    .header
+      slot(name="header" scoped='')
+    ul.setts-menu
       li
         label Nodes spread: 
         input(type="range" v-model.number="opts.force" @input="change" min="1" max="5000" step="10")  
@@ -24,7 +14,7 @@
         label Offset Y: 
           span {{ opts.offset.y }}
         input(type="range" v-model.number="opts.offset.y" @input="change" min="-100" max="100" step="1") 
-    ul.test-menu
+    ul.setts-menu
       li
         label Node Size: {{opts.nodeSize}}
         input(type="range" v-model.number="opts.nodeSize" @input="change" min="5" max="100" step="1")
@@ -38,9 +28,6 @@
       li  
         button.reset(@click="reset" title="reset options")
           span.icon-reset
-         
-
-    
 
 </template>
 <script>
@@ -82,17 +69,30 @@ export default {
 <style lang="stylus" scoped>
  @import '../lib/styl/vars.styl'
  
+ #menu 
+  display inline-block
+
 .debug 
   font-size: 0.5em
   list-style: none
 
-.test-menu
+.header
+  background: $light
+  button.close
+    position absolute
+    right -2.5em
+    background: $light
+    height $action-btn-size
+    width $action-btn-size
+    line-height $action-btn-size
+    border-radius 50%
+.setts-menu
   display: table-cell
   padding: 1em
   border: $border
-  background-color: $light
   list-style: none
   box-shadow: $hard-sh
+  background: $light
   li
     margin: 0.5em 0
     label
