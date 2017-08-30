@@ -85,21 +85,18 @@ export default {
       'unSelectNode',
       'updateNodeDialog',
       'setNodeDialogPos'
+    ]),
+    ...mapGetters(['getNode']),
+    ...mapGetters('app/entity', [
+      'createNodeEntity'
     ])
   },
   computed: {
-    ...mapGetters({
-      nodes: 'getNodes'
-    }),
-    ...mapGetters('app/entity', {
-      entity: 'getEntities',
-      nodesEntity: 'getNodesEntities'
-    }),
     node () {
-      return this.nodes[this.dialog.id]
+      return this.getNode()(this.dialog.id)
     },
     fields () {
-      return this.nodesEntity[this.dialog.id]
+      return this.createNodeEntity()(this.dialog.id)
     }
   }
 }
