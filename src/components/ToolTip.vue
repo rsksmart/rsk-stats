@@ -3,22 +3,16 @@
     .trim(v-if='trim') {{trimed}}
     slot(v-else)
     .points(v-if='trim' :class='[(opts.trimend) ? "left": "right", (clicked) ? "clicked" : "" ]')
-        button(v-if='clicked || !show') 
+        button(v-if='!show') 
           span.icon {{ opts.trimTxt }}
-        button(v-if='show && !clicked && opts.copy' @click='copyText')
+        button(v-if='show  && opts.copy' @click='copyText' @touchend.stop='copyText')
           span.icon.icon-copy
     //- Tooltip
     .tip(v-if='show' :class='opts.pos' :style='tipPos')
       //- value
       .value(:class=' (clicked) ? "clicked" : ""' )
-        //- Touch buttons
-        .head(v-if='show && clicked')
-          button.copy(@click='copyText' @touchstart='copyText' v-if='opts.copy')
-            span.icon.icon-copy
-          button.close(@click.prevent='touch(false)' @touchstart='touch(false)')
-        //- copy msg
         .msg(v-if='show && opts.copyMsg' :class='(anim) ? "anim" : ""') copied!
-        .copy-txt
+        .copy-txt(@touchend.stop='show = !show' @click.stop='show = !show')
           span(:class='(anim) ? "copying" : ""') {{value}}
           textarea(ref='cptxt' rows='1' :cols='value.length' ) {{ value }}
 </template>
@@ -47,7 +41,7 @@ export default {
   created () {
     if (this.options) {
       for (let op in this.options) {
-        this.opts[op] = this.options[op]
+        this.$set(this.opts, op, this.options[op])
       }
     }
   },
@@ -85,7 +79,7 @@ export default {
     touch (value) {
       if (!value) value = !this.clicked
       this.clicked = value
-      this.show = value
+      this.show = !this.show
     },
     copyText () {
       let text = this.$refs.cptxt
@@ -138,8 +132,7 @@ export default {
     &:before
       border-{pos}-color: $tip-bc
       margin-{v}: -($tip-arrow-size + $tip-border)
-
-  // tip
+.tooltip
   .tip
       border: 1px solid $tip-bc
       position: absolute
@@ -147,6 +140,8 @@ export default {
       border-radius: 2px
       width: 100%
       font-size: 0.7em
+      display: flex
+      color: $dark
       .value
         position: relative
         background-color: $tip-bg
@@ -192,7 +187,7 @@ export default {
     float: right
 
   button.copy
-    display: inline-block
+    display: block
     position:absolute
     left:0
     top: .25em
@@ -213,17 +208,17 @@ export default {
       width: 1px
       heigth: 1px
 
-button.close 
-  line-height: 1em
-  height: 1em
-  &:after
-    top: .25em !important
-    right: .25em !important
-    border-radius: 50%
+  button.close 
     line-height: 1em
     height: 1em
-    width: 1em
-    padding: .25em
+    &:after
+      top: .25em !important
+      right: .25em !important
+      border-radius: 50%
+      line-height: 1em
+      height: 1em
+      width: 1em
+      padding: .25em
 .head
   display: block
 .msg
