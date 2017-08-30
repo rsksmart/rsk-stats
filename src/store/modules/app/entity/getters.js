@@ -20,18 +20,25 @@ export const thresholdColors = state => (name) => {
 export const getEntities = (state, getters) => {
   let entities = {}
   for (let e in state.entities) {
-    let entity = state.entities[e]
-    entity.title = entity.title || e
-    entity.id = e
-    entities[e] = entity
+    entities[e] = getters.createEntity(e)
   }
   return entities
 }
+
 export const getEntity = (state, getters) => (name) => {
-  return getters.getEntities[name]
+  return getters.createEntity(name)
 }
 
-export const NodeEntity = (state, getters, rootState, rootGetters) => node => {
+export const createEntity = (state) => name => {
+  let entity = state.entities[name]
+  if (entity) {
+    entity.title = entity.title || name
+    entity.id = name
+    return entity
+  }
+}
+
+export const nodeEntity = (state, getters, rootState, rootGetters) => node => {
   if (node) {
     let stats = node.stats
     let fields = {
@@ -78,11 +85,18 @@ export const getNodesEntities = (state, getters, rootState, rootGetters) => {
   let nodes = rootGetters.getNodes
   let nEntities = {}
   for (let nid in nodes) {
-    let node = getters.NodeEntity(nodes[nid])
-    node.id = nid
-    nEntities[nid] = node
+    nEntities[nid] = getters.createNodeEntity(nid)
   }
   return nEntities
+}
+
+export const createNodeEntity = (state, getters, rootState, rootGetters) => nid => {
+  let node = rootGetters.getNode(nid)
+  if (node) {
+    let entity = getters.nodeEntity(node)
+    entity.id = nid
+    return entity
+  }
 }
 
 export const getNodesEntitiesArr = (state, getters) => {

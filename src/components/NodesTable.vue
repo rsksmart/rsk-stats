@@ -48,8 +48,7 @@ export default {
   },
   computed: {
     ...mapGetters('app/entity/', {
-      nodes: 'getNodesEntitiesArr',
-      entity: 'getEntities'
+      nodes: 'getNodesEntitiesArr'
     }),
     ...mapGetters('app/nodesTable', [
       'fields',
