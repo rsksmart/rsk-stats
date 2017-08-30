@@ -6,13 +6,15 @@ export const getSize = (state) => {
   return state.size
 }
 
-export const getDate = (state) => {
+export const getDate = (state, getters) => {
   let snapshot = state.activeSnapshot
-  return (snapshot) ? snapshot.date : state.date
+  let date = (snapshot) ? snapshot.date : state.date
+  date += getters.timeDifference
+  return date
 }
 
 export const timeDifference = (state) => {
-  return state.backendData.serverTime - state.date
+  return state.backendData.serverTime - state.backendData.clientTime
 }
 
 // temp
