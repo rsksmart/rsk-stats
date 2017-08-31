@@ -1,5 +1,5 @@
 <template lang="pug">
-  .tooltip(@mouseleave='setShow' @mouseenter='setShow($event,true)' @touchend='touch')
+  .tooltip(@mouseleave='show=false' @mouseenter='show=true' @touchend='touch')
     .trim(v-if='trim') {{trimed}}
     slot(v-else)
     .points(v-if='trim' :class='[(opts.trimend) ? "left": "right", (clicked) ? "clicked" : "" ]')
@@ -29,6 +29,7 @@ export default {
       show: false,
       clicked: false,
       anim: false,
+      closer: null,
       opts: {
         pos: 'top',
         copy: true,
@@ -70,16 +71,19 @@ export default {
     }
   },
   methods: {
-    setShow (event, value) {
-      if (value) this.show = value
-      else this.show = !this.show
-
-      if (this.clicked) this.show = true
-    },
     touch (value) {
       if (!value) value = !this.clicked
       this.clicked = value
       this.show = !this.show
+      // timeout to close tip after, not for trimmeds
+      if (this.show && !this.trim) {
+        if (!this.closer) {
+          let vm = this
+          this.closer = setTimeout(() => {
+            vm.show = false
+          }, 3000)
+        }
+      }
     },
     copyText () {
       let text = this.$refs.cptxt
