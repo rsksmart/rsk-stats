@@ -237,6 +237,10 @@ export default {
     }
   },
   methods: {
+    tableLoaded (data) {
+      let dialog = this.$refs.table
+      dialog.center()
+    },
     ...mapActions([
       'setSize',
       'takeSnapshot',
@@ -254,6 +258,9 @@ export default {
       'updateNodeDialog',
       'showHideTable'
     ]),
+    ...mapActions('app/nodesTable', {
+      updateTableOptions: 'updateOptions'
+    }),
     ...mapGetters('app/', [
       'isNodeSelected',
       'isLinkSelected'
@@ -264,6 +271,7 @@ export default {
       let options = this.options
       options.size = size
       this.changeOptions(options)
+      if (this.showTable) this.$refs.table.center()
     },
     resetOptions () {
       this.options = Object.assign({}, defaultData.options)
