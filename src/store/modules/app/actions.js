@@ -1,13 +1,28 @@
+import * as types from './types'
+
 // SELECTION actions
 export const clearSelection = ({ commit }) => {
   commit('EMPTY_SELECTION', 'nodes')
   commit('EMPTY_SELECTION', 'links')
 }
 
-export const selectNode = ({ commit }, node) => {
-  commit('SELECT_ITEM', { type: 'nodes', item: node })
-  commit('ADD_NODE_DIALOG', node)
+export const selectNode = ({ commit, dispatch }, node) => {
+  commit('SELECT_ITEM', { type: types.NODE, item: node })
+  dispatch('addNodeDialog', node)
 }
+
+export const addNodeDialog = ({ commit }, node) => {
+  let dialog = {
+    id: node.id,
+    x: node.x,
+    y: node.y,
+    name: node.info.name,
+    w: 0,
+    h: 0
+  }
+  commit('ADD_DIALOG', [types.NODE, dialog])
+}
+
 export const selectLink = ({ commit }, link) => {
   commit('SELECT_ITEM', { type: 'links', item: link })
 }
@@ -16,7 +31,7 @@ export const unSelectNode = ({ state, commit, getters }, id) => {
   commit('UNSELECT_ITEM', { type: 'nodes', id: id })
   let index = findNodeDialog(getters.getNodeDialogs, id)
   if (index !== null) {
-    commit('REMOVE_NODE_DIALOG', index)
+    commit('REMOVE_DIALOG', index)
   }
 }
 
@@ -53,7 +68,7 @@ export const updateNodeDialog = ({ state, commit, getters }, payload) => {
     for (let p in values) {
       value[p] = values[p]
     }
-    commit('UPDATE_NODE_DIALOG', { index, value })
+    commit('UPDATE_DIALOG', { index, value })
   }
 }
 
@@ -63,6 +78,7 @@ const findNodeDialog = (dialogs, nodeId) => {
   })
   return (index > -1) ? index : null
 }
+
 export const maximizeChart = ({ commit }, data) => {
   commit('SET_MAXIMIZED_CHART', data)
 }

@@ -1,3 +1,5 @@
+import * as types from './types'
+
 export const selection = (state) => {
   return state.selection
 }
@@ -17,9 +19,14 @@ export const isNodeSelected = state => id => {
 export const isLinkSelected = state => id => {
   return state.selection.links[id]
 }
+export const getDialogsByType = (state) => type => {
+  return state.openDialogs.map((item) => {
+    if (item._type === type) return item
+  })
+}
 
-export const getNodeDialogs = (state) => {
-  return state.nodeDialogs
+export const getNodeDialogs = (state, getters) => {
+  return getters.getDialogsByType(types.NODE)
 }
 
 export const tableFields = (state, getters, rootState) => {
