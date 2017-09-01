@@ -2,7 +2,7 @@
   .watcher
       ul.node-data 
         li(v-for='ent in ["uptime","latency","peers","pending","uncles","blockTrans","propTime","avgPropTime","totalDiff"]')
-          entity-icon(:entity='entity[ent]')
+          entity-icon(:entity='entity[ent]' :value='fields[ent]')
           entity-value.txt(:entity='entity[ent]' :value='fields[ent]')
 
         li
@@ -32,7 +32,7 @@
 import { mapActions, mapGetters } from 'vuex'
 import NodeChart from './NodeChart.vue'
 import ToolTip from './ToolTip.vue'
-import EntityMixin from '../mixins/Entity.vue'
+import EntityMixin from '../mixins/Entity'
 export default {
   name: 'node-watcher',
   mixins: [
@@ -64,12 +64,6 @@ export default {
   mounted () {
     this.width = this.$el.clientWidth
     this.height = this.$el.clientHeight
-    /*     this.updateNodeDialog([this.node.id, { w: this.width, h: this.height }])
-          .then(this.setNodeDialogPos(this.index).then(() => {
-            this.top = this.dialog.y
-            this.left = this.dialog.x
-          }
-          )) */
   },
   watch: {
     dialog (newValue) {
@@ -80,7 +74,6 @@ export default {
   methods: {
     ...mapActions([
       'unSelectNode',
-      'updateNodeDialog',
       'setNodeDialogPos'
     ]),
     ...mapGetters(['getNode']),
@@ -151,6 +144,9 @@ $item-margin = .25em
     .label, .entity-icon .svg-icon
       color: $dark
 
+    .entity-icon .svg-icon
+      opacity: .75
+    
     .entity-icon .svg-icon
       width: 2.5em
       height: 2.5em

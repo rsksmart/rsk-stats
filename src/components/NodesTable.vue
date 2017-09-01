@@ -36,7 +36,7 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import NodeChart from './NodeChart.vue'
-import EntityMixin from '../mixins/Entity.vue'
+import EntityMixin from '../mixins/Entity'
 export default {
   name: 'nodes-table',
   mixins: [

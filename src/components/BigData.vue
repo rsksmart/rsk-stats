@@ -7,7 +7,7 @@
 </template>
 <script>
 import { mapGetters } from 'vuex'
-import EntityMixin from '../mixins/Entity.vue'
+import EntityMixin from '../mixins/Entity'
 export default {
   name: 'big-data',
   mixins: [
