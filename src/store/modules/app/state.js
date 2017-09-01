@@ -4,7 +4,7 @@ export default function () {
       nodes: {},
       links: {}
     },
-    nodeDialogs: [],
+    openDialogs: [],
     maximizedChart: null,
     showTable: false
   }

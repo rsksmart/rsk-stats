@@ -9,20 +9,21 @@
         path(:d='quadCurve(dialog)')
 </template>
 <script>
-import { mapState, mapGetters } from 'vuex'
+import { mapGetters } from 'vuex'
 export default {
   name: 'iface-background',
   props: ['size'],
   computed: {
-    ...mapState({
-      dialogs: state => state.app.nodeDialogs,
-      nodes: state => state.backendData.nodes
+    ...mapGetters({
+      dialogs: 'app/getNodeDialogs',
+      nodes: 'getNodes'
     })
   },
   methods: {
     ...mapGetters([
       'getNode'
-    ]),
+    ]
+    ),
     nodeBlockStyle (node) {
       return 'left:' + node.x + 'px; top:' + node.y + 'px'
     },
