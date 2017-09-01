@@ -54,3 +54,7 @@ export const totalSnapshots = (state) => {
 export const getSnapshotsListOptions = (state) => {
   return state.snapshotsListOptions
 }
+
+export const getCharts = (state) => {
+  return state.backendData.charts
+}

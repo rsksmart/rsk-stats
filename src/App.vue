@@ -5,10 +5,6 @@
       small.hint running in snapthot mode
       button.btn.live(@click='goLive()') go Live
 
-    //- Maximized chart
-    .maximized-chart(v-if='maxChart')
-       chart( :title='maxChart.title' :chart='maxChart.chart' :options='maxChart.options' maximized='true')
-    
     //- Nodes table
     dialog-drag.dialog-table(v-if='showTable' id='table' ref='table'
       :options='tableOptions'
@@ -26,9 +22,9 @@
         big-data(name='lastBlockTime')
         big-data(name='avgBlockTime')
         
-        chart(title='Uncles' chart='uncleCountChart' :options='{colorInterpol:unclesColors}' )
-        chart(title='Blocks Time' chart='lastBlocksTime'  :options='{ colors:["red", "yellow"] }')
-        chart(title='Difficulty' chart='difficultyChart' )
+        chart( name='uncleCountChart' )
+        chart( name='lastBlocksTime')
+        chart( name='difficultyChart' )
         
       .col-b 
       .col-c
@@ -39,14 +35,15 @@
         //- h6 blockPropagationChart
         //-chart(:data='blockChart')
         
-        chart(title='Gas Limit' chart='lastGasLimit')
-        chart(title='Gas Spending' chart='gasSpending')
-        chart(title='Transaction Density' chart='transactionDensity' )
+        chart( name='lastGasLimit')
+        chart( name='gasSpending')
+        chart( name='transactionDensity' )
     
 
+    //- Node Data
+    //-node-data(v-for='node,id in nodes' :node='node' :key='id' :size='options.nodeSize')
     //-> Network
-    d3-network(
-      v-if='connected'
+    d3-network(v-if='connected'
       :netNodes="nodes"
       :netLinks="links"
       :selection="selection"
@@ -203,8 +200,6 @@ export default {
   computed: {
     ...mapState({
       state: state => state,
-      charts: state => state.backendData.charts,
-      maxChart: state => state.app.maximizedChart,
       snapshots: state => state.snapshots,
       showTable: state => state.app.showTable
     }),

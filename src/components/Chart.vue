@@ -1,34 +1,25 @@
 <template lang="pug">
-  .chart(:class='style' @keydown.esc='close')
-      button.max(v-if='data.length && !maximized' @click='max()' @touchstart='max()')
-        icon(name='resize')
-      button.close(v-if='maximized' @click='close')
-        icon(name='close')
-      h3.chart-title {{title}}
-      .chart-cointainer(:style=' "height:" + size.h + "px"')
-        d3-bar-chart(:data='data' :options='opts')
+  .chart.dark-chart
+      h3.chart-title {{chart.title}}
+      .chart-cointainer
+        d3-bar-chart(:data='chart.data' :options='chartOptions')
 </template>
 <script>
 import D3BarChart from 'vue-d3-barchart'
-import { mapState, mapActions } from 'vuex'
-import '../icons/resize'
+import { mapGetters } from 'vuex'
 export default {
-  name: 'bar-chart',
+  name: 'chart',
   components: {
     D3BarChart
   },
-  props: ['title', 'chart', 'options', 'chartStyle', 'maximized'],
+  props: ['name', 'width', 'height'],
   data () {
     return {
-      style: 'dark-chart',
       size: {
         w: 0,
         h: 0
       }
     }
-  },
-  created () {
-    if (this.chartStyle) this.style = this.chartStyle
   },
   mounted () {
     this.onResize()
@@ -38,40 +29,21 @@ export default {
     window.removeEventListener('resize', this.onResize)
   },
   computed: {
-    ...mapState({ // review..............
-      charts: state => state.backendData.charts
-    }),
-    data () {
-      return this.charts[this.chart]
+    chart () {
+      return this.getChart()(this.name)
     },
-    opts () {
-      let options = Object.assign({}, this.options)
-      options.size = {}
-      options.size.w = this.size.w
-      options.size.h = this.size.h
-      return options
+    chartStyle () {
+      return { width: this.w + 'px', height: this.h + 'px' }
+    },
+    chartOptions () {
+      let size = { w: this.size.w, h: this.size.h }
+      return Object.assign({ size }, this.chart.options)
     }
   },
   methods: {
-    ...mapActions('app/', [
-      'maximizeChart'
+    ...mapGetters('app/charts', [
+      'getChart'
     ]),
-    max () {
-      let title = this.title
-      let chart = this.chart
-      let options = this.maxOptions()
-      this.maximizeChart({ title, chart, options })
-    },
-    close () {
-      this.maximizeChart(null)
-    },
-    maxOptions () {
-      let options = Object.assign({}, this.opts)
-      options.axis = false
-      options.rulers = false
-      options.labels = false
-      return options
-    },
     onResize () {
       this.size.w = this.$el.clientWidth
       this.size.h = this.size.w / 4

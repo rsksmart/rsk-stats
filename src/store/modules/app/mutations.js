@@ -25,21 +25,6 @@ export const UPDATE_SELECTION_PROP = (state, payload) => {
   }
 }
 
-/* export const ADD_NODE_DIALOG = (state, node) => {
-  let payload = {
-    id: node.id,
-    x: node.x,
-    y: node.y,
-    name: node.info.name,
-    _type: 'node',
-    w: 0,
-    h: 0
-  }
-    if (state.selection.nodes[node.id]) {
-      state.selection.nodes[node.id]._dialog = index
-    }
-} */
-
 export const ADD_DIALOG = (state, payload) => {
   let type = payload[0]
   let data = payload[1]
@@ -54,10 +39,6 @@ export const REMOVE_DIALOG = (state, index) => {
 }
 export const UPDATE_DIALOG = (state, payload) => {
   state.openDialogs[payload.index] = payload.value
-}
-
-export const SET_MAXIMIZED_CHART = (state, payload) => {
-  state.maximizedChart = payload
 }
 
 export const SET_SHOW_TABLE = (state, show) => {
