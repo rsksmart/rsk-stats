@@ -1,8 +1,5 @@
 <template lang="pug">
   .watcher
-      //-.header
-        .icon.icon-rsk.med
-        .node-title.title {{node.info.name}}
       ul.node-data 
         li(v-for='ent in ["uptime","latency","peers","pending","uncles","blockTrans","propTime","avgPropTime","totalDiff"]')
           entity-icon(:entity='entity[ent]')
@@ -103,7 +100,7 @@ export default {
 </script>
 <style lang="stylus">
  @import '../lib/styl/vars.styl'
-  @import '../lib/styl/colors.styl'
+ @import '../lib/styl/colors.styl'
   
 
 
@@ -119,10 +116,10 @@ export default {
     display block
     position relative
     background $darkness
-    .icon
+    .svg-icon
        margin-right: .25em
 
-  .icon 
+  .svg-icon 
     color:$color
     display inline
 
@@ -151,11 +148,12 @@ $item-margin = .25em
     padding: .5em .25em
     color-dark()
     
-    .label, .entity-icon .icon
+    .label, .entity-icon .svg-icon
       color: $dark
 
-    .entity-icon .icon
-      font-size: 3em
+    .entity-icon .svg-icon
+      width: 2.5em
+      height: 2.5em
       display: block
     .entity-icon .tip
       font-size: 1.5em    

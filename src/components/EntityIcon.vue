@@ -1,7 +1,7 @@
 <template lang="pug">
   .entity-icon(v-if='entity' :class='($slots.badge) ? "w-badge" : ""' )
     tool-tip(:value='entity.title' :options='{ copy:false }')
-      .icon(:class='entity.icon')
+      icon(:name='entity.icon')
     slot  
     .badge(v-if='$slots.badge')
       slot(name="badge")

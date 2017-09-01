@@ -3,10 +3,10 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import store from './store'
+import VueSVGIcon from 'vue-svgicon'
 import App from './App'
-// import VueNativeSock from 'vue-native-websocket'
-// Vue.use(VueNativeSock, 'wss://ethstats.net/primus/')
 
+Vue.use(VueSVGIcon, { tagName: 'icon' })
 Vue.use(Vuex)
 Vue.config.productionTip = false
 

@@ -38,7 +38,8 @@
       top:0
       margin: $buttons-margin $buttons-margin 0 0
       width: $action-btn-size * 2
-
+      button svg
+         width: $action-btn-size
     button.close, button.pin
       background: transparent
       box-shadow: none
@@ -48,12 +49,7 @@
         color: $color2 
       
     button.pin
-      font-family: $icon-font
-      font-size: 1.5em
-      line-height: 1.5em
-      width: 1.5em
-      &:after
-        content: "\e918"   
+      width: $action-btn-size / 1.2
   
   .dialog-body
     padding: 1em
@@ -64,9 +60,7 @@
   user-select: auto 
   
   button.pin // pinned button
-    &:after
-      color: $color2
-      content: "\e909"
+    color: $color2
 
 @keyframes dialog-anim
   0%
@@ -96,8 +90,8 @@ $searchBg = $darkness
     input
       color: $color2
       margin-left: .25em
-    .icon
-      color: $dark
+    .svg-icon
+      fill: $dark
 
 // Nodes Dialogs
 .watchers
@@ -124,8 +118,14 @@ $searchBg = $darkness
     margin-top: .25em
     .title
       margin-left .5em
-    .icon
-      // background: $darkness-even
-      border-radius: 50%
-      padding: .125em
-
+    .svg-icon
+      width: 1.1em
+      height: 1.1em
+      padding: .125em  
+      fill: $color
+     
+.chart
+  button.close
+    position: absolute
+    right: 1em
+    top: 1em

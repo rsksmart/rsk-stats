@@ -1,6 +1,5 @@
 <template lang="pug">
   #app.main(@keyup.esc='setTool("pointer")')
-    
     //- snapshots hint
     .snapshot-hint(v-if='!isLive')
       small.hint running in snapthot mode
@@ -11,7 +10,13 @@
        chart( :title='maxChart.title' :chart='maxChart.chart' :options='maxChart.options' maximized='true')
     
     //- Nodes table
-    dialog-drag(v-if='showTable' id='table' @close='showHideTable()' class='dialog-table')
+    dialog-drag.dialog-table(v-if='showTable' id='table' ref='table'
+      :options='tableOptions'
+      @close='showHideTable()' 
+      @load='tableLoaded')
+      icon(name='close' slot='button-close')
+      icon(name='pin' slot='button-pin')
+      icon(name='pinned' slot='button-pinned')
       nodes-table
     
     //- Layout
@@ -65,48 +70,44 @@
       ul
         li(v-for='t,to in tools') 
           button.btn.circle(@click='setTool(to)' :class='buttonClass(to)')
-            span(:class="t.class") 
-      .tip {{ tools[tool].tip }}
+            icon(:name='t.icon')
 
     .watchers
-      dialog-drag(v-for="(dialog,index) in dialogs"  
-        :options='dialog'
-        :key="index"
-        :id='dialog.id'
+      dialog-drag(v-for="(dialog,index) in dialogs" :options='dialog' :key="index" :id='dialog.id'
         @close='unSelectNode(dialog.id)'
-        @move='updateNodeDialog'
-        )
-        node-watcher( 
-          :dialog='dialog'
-          :index='index'
-          )
+        @move='updateNodeDialog')
+          .node-header(slot='title')
+            icon.med(name='rsk')
+            h3.node-title.title {{ dialog.name }}
+          icon(name='close' slot='button-close')
+          icon(name='pin' slot='button-pin')
+          icon(name='pinned' slot='button-pinned')
+          node-watcher(:dialog='dialog' :index='index')
     .over
     
       //- Menu
       .menu(v-if="showMenu")
-        .close(@click="showMenu=false")
         stats-menu(:nodes="nodes" :links="links" :options="options" @options="changeOptions" @reset="resetOptions")
+          button.close(@click="showMenu = false" slot="header")
+            icon(name='close')
       
-      //- Snapshots dialog  
-      dialog-drag(v-if='showSnapshots' title='Snapshots' id='snapshots-list'
-          @move='updateSnapshotsListPos'
-          @close='showSnapshots = false' 
-          :options='snapshotsListOptions'
-          )
-        snapshots-list
+      //- Snapshots 
+      snapshots-list(v-if='showSnapshots' id='snapshots-list' @close='showSnapshots = false')
+        h4.title(slot='title') Snapshots
+      
       .options
         //- menu button 
         button.btn.menu(@click="showMenu = !showMenu")
-          span.icon-settings
+          icon(name='settings')
         //- snapshots button  
         button.btn.badge(@click='showSnapshots = !showSnapshots')
-          span.icon-versions
+          icon(name='versions')
           span.badge(v-if='totalSnapshots') {{ totalSnapshots }}
         //- table button
         button.btn(@click='showHideTable()')
-          span.icon-table
+          icon(name='table')
         h1
-          span.icon-rsk
+          icon(name='rsk')
           span &nbsp; rsk network
         ul.inline
           li nodes: {{ nodes.length }}
@@ -134,7 +135,7 @@ import { percent, numerals } from './filters/NumberFilters.js'
 
 import nodeIcon from '!!raw-loader!./assets/node.svg'
 import defaultData from './data.js'
-
+import './icons'
 export default {
   name: 'rsk-stats',
   components: {
@@ -163,11 +164,11 @@ export default {
     data.tools = {
       pointer: {
         tip: 'Select',
-        class: 'icon-pointer'
+        icon: 'pointer'
       },
       pin: {
         tip: 'click on node to pin it',
-        class: 'icon-pin'
+        icon: 'pin'
       }
     }
     data.tool = 'pointer'
@@ -202,7 +203,6 @@ export default {
   computed: {
     ...mapState({
       state: state => state,
-      totals: state => state.backendData.totals,
       charts: state => state.backendData.charts,
       maxChart: state => state.app.maximizedChart,
       snapshots: state => state.snapshots,
@@ -223,7 +223,9 @@ export default {
       selection: 'selection',
       dialogs: 'getNodeDialogs'
     }),
-
+    ...mapGetters('app/nodesTable', {
+      tableOptions: 'options'
+    }),
     lastBlock () {
       let lb = this.totals.lastBlock
       return (lb) ? this.now - lb : 0

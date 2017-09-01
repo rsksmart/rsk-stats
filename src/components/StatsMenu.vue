@@ -6,14 +6,6 @@
       li
         label Nodes spread: 
         input(type="range" v-model.number="opts.force" @input="change" min="1" max="5000" step="10")  
-      //-li
-        label Offset X: 
-          span {{ opts.offset.x }}
-        input(type="range" v-model.number="opts.offset.x" @input="change" min="-100" max="100" step="1") 
-      //-li
-        label Offset Y: 
-          span {{ opts.offset.y }}
-        input(type="range" v-model.number="opts.offset.y" @input="change" min="-100" max="100" step="1") 
     ul.setts-menu
       li
         label Node Size: {{opts.nodeSize}}
@@ -27,11 +19,12 @@
         input(type="range" v-model.number="opts.fontSize" @input="change" min="5" max="30" step="1")
       li  
         button.reset(@click="reset" title="reset options")
-          span.icon-reset
+          icon(name='reload-alt')
 
 </template>
 <script>
 import defaultData from '../data.js'
+import '../icons/reload-alt'
 export default {
   name: 'stats-menu',
   props: ['links', 'nodes', 'settings', 'options'],
@@ -79,13 +72,13 @@ export default {
 .header
   background: $light
   button.close
-    position absolute
-    right -2.5em
     background: $light
     height $action-btn-size
     width $action-btn-size
     line-height $action-btn-size
     border-radius 50%
+    float: right 
+    margin-right: -2.5em
 .setts-menu
   display: table-cell
   padding: 1em

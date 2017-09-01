@@ -1,33 +1,37 @@
 <template lang="pug">
   .snapshots-list
     button.close(@click='close')
+      icon(name='close')
     slot.title(name='title')
     input(type="text" v-model='snapShotName')
     button.btn(@click='takeSnapshot(snapShotName)')
-      span.icon-save
+      icon(name='floppy')
     table.snapshots
       tr(v-for='snapshot,key in snapshots')
         td
           button(@click='removeSnapshot(key)')
             tool-tip(:value='"delete"')
-              .icon-delete-forever 
+              icon(name='delete-forever') 
         td {{ snapshot.name }}
         td
           small {{ key | date-from-ts}}
         td
           button(@click='downloadSnapshot(key)')
             tool-tip(:value='"download"')
-              .icon-download 
+              icon(name='clowd-down') 
         td
           button(@click='loadSnapshot(key)')
             tool-tip(:value='"load"')
-              .icon-load  
+              icon(name='load')  
 
 </template>
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import { dateFromTs } from '../filters/TimeFilters.js'
 import ToolTip from './ToolTip.vue'
+import '../icons/floppy'
+import '../icons/delete-forever'
+import '../icons/clowd-down'
 export default {
   name: 'snapshots-list',
   components: {

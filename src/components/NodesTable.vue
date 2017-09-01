@@ -1,23 +1,25 @@
 <template lang="pug">
   .nodes-table
     .search
-      .icon.icon-search
+      icon(name='search')
       input(name="search" type='search' v-model='filterRows' id="search" placeholder="type to filter")
     table.nodes.dark(v-if='fields')
       thead
         tr
-          th(v-for='field,key in fields' @click='sortBy(field)')
-            entity-icon(:entity='entity[field]')
-              .order(slot='badge' v-if='field === sortKey')
-                span.arrow.up(v-if='sortOrders[field] > 0')
-                span.arrow.down(v-else)
+          th(v-for='field,key in fields')
+            button(@click='sortBy(field)')
+              entity-icon(:entity='entity[field]')
+                .order(slot='badge' v-if='field === sortKey')
+                  span.arrow.up(v-if='sortOrders[field] > 0')
+                  span.arrow.down(v-else)
           th
-            .icon.icon-pulse
+            icon(name='pulse')
           th
-            .icon.icon-pin
+            icon(name='pin')
       tbody
         tr.full(v-if='rows.length === 0')
           td(:colspan='fields.length + 2') There are no results that match your search
+        
         tr(v-for='node,index in rows' :class='rowClass(index,node.id)')
           td(v-for='field,key in fields') 
             entity-value(:value='node[field]' :entity='entity[field]')
@@ -25,8 +27,8 @@
             node-chart(:data='nodeChart(node.id)' class="node-history")
           td
             .pin(@click='pinRow(node.id)')
-              .icon-pinned.color2(v-if='isPinned()([node.id])' )
-              .icon-pin(v-else)
+              icon.color2(v-if='isPinned()([node.id])' name='pinned' )
+              icon(v-else name='pin')
     .loading(v-else)
       h2 loading data...
 
