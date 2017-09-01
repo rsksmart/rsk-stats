@@ -1,22 +1,30 @@
 <template lang="pug">
   .node-chart
-    d3-bar-chart(:data='data' :options='options')
+    d3-bar-chart(:data='data' :options='opts')
 </template>
 <script>
 import D3BarChart from 'vue-d3-barchart'
+// import D3BarChart from 'vue-d3-barchart/src/vue-d3-barchart.vue'
 import { redGreen } from '../config/colorsInterpolators.js'
 export default {
   name: 'node-chart',
   components: {
     D3BarChart
   },
-  props: ['data'],
+  props: ['data', 'options'],
   data () {
     return {
-      options: {
+      opts: {
         colorInterpol: redGreen,
         yUnits: 'ms',
         padding: 0.2
+      }
+    }
+  },
+  created () {
+    if (this.options) {
+      for (let op in this.options) {
+        this.opts[op] = this.options[op]
       }
     }
   }
@@ -26,7 +34,6 @@ export default {
  @import '../lib/styl/vars.styl'
 .node-chart
   background-color: $darkness
-  height: 50px
   padding: .25em
 </style>
 

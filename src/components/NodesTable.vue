@@ -112,6 +112,8 @@ export default {
       100% 
         transform: rotateX(0) 
     .node-history
+    .node-chart
+      height: 50px
       max-width 10em
       max-height 2em   
 
