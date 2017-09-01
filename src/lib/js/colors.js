@@ -6,7 +6,7 @@ export const mapColor = (domain, range, type) => {
   let cf
   switch (type) {
     case 'fixed':
-      d3.scaleQuantize()
+      cf = d3.scaleQuantize()
         .domain(domain)
         .range(range)
       break

@@ -5,7 +5,6 @@ export default function () {
       links: {}
     },
     openDialogs: [],
-    maximizedChart: null,
     showTable: false
   }
 }
