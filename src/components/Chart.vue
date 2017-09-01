@@ -1,8 +1,9 @@
 <template lang="pug">
   .chart(:class='style' @keydown.esc='close')
       button.max(v-if='data.length && !maximized' @click='max()' @touchstart='max()')
-        span.icon.icon-resize
+        icon(name='resize')
       button.close(v-if='maximized' @click='close')
+        icon(name='close')
       h3.chart-title {{title}}
       .chart-cointainer(:style=' "height:" + size.h + "px"')
         d3-bar-chart(:data='data' :options='opts')
@@ -10,6 +11,7 @@
 <script>
 import D3BarChart from 'vue-d3-barchart'
 import { mapState, mapActions } from 'vuex'
+import '../icons/resize'
 export default {
   name: 'bar-chart',
   components: {

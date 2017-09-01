@@ -44,14 +44,19 @@ export default {
   min-width: 100%
   width: 100%
   height: auto
+  display: flex
+  align-items center
   .bd-icon
-    font-size: 3vmax 
-    width: 1em
-    display: inline-block
+    width: 3vmax
+    height: 3vmax 
     color: $color
     box-sizing:content-box
-    // border: white solid 1px
-   .bd-main
+    margin-right .5vmax
+    .svg-icon
+      width 3.5vmax
+      height 3.5vmax
+      
+  .bd-main
     width: auto
     display: inline-block
     margin-left: 1em

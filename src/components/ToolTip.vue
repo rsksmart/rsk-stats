@@ -6,7 +6,7 @@
         button(v-if='!show') 
           span.icon {{ opts.trimTxt }}
         button(v-if='show  && opts.copy' @click='copyText' @touchend.stop='copyText')
-          span.icon.icon-copy
+          icon(name='copy')
     //- Tooltip
     .tip(v-if='show' :class='opts.pos' :style='tipPos')
       //- value
@@ -17,6 +17,7 @@
           textarea(ref='cptxt' rows='1' :cols='value.length' ) {{ value }}
 </template>
 <script>
+import '../icons/copy'
 export default {
   name: 'tool-tip',
   props: [
@@ -180,9 +181,6 @@ export default {
     button
       height: 1em
       line-height: 1em 
-      .icon
-        font-size: .75em
-        line-height: .75em 
 
   .points.left
     float: left

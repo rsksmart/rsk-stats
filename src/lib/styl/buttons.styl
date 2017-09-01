@@ -13,20 +13,18 @@ button.btn
    margin-left: .25em
 
 button.menu
-  width: 1.5em
-  height: 1.5em
+  width: 2.5em
+  height: 2.5em
   padding: 0
-  font-size 1.5em
-  font-weight: bold  
-
+  .svg-icon
+    width: 2em
+    height: 2em
 button.circle
-  width: 4em
-  height: 4em
-  font-weight: bold
   border-radius: 50%
-  border:$border  
-    span
-      font-size: 5m !important
+  border:$border
+  .svg-icon
+    width: 1.5em
+    height: 1.5em
 
 button.reset 
   font-size: 1.5em
@@ -57,37 +55,6 @@ button.reset
     height: 1.5em
     display: inline-block
 
-button.close
+button.close svg
   display: inline-block
   min-height: $action-btn-size
-  &:after
-    content: $sym-close
-    font-size: $action-btn-size
-    color: $color
-    font-family: sans-serif
-    text-shadow: $txt-sh
-  &:hover
-    &:after
-      color: $dark
-
-$btn-size = 1.5em
-
-button.icon
-  background-color: white
-  border-style: none
-  color: black
-  font-size: 1em
-  text-shadow: $txt-sh
-  height: $btn-size
-  width: $btn-size
-  line-height: 1.25em
-  border-radius: 50%
-  padding:0
-  margin:0
-  box-shadow: none
-
-button.icon:hover
-  background-color: $color2
-
-.mini
-  font-size: 0.75em

@@ -9,85 +9,85 @@
 */
 export default {
   name: {
-    icon: 'icon-rsk',
+    icon: 'rsk',
     title: 'node name'
   },
   type: {
-    icon: 'icon-database',
+    icon: 'database',
     title: 'node type',
     filters: 'node-type'
   },
   uptime: {
-    icon: 'icon-plug',
+    icon: 'plug',
     filters: 'percent',
     threshold: 'time'
   },
   latency: {
-    icon: 'icon-stopwatch',
+    icon: 'stopwatch',
     title: 'node latency',
     suffix: 'ms',
     threshold: 'latency'
   },
   peers: {
-    icon: 'icon-server'
+    icon: 'server'
   },
   pending: {
-    icon: 'icon-credit-card',
+    icon: 'credit-card',
     title: 'pending transactions'
   },
   uncles: {
-    icon: 'icon-git-merge'
+    icon: 'git-merge'
   },
   blockTrans: {
-    icon: 'icon-rocket',
+    icon: 'rocket',
     title: 'block transactions'
   },
   lastBlockTime: {
-    icon: 'icon-cubes',
+    icon: 'cubes',
     title: 'last block',
     filters: 'm-seconds-ago',
     suffix: ' ago'
   },
   lastBlock: {
-    icon: 'icon-cube',
+    icon: 'cube',
     title: 'last block'
   },
   bestBlock: {
-    icon: 'icon-cube',
+    icon: 'cube',
     title: 'best block'
   },
   totalDiff: {
-    icon: 'icon-puzzle',
+    icon: 'puzzle',
     title: 'total difficulty',
     filters: 'numerals',
     suffix: 'H'
   },
   propTime: {
     title: 'propagation time',
-    icon: 'icon-stopwatch',
+    icon: 'stopwatch',
     threshold: 'propagation',
     filters: 'miliseconds'
   },
   avgPropTime: {
     title: 'average propagation time',
-    icon: 'icon-flame',
+    icon: 'flame',
     filters: 'miliseconds',
     threshold: 'propagation'
   },
   avgBlockTime: {
     title: 'avg block time',
-    icon: 'icon-stopwatch',
+    icon: 'stopwatch',
     filters: 's-seconds'
   },
   avgHashrate: {
     title: 'avg hash rate',
-    icon: 'icon-zap',
+    icon: 'zap',
     filters: 'numerals',
     suffix: 'Hs'
   },
   lastDifficulty: {
     title: 'difficulty',
-    icon: 'icon-puzzle',
+    icon: 'puzzle',
     filters: 'numerals',
     suffix: 'H'
   }
