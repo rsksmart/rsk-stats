@@ -69,18 +69,21 @@
           button.btn.circle(@click='setTool(to)' :class='buttonClass(to)')
             icon(:name='t.icon')
 
-    .watchers
+    //- Nodes Dialogs
+    .node-dialogs
       dialog-drag(v-for="(dialog,index) in dialogs" :options='dialog' :key="index" :id='dialog.id'
-        @close='unSelectNode(dialog.id)'
-        @move='updateNodeDialog')
-          .node-header(slot='title')
-            icon.med(name='rsk')
-            h3.node-title.title {{ dialog.name }}
+        :event-cb='dialogEventFormatter(types.NODE)'
+        @close='closeDialog(dialog)'
+        @move='updateDialog'
+        @pin='updateDialog'
+        )
           icon(name='close' slot='button-close')
           icon(name='pin' slot='button-pin')
           icon(name='pinned' slot='button-pinned')
+          .node-header(slot='title')
+            icon.med(name='rsk')
+            h3.node-title.title {{ dialog.name }}
           node-watcher(:dialog='dialog' :index='index')
-    .over
     
       //- Menu
       .menu(v-if="showMenu")
@@ -133,6 +136,13 @@ import { percent, numerals } from './filters/NumberFilters.js'
 import nodeIcon from '!!raw-loader!./assets/node.svg'
 import defaultData from './data.js'
 import './icons'
+
+// Copy id to _index in dialogs events
+const dialogEventFormatter = (type) => (obj) => {
+  obj.type = type
+  return obj
+}
+
 export default {
   name: 'rsk-stats',
   components: {
@@ -169,10 +179,9 @@ export default {
       }
     }
     data.tool = 'pointer'
-    data.unclesColors = blues
-    data.redGreen = redGreen
     data.nodeSym = nodeIcon
     data.nodeFilter = nodeFilter
+    data.dialogEventFormatter = dialogEventFormatter
     return data
   },
   created () {
@@ -216,7 +225,9 @@ export default {
     }),
     ...mapGetters('app/', {
       selection: 'selection',
-      dialogs: 'getNodeDialogs'
+      dialogs: 'getNodeDialogs',
+      chartsDialogs: 'getChartDialogs',
+      types: 'getTypes'
     }),
     ...mapGetters('app/nodesTable', {
       tableOptions: 'options'
@@ -250,8 +261,10 @@ export default {
       'unSelectLink',
       'selectNodeLinks',
       'pinNode',
-      'updateNodeDialog',
-      'showHideTable'
+      'updateDialog',
+      'showHideTable',
+      'closeDialog',
+      'createDialog'
     ]),
     ...mapActions('app/nodesTable', {
       updateTableOptions: 'updateOptions'
