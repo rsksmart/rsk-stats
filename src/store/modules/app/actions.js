@@ -20,21 +20,26 @@ export const createDialog = ({ state, commit }, payload) => {
 
   if (type && id) {
     if (index === null) {
-      let copy = Object.assign({}, payload)
-      let dialog = {}
-      let props = ['x', 'y', 'z', 'w', 'h', 'width', 'height', 'left', 'top', 'centered']
-      for (let p of props) {
-        dialog[p] = copy[p] || 0
-      }
+      let dialog = newDialog(Object.assign({}, payload))
       dialog.id = id
-      dialog._show = true
-      dialog._persistent = true // <- Hard coded persistence for all dialogs
-
       commit('ADD_DIALOG', [type, dialog])
     } else {
       commit('SHOW_DIALOG', index)
     }
   }
+}
+
+const newDialog = (data) => {
+  let dialog = {}
+  let props = ['x', 'y', 'z', 'w', 'h', 'width', 'height', 'left', 'top', 'zIndex', 'centered']
+  for (let p of props) {
+    dialog[p] = data[p] || 0
+  }
+  dialog.title = data.title || ''
+  dialog.name = data.name || ''
+  dialog._show = true
+  dialog._persistent = true // <- Hard coded persistence for all dialogs
+  return dialog
 }
 
 const findDialog = (dialogs, id, type) => {

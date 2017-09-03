@@ -22,9 +22,9 @@
         big-data(name='lastBlockTime')
         big-data(name='avgBlockTime')
         
-        chart( name='uncleCountChart' )
-        chart( name='lastBlocksTime')
-        chart( name='difficultyChart' )
+        mini-chart(name='uncleCountChart')
+        mini-chart(name='lastBlocksTime')
+        mini-chart(name='difficultyChart')
         
       .col-b 
       .col-c
@@ -35,9 +35,9 @@
         //- h6 blockPropagationChart
         //-chart(:data='blockChart')
         
-        chart( name='lastGasLimit')
-        chart( name='gasSpending')
-        chart( name='transactionDensity' )
+        mini-chart( name='lastGasLimit')
+        mini-chart( name='gasSpending')
+        mini-chart( name='transactionDensity' )
     
 
     //- Node Data
@@ -69,13 +69,8 @@
           button.btn.circle(@click='setTool(to)' :class='buttonClass(to)')
             icon(:name='t.icon')
 
-    //- Nodes Dialogs
-    .nodes-dialogs
-      main-dialog(v-for="(dialog,index) in dialogs" :key='index' :dialog='dialog')
-    
-    //-Chart Dialogs
-    .charts-dialogs
-      main-dialog(v-for="(dialog,index) in chartsDialogs" :key='index' :dialog='dialog')
+    //- Dialogs
+    main-dialog(v-for="(dialog,index) in dialogs" :key='index' :dialog='dialog')
   
     .over
       //- Menu
@@ -108,7 +103,6 @@
 </template>
 <script>
 import { mapState, mapActions, mapGetters } from 'vuex'
-import { blues, redGreen } from './config/colorsInterpolators.js'
 import { locStorage as storage } from './lib/js/io.js'
 
 import D3Network from 'vue-d3-network'
@@ -116,8 +110,9 @@ import StatsMenu from './components/StatsMenu'
 import DialogDrag from 'vue-dialog-drag'
 import IfaceBack from './components/ifaceBack.vue'
 import NodeWatcher from './components/NodeWatcher.vue'
+import NodeData from './components/NodeData.vue'
 import BigData from './components/BigData.vue'
-import Chart from './components/Chart.vue'
+import MiniChart from './components/MiniChart.vue'
 import SnapshotsList from './components/SnapShotsList.vue'
 import NodesTable from './components/NodesTable.vue'
 import MainDialog from './components/MainDialog.vue'
@@ -139,7 +134,7 @@ export default {
     DialogDrag,
     NodeWatcher,
     BigData,
-    Chart,
+    MiniChart,
     NodesTable,
     IfaceBack,
     SnapshotsList,
@@ -214,9 +209,7 @@ export default {
     }),
     ...mapGetters('app/', {
       selection: 'selection',
-      dialogs: 'getNodeDialogs',
-      chartsDialogs: 'getChartDialogs',
-      types: 'getTypes'
+      dialogs: 'getDialogs'
     }),
     ...mapGetters('app/nodesTable', {
       tableOptions: 'options'
@@ -329,14 +322,11 @@ export default {
     left: 0
     z-index: 1
     pointer-events: none
-  
+
   .debug
     position: absolute
     z-index: 100 
-
-    .chart
-      padding: 2em
-   .snapshot-hint
+  .snapshot-hint
     position: absolute
     min-height: 99.5%
     min-width: 99.5%
@@ -347,9 +337,12 @@ export default {
     .live
       position: absolute
       z-index: 1000
-    .hint
-      color: $color2
+      .hint
+        color: $color2
   
-
+  .mini-chart
+    z-index: 50
+    position:relative
+    pointer-events all
 
 </style>

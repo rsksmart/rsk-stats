@@ -1,8 +1,11 @@
 <template lang="pug">
+  .main-dialog
     dialog-drag(:options='dialog' :id='dialog.id'
+      :class='dialog.type + "-dialog"'
       :event-cb='dialogEventFormatter(dialog.type)'
       @close='closeDialog(dialog)'
       @move='updateDialog'
+      @load='updateDialog'
       @pin='updateDialog'
       )
         icon( v-if='buttonClose' name='close' slot='button-close')
@@ -17,6 +20,7 @@
           node-watcher(:dialog='dialog')
         //- Chart Dialog
         template(v-if='dialog.type === types.CHART')
+          h3.node-title(slot='title') {{ dialog.name }}
           chart(:name='dialog.id')  
   
 </template>
@@ -30,9 +34,12 @@ import '../icons/pin'
 import '../icons/pinned'
 import '../icons/rsk'
 
-// Adds type to dialog-drag events
+// Dialog event cb
 const dialogEventFormatter = (type) => (obj) => {
-  obj.type = type
+  obj.type = type // set type
+  obj.w = obj.width // save computed width
+  obj.h = obj.height // save computed height
+  obj.height = 0 // auto height
   return obj
 }
 
@@ -72,3 +79,8 @@ export default {
 
 }
 </script>
+<style lang="stylus">
+
+
+</style>
+
