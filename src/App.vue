@@ -70,21 +70,14 @@
             icon(:name='t.icon')
 
     //- Nodes Dialogs
-    .node-dialogs
-      dialog-drag(v-for="(dialog,index) in dialogs" :options='dialog' :key="index" :id='dialog.id'
-        :event-cb='dialogEventFormatter(types.NODE)'
-        @close='closeDialog(dialog)'
-        @move='updateDialog'
-        @pin='updateDialog'
-        )
-          icon(name='close' slot='button-close')
-          icon(name='pin' slot='button-pin')
-          icon(name='pinned' slot='button-pinned')
-          .node-header(slot='title')
-            icon.med(name='rsk')
-            h3.node-title.title {{ dialog.name }}
-          node-watcher(:dialog='dialog' :index='index')
+    .nodes-dialogs
+      main-dialog(v-for="(dialog,index) in dialogs" :key='index' :dialog='dialog')
     
+    //-Chart Dialogs
+    .charts-dialogs
+      main-dialog(v-for="(dialog,index) in chartsDialogs" :key='index' :dialog='dialog')
+  
+    .over
       //- Menu
       .menu(v-if="showMenu")
         stats-menu(:nodes="nodes" :links="links" :options="options" @options="changeOptions" @reset="resetOptions")
@@ -127,6 +120,7 @@ import BigData from './components/BigData.vue'
 import Chart from './components/Chart.vue'
 import SnapshotsList from './components/SnapShotsList.vue'
 import NodesTable from './components/NodesTable.vue'
+import MainDialog from './components/MainDialog.vue'
 
 import { nodeFilter } from './filters/nodes.js'
 import { tSecondsAgo, mSecondsAgo, sSeconds } from './filters/TimeFilters.js'
@@ -136,12 +130,6 @@ import { percent, numerals } from './filters/NumberFilters.js'
 import nodeIcon from '!!raw-loader!./assets/node.svg'
 import defaultData from './data.js'
 import './icons'
-
-// Copy id to _index in dialogs events
-const dialogEventFormatter = (type) => (obj) => {
-  obj.type = type
-  return obj
-}
 
 export default {
   name: 'rsk-stats',
@@ -154,7 +142,9 @@ export default {
     Chart,
     NodesTable,
     IfaceBack,
-    SnapshotsList
+    SnapshotsList,
+    NodeData,
+    MainDialog
   },
   filters: {
     tSecondsAgo,
@@ -181,7 +171,6 @@ export default {
     data.tool = 'pointer'
     data.nodeSym = nodeIcon
     data.nodeFilter = nodeFilter
-    data.dialogEventFormatter = dialogEventFormatter
     return data
   },
   created () {
@@ -251,8 +240,7 @@ export default {
       'setSize',
       'takeSnapshot',
       'loadSnapshot',
-      'goLive',
-      'updateSnapshotsListPos'
+      'goLive'
     ]),
     ...mapActions('app/', [
       'selectNode',
