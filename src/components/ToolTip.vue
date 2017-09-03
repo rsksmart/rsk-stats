@@ -23,7 +23,7 @@ export default {
   props: [
     'value',   // tooltip content
     'trim',    // trim position: Number | 0 to not trim
-    'options' // tooltip position: top | bottom | left | right
+    'options' // copy, pos: top | bottom | left | right
   ],
   data () {
     return {

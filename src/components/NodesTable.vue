@@ -24,7 +24,7 @@
           td(v-for='field,key in fields') 
             entity-value(:value='node[field]' :entity='entity[field]')
           td
-            node-chart(:data='nodeChart(node.id)' class="node-history")
+            node-chart.node-history(:data='nodeChart(node.id)' :options='{curve:true,gradient:{stroke:true}, bars:false}')
           td
             .pin(@click='pinRow(node.id)')
               icon.color2(v-if='isPinned()([node.id])' name='pinned' )
@@ -115,7 +115,10 @@ export default {
     .node-chart
       height: 50px
       max-width 10em
-      max-height 2em   
+      max-height 2em
+      svg
+        path
+          stroke-width: 1px    
 
 
 </style>

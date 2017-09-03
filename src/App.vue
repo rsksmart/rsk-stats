@@ -346,16 +346,6 @@ export default {
     position: absolute
     z-index: 100 
 
-  .maximized-chart
-    position:absolute
-    display: flex
-    justify-content: center
-    align-items: center
-    top:0
-    width: 100%
-    max-width: 100%
-    min-height: 100%
-    z-index: 900
     .chart
       padding: 2em
    .snapshot-hint
