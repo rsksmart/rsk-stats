@@ -23,13 +23,19 @@ export const isLinkSelected = state => id => {
   return state.selection[types.LINK][id]
 }
 export const getDialogs = (state) => {
-  return state.dialogs
+  if (state.dialogs.length) {
+    return state.dialogs.filter((dialog) => {
+      return dialog._show === true
+    })
+  }
 }
 
 export const getDialogsByType = (state) => type => {
-  return state.dialogs.filter((dialog) => {
-    return ((dialog.type === type) && (dialog._show === true))
-  })
+  if (state.dialogs.length) {
+    return state.dialogs.filter((dialog) => {
+      return ((dialog.type === type) && (dialog._show === true))
+    })
+  }
 }
 export const getNodeDialogs = (state, getters) => {
   return getters.getDialogsByType(types.NODE)
@@ -39,10 +45,16 @@ export const getChartDialogs = (state, getters) => {
   return getters.getDialogsByType(types.CHART)
 }
 
-export const chartsDialogs = (state, getters) => {
-  return getters.getDialogsByType(types.CHART)
+export const getDialog = (state, getters) => (type, id) => {
+  let dialogs = getters.getDialogsByType(type)
+  if (dialogs) {
+    return dialogs.filter((dialog) => {
+      return dialog.id === id
+    })
+  }
 }
 
 export const tableFields = (state, getters, rootState) => {
   return state.tableFields
 }
+

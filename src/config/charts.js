@@ -14,7 +14,10 @@ export default {
     }
   },
   difficultyChart: {
-    title: 'Difficulty'
+    title: 'Difficulty',
+    options: {
+      colors: ['green', 'red']
+    }
   },
   lastGasLimit: {
     title: 'Gas Limit'

@@ -1,8 +1,11 @@
 <template lang="pug">
-  .chart.dark-chart
-      h3.chart-title {{chart.title}}
+  .chart.dark-chart(v-if='chart')
+      .header
+        slot(name='header')
+      h3.chart-title {{ chart.title }}
       .chart-cointainer
         d3-bar-chart(:data='chart.data' :options='chartOptions')
+      slot
 </template>
 <script>
 import D3BarChart from 'vue-d3-barchart'
@@ -37,7 +40,9 @@ export default {
     },
     chartOptions () {
       let size = { w: this.size.w, h: this.size.h }
-      return Object.assign({ size }, this.chart.options)
+      let options = Object.assign({ size }, this.chart.options)
+      options.points = false
+      return options
     }
   },
   methods: {
@@ -56,6 +61,14 @@ export default {
   .chart
     margin-top: 1em
     position:relative
+    .header
+      display: flex
+      .icon, .svg-icon
+        width: 1.5em
+        height : 1.5em
+        position: absolute
+        right: 1em
+        top: .5em
     
   .chart-title
     font-weight:normal
