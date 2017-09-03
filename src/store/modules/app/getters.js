@@ -27,8 +27,8 @@ export const getDialogs = (state) => {
 }
 
 export const getDialogsByType = (state) => type => {
-  return state.dialogs.filter((item) => {
-    return item.type === type
+  return state.dialogs.filter((dialog) => {
+    return ((dialog.type === type) && (dialog._show === true))
   })
 }
 export const getNodeDialogs = (state, getters) => {
