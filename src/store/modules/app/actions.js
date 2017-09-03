@@ -16,15 +16,24 @@ export const selectNode = ({ commit, dispatch }, node) => {
 export const createDialog = ({ state, commit }, payload) => {
   let type = payload.type
   let id = payload.id
+  let index = findDialog(state.dialogs, id, type)
+
   if (type && id) {
-    let dialog = Object.assign({}, payload)
-    let props = ['x', 'y', 'z', 'w', 'h', 'width', 'height']
-    for (let p of props) {
-      dialog[p] = dialog[p] || 0
+    if (index === null) {
+      let copy = Object.assign({}, payload)
+      let dialog = {}
+      let props = ['x', 'y', 'z', 'w', 'h', 'width', 'height', 'left', 'top', 'centered']
+      for (let p of props) {
+        dialog[p] = copy[p] || 0
+      }
+      dialog.id = id
+      dialog._show = true
+      dialog._persistent = true // <- Hard coded persistence for all dialogs
+
+      commit('ADD_DIALOG', [type, dialog])
+    } else {
+      commit('SHOW_DIALOG', index)
     }
-    dialog.id = id
-    let index = findDialog(state.dialogs, id, type)
-    if (index === null) commit('ADD_DIALOG', [type, dialog])
   }
 }
 
@@ -35,24 +44,17 @@ const findDialog = (dialogs, id, type) => {
   return (index > -1) ? index : null
 }
 
-export const loadDialog = ({ commit }, payload) => {
-  let type = payload[0]
-  let dialog = payload[1]
-  if (type && dialog) {
-    commit('ADD_DIALOG', [type, dialog])
-  }
-}
-
-export const closeDialog = ({ state, commit, dispatch }, payload) => {
-  let type = payload.type
-  let id = payload.id
+export const closeDialog = ({ state, commit, dispatch }, dialog) => {
+  let type = dialog.type
+  let id = dialog.id
   let index = findDialog(state.dialogs, id, type)
   if (index !== null) {
     // unselect nodes
     if (type === types.NODE) {
-      dispatch('unSelectNode', payload.id)
+      dispatch('unSelectNode', dialog.id)
     }
-    commit('REMOVE_DIALOG', index)
+    if (dialog._persistent) commit('HIDE_DIALOG', index)
+    else commit('REMOVE_DIALOG', index)
   }
 }
 

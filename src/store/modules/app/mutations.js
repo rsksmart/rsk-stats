@@ -58,6 +58,14 @@ export const UPDATE_DIALOG = (state, payload) => {
   }
 }
 
+export const SHOW_DIALOG = (state, index) => {
+  Vue.set(state.dialogs[index], '_show', true)
+}
+
+export const HIDE_DIALOG = (state, index) => {
+  Vue.set(state.dialogs[index], '_show', false)
+}
+
 export const SET_SHOW_TABLE = (state, show) => {
   state.showTable = show
 }
