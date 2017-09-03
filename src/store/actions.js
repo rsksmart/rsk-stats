@@ -73,11 +73,6 @@ export const goLive = ({ state, dispatch, commit }) => {
   dispatch('loadPrevState')
 }
 
-export const updateSnapshotsListPos = ({ state, commit }, payload) => {
-  let options = Object.assign({}, { x: payload.x, y: payload.y })
-  commit('SET_SNAPSHOTS_LIST_OPTIONS', options)
-}
-
 export const downloadSnapshot = ({ state }, id) => {
   let snapshot = cloneSnapshot(state, id)
   if (snapshot) {

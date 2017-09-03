@@ -5,11 +5,11 @@
     ul.setts-menu
       li
         label Nodes spread: 
-        input(type="range" v-model.number="opts.force" @input="change" min="1" max="5000" step="10")  
+        input(type="range" v-model.number="opts.force" @input="change" min="1" max="7000" step="10")  
     ul.setts-menu
       li
         label Node Size: {{opts.nodeSize}}
-        input(type="range" v-model.number="opts.nodeSize" @input="change" min="5" max="100" step="1")
+        input(type="range" v-model.number="opts.nodeSize" @input="change" min="5" max="200" step="1")
       li
         input(type="checkbox" v-model="opts.nodeLabels" @change="change")
         label Node names   
