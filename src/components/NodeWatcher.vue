@@ -42,7 +42,7 @@ export default {
     NodeChart,
     ToolTip
   },
-  props: ['dialog', 'index'],
+  props: ['dialog'],
   data () {
     return {
       width: 0,

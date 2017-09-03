@@ -32,6 +32,10 @@ export const getLinksArr = (state) => {
   return Object.values(state.backendData.links)
 }
 
+export const getLinks = (state) => {
+  return state.backendData.links
+}
+
 export const getNodes = (state) => {
   return state.backendData.nodes
 }
