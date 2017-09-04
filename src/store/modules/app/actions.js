@@ -38,8 +38,15 @@ const newDialog = (data) => {
   dialog.title = data.title || ''
   dialog.name = data.name || ''
   dialog._show = true
-  dialog._persistent = true // <- Hard coded persistence for all dialogs
+  dialog._persistent = true // <- Hard coded persisffindDialogindDialogtence for all dialogs
   return dialog
+}
+export const bringDialogToFront = ({ state, commit }, dialog) => {
+  let index = findDialog(state.dialogs, dialog.id, dialog.type)
+  if (index !== null) {
+    commit('REMOVE_DIALOG', index)
+    commit('ADD_DIALOG', [dialog.type, dialog])
+  }
 }
 
 const findDialog = (dialogs, id, type) => {
