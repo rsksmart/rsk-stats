@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import * as entity from '../../../../config/entityValues.js'
 import { mapColor, interpolColor } from '../../../../lib/js/colors.js'
 
 // returns function to get color from value
@@ -42,40 +43,14 @@ export const createEntity = (state) => name => {
 }
 
 export const nodeEntity = (state, getters, rootState, rootGetters) => node => {
-  if (node) {
-    let stats = node.stats
-    let totals = rootState.backendData.totals
-    let fields = {
-      name: node.info.name,
-      type: node.info.node,
-      latency: (stats.active) ? stats.latency : 0,
-      uptime: stats.uptime,
-      peers: stats.peers,
-      pending: stats.pending,
-      uncles: stats.block.uncles.length || 0,
-      blockTrans: stats.block.transactions.length || 0,
-      lastBlockTime: rootGetters.getDate - stats.block.received,
-      lastBlock: stats.block.number,
-      lastBlockDifference: totals.bestBlock - stats.block.number,
-      bestBlock: stats.block.hash,
-      totalDiff: stats.block.totalDifficulty,
-      propTime: stats.block.propagation,
-      avgPropTime: stats.propagationAvg
-    }
-    return fields
-  }
-  return
+  let totals = rootState.backendData.totals
+  let date = rootGetters.getDate
+  return entity.NODE(node, date, totals)
 }
 export const TotalsEntity = (state, getters, rootState, rootGetters) => {
   let totals = rootState.backendData.totals
-  return {
-    bestBlock: totals.bestBlock,
-    lastBlockTime: rootGetters.getDate - totals.lastBlock,
-    avgBlockTime: totals.avgBlockTime,
-    lastDifficulty: totals.lastDifficulty,
-    avgHashrate: totals.avgHashrate,
-    uncles: totals.bestStats.block.uncles.length + '/' + totals.uncleCount
-  }
+  let date = rootGetters.getDate
+  return entity.TOTAL(totals, date)
 }
 
 export const getTotalEntity = (state, getters) => (name) => {
