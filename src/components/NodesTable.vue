@@ -22,7 +22,7 @@
         
         tr(v-for='node,index in rows' :class='rowClass(index,node.id)')
           td(v-for='field,key in fields') 
-            entity-value(:value='node[field]' :entity='entity[field]')
+            entity-value(:value='node[field]' :entity='entity[field]' :fields='node')
           td
             node-chart.node-history(:data='nodeChart(node.id)' :options='{curve:true,gradient:{stroke:true}, bars:false}')
           td

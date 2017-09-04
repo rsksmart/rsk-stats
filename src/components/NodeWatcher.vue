@@ -1,17 +1,14 @@
 <template lang="pug">
   .watcher
       ul.node-data 
-        li(v-for='ent in ["uptime","latency","peers","pending","uncles","blockTrans","propTime","avgPropTime","totalDiff"]')
+        li(v-for='ent in ["uptime","latency","peers","pending","uncles","blockTrans","propTime","avgPropTime","totalDiff","lastBlockTime"]')
           entity-icon(:entity='entity[ent]' :value='fields[ent]')
-          entity-value.txt(:entity='entity[ent]' :value='fields[ent]')
-
-        li
-          entity-icon(:entity='entity.lastBlockTime')
-          entity-value.txt(:entity='entity.lastBlockTime' :value='fields.lastBlockTime')
-
+          entity-value.txt(:entity='entity[ent]' :value='fields[ent]' :fields='fields')
+          
         li.double 
           .label {{ entity.lastBlock.title }}
-          .data {{ fields.lastBlock }}
+          .data
+            entity-value(:entity='entity.lastBlock' :value='fields.lastBlock' :fields='fields')
         
         li.quad 
           .label {{ entity.bestBlock.title }}
