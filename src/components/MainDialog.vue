@@ -40,6 +40,7 @@ const dialogEventFormatter = (type) => (obj) => {
   obj.w = obj.width // save computed width
   obj.h = obj.height // save computed height
   obj.height = 0 // auto height
+  obj.centered = false // remove autocenter, after load
   return obj
 }
 
