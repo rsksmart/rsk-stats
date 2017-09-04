@@ -4,18 +4,18 @@ const d3 = Object.assign({}, d3array, d3scale)
 
 export const mapColor = (domain, range, type) => {
   let cf
-  switch (type) {
-    case 'fixed':
-      cf = d3.scaleQuantize()
-        .domain(domain)
-        .range(range)
-      break
-    default:
-      cf = d3.scaleLinear()
-        .domain(domain)
-        .range(range)
-      break
+  let name = (type) ? 'scale' + type : null
+  if (name) {
+    if (d3[name]) {
+      cf = d3[name]
+    } else {
+      console.info('Unknown scale ' + name + ' see colors.js')
+    }
   }
+  cf = cf || d3.scaleLinear
+  cf = cf()
+    .domain(domain)
+    .range(range)
   return cf
 }
 
