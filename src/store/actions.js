@@ -60,6 +60,13 @@ export const loadSnapshot = ({ state, commit, getters }, id) => {
   }
 }
 
+export const loadLayout = ({ state, commit }, id) => {
+  let snapshot = cloneSnapshot(state, id)
+  if (snapshot) {
+    commit('REPLACE_STATE', ['app', snapshot.data['app']])
+  }
+}
+
 export const loadPrevState = ({ state, commit }) => {
   if (state.appPrevState) {
     let appPrevState = cloneObj(state.appPrevState)

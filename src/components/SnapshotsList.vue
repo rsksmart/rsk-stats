@@ -23,6 +23,10 @@
           button(@click='loadSnapshot(key)')
             tool-tip(:value='"load"')
               icon(name='load')  
+        td
+          button(@click='loadLayout(key)')
+            tool-tip(:value='"load Layout"')
+              icon(name='load')  
 
 </template>
 <script>
@@ -55,7 +59,8 @@ export default {
       'loadSnapshot',
       'takeSnapshot',
       'removeSnapshot',
-      'downloadSnapshot'
+      'downloadSnapshot',
+      'loadLayout'
     ]),
     close () {
       this.$emit('close')
