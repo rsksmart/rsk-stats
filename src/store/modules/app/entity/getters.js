@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import { mapColor, interpolColor } from '../../../../lib/js/colors.js'
 
+// returns function to get color from value
 export const thresholdColors = state => (name) => {
   let threshold = state.thresholds[name]
   if (threshold) {
@@ -34,6 +35,8 @@ export const createEntity = (state) => name => {
   if (entity) {
     entity.title = entity.title || name
     entity.id = name
+    let threshold = entity.threshold
+    if (threshold) entity.thresholdObj = state.thresholds[threshold]
     return entity
   }
 }
@@ -41,6 +44,7 @@ export const createEntity = (state) => name => {
 export const nodeEntity = (state, getters, rootState, rootGetters) => node => {
   if (node) {
     let stats = node.stats
+    let totals = rootState.backendData.totals
     let fields = {
       name: node.info.name,
       type: node.info.node,
@@ -52,6 +56,7 @@ export const nodeEntity = (state, getters, rootState, rootGetters) => node => {
       blockTrans: stats.block.transactions.length || 0,
       lastBlockTime: rootGetters.getDate - stats.block.received,
       lastBlock: stats.block.number,
+      lastBlockDifference: totals.bestBlock - stats.block.number,
       bestBlock: stats.block.hash,
       totalDiff: stats.block.totalDifficulty,
       propTime: stats.block.propagation,
@@ -103,15 +108,25 @@ export const getNodesEntitiesArr = (state, getters) => {
   return Object.values(getters.getNodesEntities)
 }
 
-export const filterValue = (state) => (entity, value) => {
-  let filters = entity.filters
+export const applyFilter = (state) => (filters, value, err) => {
   if (filters) {
-    filters = (typeof (filters) === Array) ? filters : [filters]
+    filters = (Array.isArray(filters)) ? filters : [filters]
     for (let filterName of filters) {
       let filter = Vue.filter(filterName)
-      if (filter) value = filter(value)
-      else console.info('The entity ' + entity.id + ' call unknown filter ' + filterName)
+      if (filter) {
+        value = filter(value)
+      } else {
+        err = err || 'Unknown filter '
+        err += filterName
+        console.info(err)
+      }
     }
   }
   return value
+}
+
+export const filterEntityValue = (state, getters) => (entity, value) => {
+  let filters = entity.filters
+  let err = 'The entity ' + entity.id + ' call unknown filter '
+  return getters.applyFilter(filters, value, err)
 }
