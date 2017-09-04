@@ -24,8 +24,8 @@ export default {
     openDialog () {
       let dialog = {
         id: this.name,
-        width: this.size / 2,
-        height: this.size / 6,
+        width: this.size.w / 2,
+        height: this.size.w / 6,
         centered: 'viewport'
       }
       this.createChartDialog(dialog)
