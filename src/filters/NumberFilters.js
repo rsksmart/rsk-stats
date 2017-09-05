@@ -10,7 +10,17 @@ export const numerals = Vue.filter('numerals', (num, fixed) => {
   return prefix(num)
 })
 
+export const numeralsSuffix = Vue.filter('numerals-suffix', (num) => {
+  let value = numerals(num)
+  return value.replace(/\d/g, '').replace(/\./g, '')
+})
+
 export const percent = Vue.filter('percent', (value) => {
   return parseInt(value) + '%'
 })
 
+export const toInt = Vue.filter('to-int', (value) => {
+  value = value || 0
+  if (value === true) value = 1
+  return parseInt(value)
+})
