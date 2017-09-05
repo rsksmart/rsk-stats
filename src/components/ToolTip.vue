@@ -13,7 +13,7 @@
       .value(:class=' (clicked) ? "clicked" : ""' )
         .msg(v-if='show && opts.copyMsg' :class='(anim) ? "anim" : ""') copied!
         .copy-txt(@touchend.stop='show = !show' @click.stop='show = !show')
-          span(:class='(anim) ? "copying" : ""') {{value}}
+          .tip-txt(:class='(anim) ? "copying" : ""') {{value}}
           textarea(ref='cptxt' rows='1' :cols='value.length' ) {{ value }}
 </template>
 <script>
@@ -127,7 +127,7 @@ export default {
       vv = 50%
     else
       v = 'bottom'
-      vv = 2em
+      vv = 50%
     &:after, &:before
       {pos}: 100%
       {v}: vv
@@ -138,21 +138,28 @@ export default {
       border-{pos}-color: $tip-bc
       margin-{v}: -($tip-arrow-size + $tip-border)
 .tooltip
+  position relative
   .tip
-      border: 1px solid $tip-bc
       position: absolute
       filter: drop-shadow($box-sh)
-      border-radius: 2px
       width: 100%
       font-size: 0.7em
-      display: flex
       color: $dark
-      .value
-        position: relative
+      display: flex
+      justify-content flex-start // arrow on start
+      flex
+      .value 
+        border-radius: 3px
         background-color: $tip-bg
-        padding: .25em
-        overflow visible
         word-break: break-all
+        display: flex
+        justify-content center
+        align-items center
+      .tip-txt
+        padding: .25em
+        display inline
+        overflow visible
+        margin: 0
   .tip:after 
   .tip:before
     border: solid transparent
@@ -160,6 +167,7 @@ export default {
     height: 0
     width: 0
     position: absolute
+    z-index 100
 
   .tip:after 
     border-width: $tip-arrow-size
