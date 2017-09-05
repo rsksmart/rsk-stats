@@ -9,8 +9,7 @@
       slot
 </template>
 <script>
-// import D3BarChart from 'vue-d3-barchart'
-import D3BarChart from './vue-d3-barchart.vue'
+import D3BarChart from 'vue-d3-barchart'
 import { mapGetters } from 'vuex'
 export default {
   name: 'chart',

@@ -94,9 +94,16 @@ $searchBg = $darkness
       fill: $dark
 
 // Nodes Dialogs
-.nodes-dialog, .chart-dialog
+.main-dialog
+  .chart-dialog
+    .dialog-body
+      padding: 0 !important
+    .dialog-header
+      padding:  0
+
+.nodes-dialog 
   .dialog-body
-    padding-top:0
+    padding:  0 .25em .35em .25em
   
   .dialog-drag.fixed
     dialog-pinned() 
@@ -105,9 +112,6 @@ $searchBg = $darkness
     margin: 0
   .dialog-header .title
     color: $dark
-  
-  .dialog-body
-    padding:  0 .5em 1em .5em 
   
   .node-header
     display: flex
@@ -121,11 +125,7 @@ $searchBg = $darkness
       padding: .125em  
       fill: $color
 
-.chart-dialog
-  .dialog-body
-    padding: 0
-  .dialog-header
-    padding: .5em
+
     
 
 
