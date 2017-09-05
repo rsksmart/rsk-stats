@@ -79,9 +79,14 @@
           button.close(@click="showMenu = false" slot="header")
             icon(name='close')
       
-      //- Snapshots 
-      snapshots-list(v-if='showSnapshots' id='snapshots-list' @close='showSnapshots = false')
-        h4.title(slot='title') Snapshots
+    //- Snapshots ---------------- 
+    dialog-drag(v-if='showSnapshots' id="snapshots-list" title="Snapshots"
+      :options="{top:0, left:0,centered:true}" 
+      @close='showSnapshots = false')
+      
+      icon(name="close" slot="button-close")
+      snapshots-list( id='snapshots-list')
+      
       
       .options
         //- menu button 

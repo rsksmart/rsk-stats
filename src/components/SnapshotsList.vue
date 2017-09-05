@@ -1,32 +1,32 @@
 <template lang="pug">
   .snapshots-list
-    button.close(@click='close')
+    //-button.close(@click='close')
       icon(name='close')
-    slot.title(name='title')
-    input(type="text" v-model='snapShotName')
+    //-slot.title(name='title')
+    input(type="text" v-model='snapShotName' placeholder="snapshot name")
     button.btn(@click='takeSnapshot(snapShotName)')
       icon(name='floppy')
-    table.snapshots
+    table.snapshots.dark
       tr(v-for='snapshot,key in snapshots')
         td
           button(@click='removeSnapshot(key)')
-            tool-tip(:value='"delete"')
-              icon(name='delete-forever') 
+            //-tool-tip(:value='"delete"')
+            icon(name='delete-forever') 
         td {{ snapshot.name }}
         td
           small {{ key | date-from-ts}}
         td
-          button(@click='downloadSnapshot(key)')
-            tool-tip(:value='"download"')
-              icon(name='clowd-down') 
+          button(@click='downloadSnapshot(key)' title="Download")
+            //-tool-tip(:value='"download"')
+            icon(name='clowd-down') 
         td
-          button(@click='loadSnapshot(key)')
-            tool-tip(:value='"load"')
-              icon(name='load')  
+          button(@click='loadSnapshot(key)' title="Load snapsshot")
+            //-tool-tip(:value='"load"')
+            icon(name='load')  
         td
-          button(@click='loadLayout(key)')
-            tool-tip(:value='"load Layout"')
-              icon(name='load')  
+          button(@click='loadLayout(key)' title="Load layout")
+            //-tool-tip(:value='"load Layout"')
+            icon(name='load')  
 
 </template>
 <script>
@@ -46,7 +46,7 @@ export default {
   },
   data () {
     return {
-      snapShotName: 'snapshot'
+      snapShotName: ''
     }
   },
   computed: {
