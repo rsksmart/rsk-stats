@@ -1,21 +1,7 @@
+import { fields } from '../../../../config/table.js'
 export default function () {
   return {
-    fields: [
-      'name',
-      'type',
-      'mining',
-      'latency',
-      'peers',
-      'pending',
-      'lastBlock',
-      'totalDiff',
-      'blockTrans',
-      'uncles',
-      'lastBlockTime',
-      'propTime',
-      'avgPropTime',
-      'uptime'
-    ],
+    fields: fields,
     sortOrders: {},
     pinned: {},
     sortKey: null,
