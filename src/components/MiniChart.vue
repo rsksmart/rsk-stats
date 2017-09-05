@@ -18,15 +18,19 @@ export default {
     ...mapActions('app/charts', [
       'createChartDialog'
     ]),
+    ...mapActions('app/', ['centerDialog']),
     ...mapGetters({
       getDialog: 'app/getDialog'
     }),
-    openDialog () {
+    openDialog (event) {
       let dialog = {
         id: this.name,
         width: this.size.w / 2,
         height: this.size.w / 6,
         centered: 'viewport'
+      }
+      if (event.touches) {
+        this.centerDialog(dialog)
       }
       this.createChartDialog(dialog)
     }
@@ -36,7 +40,7 @@ export default {
       size: 'getSize',
       types: 'app/getTypes'
     }),
-    dialog (name) {
+    dialog () {
       return this.getDialog()(this.types.CHART, this.name)
     },
     isMaximized () {
