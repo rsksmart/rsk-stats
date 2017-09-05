@@ -45,12 +45,15 @@ export default {
   lastBlockTime: {
     icon: 'cubes',
     title: 'last block',
-    filters: 'm-seconds-ago',
-    suffix: ' ago'
+    filters: 'abbr-time-seconds',
+    suffix: ' ago',
+    threshold: 'blockTime'
   },
   lastBlock: {
     icon: 'cube',
-    title: 'last block'
+    title: 'last block',
+    threshold: 'lastBlock',
+    thField: 'lastBlockDifference'
   },
   bestBlock: {
     icon: 'cube',
@@ -60,6 +63,7 @@ export default {
     icon: 'puzzle',
     title: 'total difficulty',
     filters: 'numerals',
+    threshold: 'hashes',
     suffix: 'H'
   },
   propTime: {
@@ -77,18 +81,21 @@ export default {
   avgBlockTime: {
     title: 'avg block time',
     icon: 'stopwatch',
-    filters: 's-seconds'
+    filters: 's-seconds',
+    threshold: 'avgBlockTime'
   },
   avgHashrate: {
     title: 'avg hash rate',
     icon: 'zap',
     filters: 'numerals',
-    suffix: 'Hs'
+    suffix: 'Hs',
+    threshold: 'hashes'
   },
   lastDifficulty: {
     title: 'difficulty',
     icon: 'puzzle',
     filters: 'numerals',
+    threshold: 'hashes',
     suffix: 'H'
   }
 }

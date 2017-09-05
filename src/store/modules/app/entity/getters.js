@@ -7,14 +7,21 @@ export const thresholdColors = state => (name) => {
   let threshold = state.thresholds[name]
   if (threshold) {
     let colors = threshold.colors
+    let type = threshold.type
+    if (typeof (type) === 'function') {
+      return (value) => { return type(colors, value) }
+    }
     let domain = Object.keys(colors).map((v) => { return parseInt(v) })
-
     let interpolator = threshold.interpolator
     if (interpolator) {
       return interpolColor(domain, interpolator)
     } else {
       let range = Object.values(colors)
-      return mapColor(domain, range, threshold.type)
+
+      if (threshold.firstColor) range.unshift(threshold.firstColor)
+      else if (threshold.lastColor) range.push(threshold.lastColor)
+
+      return mapColor(domain, range, type)
     }
   }
 }

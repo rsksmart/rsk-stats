@@ -19,12 +19,14 @@ export default {
     },
     color () {
       let cf = this.colorFunc
-      let value = this.thField || this.value
+      let value = this.thValue || this.value
       value = this.thFilter(value)
-      return (cf && value) ? cf(value) : ''
+      let color = (cf && (undefined !== this.value)) ? cf(value) : ''
+      return color
     },
     threshold () {
-      return this.entity.threshold
+      if (this.entity) return this.entity.threshold
+      return
     },
     thValue () {
       let entity = this.entity
