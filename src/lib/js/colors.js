@@ -38,3 +38,7 @@ export const arrMinMaxRange = (arr, min, max) => {
   if (undefined !== max) arr.push(max)
   return arr
 }
+
+export const valueToColor = (colors, value) => {
+  return colors[value] || colors[0]
+}
