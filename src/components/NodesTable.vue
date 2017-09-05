@@ -7,7 +7,7 @@
       thead
         tr
           th(v-for='field,key in fields')
-            button(@click='sortBy(field)')
+            button(@click='sortBy(field)' @touchstart='sortBy(field)')
               entity-icon(:entity='entity[field]')
                 .order(slot='badge' v-if='field === sortKey')
                   span.arrow.up(v-if='sortOrders[field] > 0')
@@ -21,12 +21,12 @@
           td(:colspan='fields.length + 2') There are no results that match your search
         
         tr(v-for='node,index in rows' :class='rowClass(index,node.id)')
-          td(v-for='field,key in fields') 
+          td(v-for='field,key in fields' :class='toKebab("td-" + field)') 
             entity-value(:value='node[field]' :entity='entity[field]' :fields='node')
           td
-            node-chart.node-history(:data='nodeChart(node.id)' :options='{curve:true,gradient:{stroke:true}, bars:false}')
+            node-chart.node-history(:data='nodeChart(node.id)' :options='chartOptions')
           td
-            .pin(@click='pinRow(node.id)')
+            .pin(@click='pinRow(node.id)' @touchstart='pinRow(node.id)')
               icon.color2(v-if='isPinned()([node.id])' name='pinned' )
               icon(v-else name='pin')
     .loading(v-else)
@@ -44,6 +44,19 @@ export default {
   ],
   components: {
     NodeChart
+  },
+  data () {
+    return {
+      chartOptions: {
+        curve: true,
+        gradient: {
+          stroke: true
+        },
+        bars: false,
+        points: false,
+        line: true
+      }
+    }
   },
   created () {
     this.initTable()
@@ -87,6 +100,9 @@ export default {
       if (node && !node.stats.active) cssClass += ' inactive'
       if (this.isPinned()(id)) cssClass += ' pinned'
       return cssClass
+    },
+    toKebab (value) {
+      return value.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase()
     }
   }
 }
@@ -101,7 +117,6 @@ export default {
      animation-name: row-anim
      animation-duration: .5s
      animation-timing-function: ease-out 
-    
     @keyframes row-anim
       0%
         transform: rotateX(-90deg) rotateZ(-90deg)
