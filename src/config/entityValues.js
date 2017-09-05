@@ -16,7 +16,8 @@ export const NODE = (node, date, totals) => {
       bestBlock: stats.block.hash,
       totalDiff: stats.block.totalDifficulty,
       propTime: stats.block.propagation,
-      avgPropTime: stats.propagationAvg
+      avgPropTime: stats.propagationAvg,
+      mining: stats.mining
     }
     return fields
   }
