@@ -133,9 +133,9 @@ $item-margin = .25em
     display: inline-block
     margin: $item-margin
     text-align: center
-    box-shadow: 1px 1px 0.5px alpha(black,.5)
+    box-shadow: 1px 1px 0.5px alpha(black,.5), -1px -1px 30px alpha($color, 0.1)
     min-width: $item-min
-    padding: .5em .25em
+    padding: 1em .25em .25em .25em
     color-dark()
     
     .label, .entity-icon .svg-icon
