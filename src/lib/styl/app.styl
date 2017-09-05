@@ -16,7 +16,6 @@ html, body
 
 html
 body 
-.main
 .net
 button
   margin: 0
@@ -79,15 +78,6 @@ h6
   z-index: 100
   padding: 1em
 
-
-.options
-  padding: .5em 2em
-  border-radius: .5em
-  text-align: center
-  position absolute
-  z-index: 100
-
-
 h1
   color: $color
   text-shadow:  $hard-sh
@@ -108,22 +98,7 @@ ul.inline
     &:after
       content: '/'
       margin: 0 0.5em
- 
-.sym-pointer
-  &:after
-    content: $sym-pointer
-
-.sym-kill
-  &:after
-    content: $sym-kill
-
-.sym-parent
-  &:after
-    content: $sym-parent
-
-.sym-pin
-  &:after
-    content: $sym-pin    
+  
     
 .cross-cursor
   cursor: crosshair
@@ -155,6 +130,7 @@ ul.inline
     span
     svg
       color: $color2
+      fill: $color2
 
 .drag-col
   position: absolute
