@@ -62,14 +62,19 @@ export const socket_charts = ({ state, dispatch, commit }, data) => {
   dispatch('setMinnersNames')
 }
 
-// socket_chart helper:  [payload] 0: key  1: value  [2]: mutation
+// socket_chart helper
 export const commitTotalsCheckBins = ({ state, commit }, payload) => {
   const MAX_BINS = state.config.MAX_BINS
-  if (payload[1].length >= MAX_BINS) {
-    let data = {}
-    data[payload[0]] = payload[1]
-    let mutation = (payload[2]) ? payload[2] : 'SET_TOTALS'
-    commit(mutation, data)
+  let key = payload[0]
+  let value = payload[1]
+  let mutation = payload[2]
+  if (key && value) {
+    if (value.length >= MAX_BINS) {
+      let data = {}
+      data[key] = value
+      mutation = mutation || 'SET_TOTALS'
+      commit(mutation, data)
+    }
   }
 }
 
