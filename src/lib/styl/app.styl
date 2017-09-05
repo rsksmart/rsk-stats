@@ -1,10 +1,15 @@
 @import './vars.styl'
+@import './layout.styl'
 @import './dialogs.styl'
 @import './buttons.styl'
 @import './symbols.styl'
 @import './colors.styl'
 @import './forms.styl'
 @import './tables.styl'
+@import './chart.styl'
+@import './text.styl'
+@import './hardCoded.styl'
+
 
 html, body
   height: 100%
@@ -52,40 +57,9 @@ svg text
 .graph
   // background-color: $darkness
   z-index: 5
-
- .layout, .col-a,.col-b,.col-c
-   height:auto
-   min-height: 80%
-   margin:0
-   padding:0
 h6
   color: $white
 
-.layout
-  position: absolute
-  top: 0
-  left: 0
-  display: flex
-  min-width: 100%
-  height: 80%
-
-  //border: magenta solid 1px
-  .col-a
-  .col-c
-    position:relative
-    width: 20%
-    padding-right: 2%
-    //border: green solid 1px
-  .col-b
-    position:relative
-    min-width: 59%  
-    //border: yellow solid 1
-   .col-a
-      padding-left: 2%
-
-  .logo
-    width: 100px
-    height: 100px 
 .center
   display:block
   text-align: center
@@ -110,6 +84,8 @@ h6
   padding: .5em 2em
   border-radius: .5em
   text-align: center
+  position absolute
+  z-index: 100
 
 
 h1

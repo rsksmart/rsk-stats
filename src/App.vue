@@ -2,7 +2,7 @@
   #app.main(@keyup.esc='setTool("pointer")')
     //- snapshots hint
     .snapshot-hint(v-if='!isLive')
-      small.hint running in snapthot mode
+      small.hint.color2 running in snapthot mode
       button.btn.live(@click='goLive()') go Live
 
     //- Nodes table
@@ -18,27 +18,44 @@
     //- Layout
     .layout( v-if='connected')
       .col-a
-        big-data(name='bestBlock')
-        big-data(name='lastBlockTime')
-        big-data(name='avgBlockTime')
+        logo
+        //-drop-area(@drop='drop') 
+        h3.nodes-count Nodes: {{ nodes.length }} / {{ activeNodes.length }} 
         
+        //- TOTALS ----------------------
+        big-data(v-for='name,index in ["bestBlock","lastBlockTime","avgBlockTime","lastDifficulty","avgHashrate", "uncles"] ' 
+          v-if='!isVisibleDialog()(types.TOTAL,name)'
+          :key='index'
+          :name='name')      
+        
+        .options
+          button.btn(@click="showMenu = !showMenu")
+            icon(name='settings')
+          //- snapshots button  
+          button.btn.badge(@click='showSnapshots = !showSnapshots')
+            icon(name='versions')
+            span.badge(v-if='totalSnapshots') {{ totalSnapshots }}
+          //- table button
+          button.btn(@click='showHideTable()')
+            icon(name='table')
+
+          //-> Tools
+          button.btn(v-for='t,to in tools' @click='setTool(to)' :class='buttonClass(to)')
+            icon(:name='t.icon') 
+
+      .col-b 
+      .col-c
+   
+        //- h6 blockPropagationChart
+        //-chart(:data='blockChart')
+
+        //- CHARTS --------------------------
         mini-chart(name='uncleCountChart')
         mini-chart(name='lastBlocksTime')
         mini-chart(name='difficultyChart')
-        
-      .col-b 
-      .col-c
-        big-data(name='lastDifficulty')
-        big-data(name='avgHashrate')
-        big-data(name='uncles')
-        
-        //- h6 blockPropagationChart
-        //-chart(:data='blockChart')
-        
-        mini-chart( name='lastGasLimit')
-        mini-chart( name='gasSpending')
-        mini-chart( name='transactionDensity' )
-    
+        //- mini-chart(name='lastGasLimit')
+        mini-chart(name='gasSpending')
+        mini-chart(name='transactionDensity' )
 
     //- Node Data
     //-node-data(v-for='node,id in nodes' :node='node' :key='id' :size='options.nodeSize')
@@ -59,18 +76,12 @@
       img(class="logo" src="static/rsk-logo.png")
       h1.center connecting to server  
 
-    //- interface background
+    //- interface background ------------------
     iface-back(:size='options.size')
 
-    //-> Tools
-    .tools
-      ul
-        li(v-for='t,to in tools') 
-          button.btn.circle(@click='setTool(to)' :class='buttonClass(to)')
-            icon(:name='t.icon')
-
     //- Dialogs
-    main-dialog(v-for="(dialog,index) in dialogs" :key='index' :dialog='dialog')
+    .dialogs
+      main-dialog(v-for="(dialog,index) in dialogs" :key='dialog.type + "-" + dialog.id' :dialog='dialog')
   
     .over
       //- Menu
@@ -87,24 +98,8 @@
       icon(name="close" slot="button-close")
       snapshots-list( id='snapshots-list')
       
+
       
-      .options
-        //- menu button 
-        button.btn.menu(@click="showMenu = !showMenu")
-          icon(name='settings')
-        //- snapshots button  
-        button.btn.badge(@click='showSnapshots = !showSnapshots')
-          icon(name='versions')
-          span.badge(v-if='totalSnapshots') {{ totalSnapshots }}
-        //- table button
-        button.btn(@click='showHideTable()')
-          icon(name='table')
-        h1
-          icon(name='rsk')
-          span &nbsp; rsk network
-        ul.inline
-          li nodes: {{ nodes.length }}
-          li actives: {{ activeNodes.length }} 
 </template>
 <script>
 import { mapState, mapActions, mapGetters } from 'vuex'
@@ -113,6 +108,8 @@ import { locStorage as storage } from './lib/js/io.js'
 import D3Network from 'vue-d3-network'
 import StatsMenu from './components/StatsMenu'
 import DialogDrag from 'vue-dialog-drag'
+
+import Logo from './components/logo.vue'
 import IfaceBack from './components/ifaceBack.vue'
 import NodeWatcher from './components/NodeWatcher.vue'
 import NodeData from './components/NodeData.vue'
@@ -121,11 +118,11 @@ import MiniChart from './components/MiniChart.vue'
 import SnapshotsList from './components/SnapShotsList.vue'
 import NodesTable from './components/NodesTable.vue'
 import MainDialog from './components/MainDialog.vue'
-
+import DropArea from 'vue-dialog-drag/dist/drop-area'
 import { nodeFilter } from './filters/nodes.js'
 import { tSecondsAgo, mSecondsAgo, sSeconds } from './filters/TimeFilters.js'
-import { nodeType } from './filters/TextFilters.js'
-import { percent, numerals } from './filters/NumberFilters.js'
+import { nodeType, yesNo } from './filters/TextFilters.js'
+import { percent, numerals, toInt, numeralsSuffix } from './filters/NumberFilters.js'
 
 import nodeIcon from '!!raw-loader!./assets/node.svg'
 import defaultData from './data.js'
@@ -134,6 +131,7 @@ import './icons'
 export default {
   name: 'rsk-stats',
   components: {
+    Logo,
     D3Network,
     StatsMenu,
     DialogDrag,
@@ -144,7 +142,8 @@ export default {
     IfaceBack,
     SnapshotsList,
     NodeData,
-    MainDialog
+    MainDialog,
+    DropArea
   },
   filters: {
     tSecondsAgo,
@@ -152,7 +151,10 @@ export default {
     sSeconds,
     numerals,
     nodeType,
-    percent
+    percent,
+    yesNo,
+    toInt,
+    numeralsSuffix
   },
   data () {
     let data = Object.assign({}, defaultData)
@@ -210,7 +212,8 @@ export default {
       isLive: 'isLive',
       totalSnapshots: 'totalSnapshots',
       snapshotsListOptions: 'getSnapshotsListOptions',
-      now: 'getDate'
+      now: 'getDate',
+      types: 'app/getTypes'
     }),
     ...mapGetters('app/', {
       selection: 'selection',
@@ -230,6 +233,9 @@ export default {
     }
   },
   methods: {
+    drop (event) {
+      console.log(event)
+    },
     tableLoaded (data) {
       let dialog = this.$refs.table
       dialog.center()
@@ -257,7 +263,8 @@ export default {
     }),
     ...mapGetters('app/', [
       'isNodeSelected',
-      'isLinkSelected'
+      'isLinkSelected',
+      'isVisibleDialog'
     ]),
     onResize () {
       let size = { w: this.$el.clientWidth, h: this.$el.clientHeight }
@@ -317,10 +324,13 @@ export default {
 }
 </script>
 <style src="vue-d3-barchart/dist/vue-d3-barchart.css"></style>
+
 <style lang="stylus">
 @import './lib/styl/vars.styl'
 @import './lib/styl/app.styl'
 @import './lib/styl/nodes.styl'
+   #app
+    min-height: 100%
   .iface-back
     position: absolute
     top: 0 
@@ -345,9 +355,24 @@ export default {
       .hint
         color: $color2
   
-  .mini-chart
+  .mini-chart, .big-data
     z-index: 50
     position:relative
     pointer-events all
+  
+  .nodes-count
+    text-align center
+    padding: 0
+    margin:0 
+  
+  .drop-area
+    border: orange solid 1px
+    height 100%
+    width 100%
+    display: inline-block
+    left: 0
+    top: 0
+    position absolute
+    z-index: 1000
 
 </style>

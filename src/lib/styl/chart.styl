@@ -1,0 +1,32 @@
+.chart
+  margin-top: 1em
+  position:relative
+  .header
+    display: flex
+    .icon, .svg-icon
+      width: 1.5em
+      height : 1.5em
+      position: absolute
+      right: 1em
+      top: .5em
+  
+.chart-title
+  font-weight:normal
+  margin-left: 2em
+  font-size: 1em
+ 
+  button.max
+    position:absolute
+    top: 1em
+    right :1em
+    z-index: 50
+    pointer-events: initial
+    &:hover
+      color: $color2
+    
+    .dialog
+      position:absolute
+      z-index:999
+      left:0
+      top:0
+      min-width: 100%  
