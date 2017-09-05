@@ -23,10 +23,11 @@
         //- Chart Dialog
         template(v-if='is(types.CHART)')
           h3.node-title(slot='title') {{ dialog.name }}
-          chart(:name='dialog.id')  
+          chart(:name='dialog.id' :max='true')  
         
         template(v-if='is(types.TOTAL)')
           big-data(:name='dialog.id')
+          icon( v-if='buttonClose' name='close' slot='button-close')
         template(v-if='is(types.TABLE)')
           nodes-table  
   
@@ -93,11 +94,5 @@ export default {
       return this.dialog.type === type
     }
   }
-
 }
 </script>
-<style lang="stylus">
-
-
-</style>
-
