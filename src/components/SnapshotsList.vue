@@ -26,7 +26,7 @@
         td
           button(@click='loadLayout(key)' title="Load layout")
             //-tool-tip(:value='"load Layout"')
-            icon(name='load')  
+            icon(name='link-external')  
 
 </template>
 <script>

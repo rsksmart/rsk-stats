@@ -1,28 +1,36 @@
- .layout, .col-a,.col-b,.col-c
-   height:auto
-   // min-height: 80%
-   margin:0
-   padding:0
-   display: block
+$column-padding = 2vmax
 
-.layout
-  position: absolute
-  top: 0
-  left: 0
+body
+  margin: 0
+ 
+.wrapper
+  min-height: 100vh
   display: flex
-  min-width: 100%
+  flex-direction: column
 
-  //border: magenta solid 1px
-  .col-a
-  .col-c
-    position: relative
-    width: 20%
-    max-width: 20%
-    padding-right: 2%
-    border: green solid 1px
-  .col-b
-    position:relative
-    min-width: 60%  
-    //border: yellow solid 1
-   .col-a
-      padding-left: 2%
+/*.header, .footer
+  height: 50px
+  background: #666
+  color: #fff
+*/
+.content 
+  display: flex
+  flex: 1
+
+.columns
+  display: flex
+  flex:1
+
+.main
+  flex: 1
+  order: 2
+
+.col-a
+  width: 15%
+  padding-left: $column-padding
+  order: 1
+
+.col-c
+  width: 15%
+  padding-right: $column-padding
+  order: 3

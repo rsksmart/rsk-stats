@@ -1,104 +1,99 @@
 <template lang="pug">
-  #app.main(@keyup.esc='setTool("pointer")')
+  #app.wrapper()
     //- snapshots hint
     .snapshot-hint(v-if='!isLive')
       small.hint.color2 running in snapthot mode
       button.btn.live(@click='goLive()') go Live
 
-    //- Nodes table
-    dialog-drag.dialog-table(v-if='showTable' id='table' ref='table'
-      :options='tableOptions'
-      @close='showHideTable()' 
-      @load='tableLoaded')
-      icon(name='close' slot='button-close')
-      icon(name='pin' slot='button-pin')
-      icon(name='pinned' slot='button-pinned')
-      nodes-table
-    
     //- Layout
-    .layout( v-if='connected')
-      .col-a
-        logo
-        //-drop-area(@drop='drop') 
-        h3.nodes-count Nodes: {{ nodes.length }} / {{ activeNodes.length }} 
-        
-        //- TOTALS ----------------------
-        big-data(v-for='name,index in ["bestBlock","lastBlockTime","avgBlockTime","lastDifficulty","avgHashrate", "uncles"] ' 
+    section.content(v-if='connected')
+      .columns
+        //- main - col-b
+        main.main
+        //- col-a 
+        aside.col-a
+          logo
+          //-drop-area(@drop='drop') 
+          h3.nodes-count Nodes: {{ nodes.length }} / {{ activeNodes.length }}
+
+          big-data(v-for='name,index in bigDataFields ' 
           v-if='!isVisibleDialog()(types.TOTAL,name)'
           :key='index'
-          :name='name')      
-        
-        .options
-          button.btn(@click="showMenu = !showMenu")
-            icon(name='settings')
-          //- snapshots button  
-          button.btn.badge(@click='showSnapshots = !showSnapshots')
-            icon(name='versions')
-            span.badge(v-if='totalSnapshots') {{ totalSnapshots }}
-          //- table button
-          button.btn(@click='showHideTable()')
-            icon(name='table')
+          :name='name')
+          
+          .options
+            button.btn(@click="showMenu = !showMenu")
+              icon(name='settings')
+            button.btn.badge(@click='showSnapshots = !showSnapshots')
+              icon(name='versions')
+              span.badge(v-if='totalSnapshots') {{ totalSnapshots }}
+            button.btn(@click='showHideTable()')
+              icon(name='table')
+            button.btn(v-for='t,to in tools' @click='setTool(to)' :class='buttonClass(to)')
+              icon(:name='t.icon')
 
-          //-> Tools
-          button.btn(v-for='t,to in tools' @click='setTool(to)' :class='buttonClass(to)')
-            icon(:name='t.icon') 
+        //- col-c 
+        aside.col-c
+          //- h6 blockPropagationChart
+          //-chart(:data='blockChart')
 
-      .col-b 
-      .col-c
-   
-        //- h6 blockPropagationChart
-        //-chart(:data='blockChart')
+          //- CHARTS --------------------------
+          mini-chart(name='uncleCountChart')
+          mini-chart(name='lastBlocksTime')
+          mini-chart(name='difficultyChart')
+          //- mini-chart(name='lastGasLimit')
+          mini-chart(name='gasSpending')
+          mini-chart(name='transactionDensity' )
 
-        //- CHARTS --------------------------
-        mini-chart(name='uncleCountChart')
-        mini-chart(name='lastBlocksTime')
-        mini-chart(name='difficultyChart')
-        //- mini-chart(name='lastGasLimit')
-        mini-chart(name='gasSpending')
-        mini-chart(name='transactionDensity' )
-
-    //- Node Data
-    //-node-data(v-for='node,id in nodes' :node='node' :key='id' :size='options.nodeSize')
-    //-> Network
-    d3-network(v-if='connected'
-      :netNodes="nodes"
-      :netLinks="links"
-      :selection="selection"
-      :node-sym='nodeSym'
-      :options="options"
-      :nodeCb='nodeFilter'
-      @node-click="nodeClick"
-      @link-click="linkClick"
-      class="net"
-      )
-    //- if not connected  
-    .center.loading(v-else)
-      img(class="logo" src="static/rsk-logo.png")
-      h1.center connecting to server  
-
-    //- interface background ------------------
-    iface-back(:size='options.size')
-
-    //- Dialogs
-    .dialogs
-      main-dialog(v-for="(dialog,index) in dialogs" :key='dialog.type + "-" + dialog.id' :dialog='dialog')
-  
-    .over
+      //- Outside Layout
+      
+      d3-network(v-if='connected'
+        :netNodes="nodes"
+        :netLinks="links"
+        :selection="selection"
+        :node-sym='nodeSym'
+        :options="options"
+        :nodeCb='nodeFilter'
+        @node-click="nodeClick"
+        @link-click="linkClick"
+        class="net"
+        )      
+     
+      //- interface background 
+      iface-back(:size='options.size')
+      
+      //- Dialogs
+      .dialogs
+        main-dialog(v-for="(dialog,index) in dialogs" :key='dialog.type + "-" + dialog.id' :dialog='dialog')
+      
       //- Menu
-      .menu(v-if="showMenu")
-        stats-menu(:nodes="nodes" :links="links" :options="options" @options="changeOptions" @reset="resetOptions")
-          button.close(@click="showMenu = false" slot="header")
-            icon(name='close')
+      .over
+        .menu(v-if="showMenu")
+          stats-menu(:nodes="nodes" :links="links" :options="options" @options="changeOptions" @reset="resetOptions")
+            button.close(@click="showMenu = false" slot="header")
+              icon(name='close')
       
-    //- Snapshots ---------------- 
-    dialog-drag(v-if='showSnapshots' id="snapshots-list" title="Snapshots"
-      :options="{top:0, left:0,centered:true}" 
-      @close='showSnapshots = false')
       
-      icon(name="close" slot="button-close")
-      snapshots-list( id='snapshots-list')
+      //- table
+      dialog-drag.dialog-table(v-if='showTable' id='table' ref='table'
+        :options='tableOptions'
+        @close='showHideTable()' 
+        @load='tableLoaded')
+        icon(name='close' slot='button-close')
+        icon(name='pin' slot='button-pin')
+        icon(name='pinned' slot='button-pinned')
+        nodes-table
       
-
+      //- Snapshots 
+      dialog-drag(v-if='showSnapshots' id="snapshots-list" title="Snapshots"
+        :options="{top:0, left:0,centered:true}" 
+        @close='showSnapshots = false')
+        icon(name="close" slot="button-close")
+        snapshots-list( id='snapshots-list')       
+    
+    //- Not connected section
+    section.loading(v-else)
+      h2.center requesting server data...
       
 </template>
 <script>
@@ -173,6 +168,7 @@ export default {
     data.tool = 'pointer'
     data.nodeSym = nodeIcon
     data.nodeFilter = nodeFilter
+    data.bigDataFields = ['bestBlock', 'lastBlockTime', 'avgBlockTime', 'lastDifficulty', 'avgHashrate', 'uncles']
     return data
   },
   created () {
@@ -364,6 +360,15 @@ export default {
     text-align center
     padding: 0
     margin:0 
+  
+  .options
+    padding: .5em 2em
+    text-align: center
+    z-index: 100
+    margin-top: 1em
+    position: absolute
+    .selected *
+      fill: $color2
   
   .drop-area
     border: orange solid 1px

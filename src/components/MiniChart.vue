@@ -2,7 +2,7 @@
   .mini-chart(v-if='!isMaximized' @touchstart.prevent='openDialog')
     chart(:name='name')
       button(@click='openDialog' slot='header')
-        icon(name='resize')
+        icon.maximize(name='enlarge')
 </template>
 <script>
 import { mapActions, mapGetters } from 'vuex'
@@ -50,4 +50,3 @@ export default {
   }
 }
 </script>
-
