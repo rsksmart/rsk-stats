@@ -29,24 +29,38 @@ export const createDialog = ({ state, commit }, payload) => {
   }
 }
 
+export const centerDialog = ({ dispatch }, dialog) => {
+  dialog.centered = true
+  dispatch('restartDialog', dialog)
+}
+
 const newDialog = (data) => {
   let dialog = {}
   let props = ['x', 'y', 'z', 'w', 'h', 'width', 'height', 'left', 'top', 'zIndex', 'centered']
   for (let p of props) {
     dialog[p] = data[p] || 0
   }
+  dialog._key = dialogKey()
   dialog.title = data.title || ''
   dialog.name = data.name || ''
   dialog._show = true
   dialog._persistent = true // <- Hard coded persisffindDialogindDialogtence for all dialogs
   return dialog
 }
-export const bringDialogToFront = ({ state, commit }, dialog) => {
+export const restartDialog = ({ state, commit }, dialog) => {
   let index = findDialog(state.dialogs, dialog.id, dialog.type)
   if (index !== null) {
     commit('REMOVE_DIALOG', index)
     commit('ADD_DIALOG', [dialog.type, dialog])
+    // dialog._key = dialogKey()
+    // let value = Object.assign({}, dialog)
+    // commit('UPDATE_DIALOG', { index, value })
   }
+}
+
+export const bringDialogToFront = ({ dispatch }, dialog) => {
+  dialog.zIndex = 5000
+  dispatch('restartDialog', dialog)
 }
 
 const findDialog = (dialogs, id, type) => {
@@ -54,6 +68,10 @@ const findDialog = (dialogs, id, type) => {
     return ((item.id === id) && (item.type === type))
   })
   return (index > -1) ? index : null
+}
+
+const dialogKey = () => {
+  return Math.random().toString(36).substring(7)
 }
 
 export const closeDialog = ({ state, commit, dispatch }, dialog) => {

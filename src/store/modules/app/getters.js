@@ -30,6 +30,11 @@ export const getDialogs = (state) => {
   }
 }
 
+export const isVisibleDialog = (state, getters) => (type, id) => {
+  let dialog = getters.getDialog(type, id)
+  return (dialog) ? dialog[0] : false
+}
+
 export const getDialogsByType = (state) => type => {
   if (state.dialogs.length) {
     return state.dialogs.filter((dialog) => {
