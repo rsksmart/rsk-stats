@@ -1,7 +1,9 @@
 <template lang="pug">
   .entity-icon(v-if='entity' :class='($slots.badge) ? "w-badge" : ""' )
-    tool-tip(:value='entity.title' :options='toolTipOptions')
-      icon(:name='entity.icon' :style='iconStyle')
+    tool-tip(v-if='tooltip' :value='entity.title' :options='toolTipOptions')
+      icon(:name='entity.icon' :style='iconStyle || ""')
+    .icon.tooltip(v-else)
+      icon(:name='entity.icon' :style='iconStyle || ""')
     slot  
     .badge(v-if='$slots.badge')
       slot(name="badge")
@@ -22,7 +24,8 @@ export default {
       toolTipOptions: {
         copy: false,
         pos: 'top'
-      }
+      },
+      tooltip: false
     }
   },
   computed: {
@@ -34,11 +37,13 @@ export default {
 }
 </script>
 <style lang="stylus">
-  .entity-icon, .icon
+  .entity-icon, .icon, bd-data
+    opacity .75
     .tip
       overflow visible
       word-break: unset
       .value
+        opacity: .9
         word-break: none
         min-width: 10em
 </style>
