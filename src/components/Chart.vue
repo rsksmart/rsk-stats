@@ -1,21 +1,23 @@
 <template lang="pug">
-  .chart.dark-chart(v-if='chart')
+  .chart.dark-chart(v-if='chart' :class='(max)?"max-chart":""')
       .header
         slot(name='header')
       h3.chart-title {{ chart.title }}
       .chart-cointainer
-        d3-bar-chart(:data='chart.data' :options='chartOptions')
+        .chart-cointainer
+          d3-bar-chart(:data='chart.data' :options='chartOptions')
       slot
 </template>
 <script>
-import D3BarChart from 'vue-d3-barchart'
+// import D3BarChart from 'vue-d3-barchart'
+import D3BarChart from './vue-d3-barchart.vue'
 import { mapGetters } from 'vuex'
 export default {
   name: 'chart',
   components: {
     D3BarChart
   },
-  props: ['name', 'width', 'height'],
+  props: ['name', 'width', 'height', 'max'],
   data () {
     return {
       size: {
@@ -42,6 +44,13 @@ export default {
       let size = { w: this.size.w, h: this.size.h }
       let options = Object.assign({ size }, this.chart.options)
       options.points = false
+      options.labels = null
+      options.rulers = false
+      /*       if (this.max) {
+              options.rulers = true
+              options.axis = true
+              options.labels = { y: true, x: false }
+            } */
       return options
     }
   },
@@ -57,39 +66,13 @@ export default {
 }
 </script>
 <style lang="stylus">
-  @import '../lib/styl/vars.styl'
-  .chart
-    margin-top: 1em
-    position:relative
-    .header
-      display: flex
-      .icon, .svg-icon
-        width: 1.5em
-        height : 1.5em
-        position: absolute
-        right: 1em
-        top: .5em
-    
-  .chart-title
-    font-weight:normal
-    margin-left: 2em
-    font-size: 1em
- 
-  button.max
-    position:absolute
-    top: 1em
-    right :1em
-    z-index: 50
-    pointer-events: initial
-    &:hover
-      color: $color2
-    
-    .dialog
-      position:absolute
-      z-index:999
-      left:0
-      top:0
-      min-width: 100%  
-
+  .chart.max-chart-xxx
+      display flex
+      flex-direction column
+      padding 3em
+    .bar-chart
+      max-width 70%
+      flex-shrink 1
+      display inline-block
+      float: left
 </style>
-
