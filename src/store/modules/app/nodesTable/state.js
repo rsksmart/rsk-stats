@@ -3,6 +3,7 @@ export default function () {
     fields: [
       'name',
       'type',
+      'mining',
       'latency',
       'peers',
       'pending',

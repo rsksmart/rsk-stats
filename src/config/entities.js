@@ -6,6 +6,7 @@
   - suffix: entity value suffix
   - filters: String | Array : Vue filters names
   - threshold: threshold name, view thresholds.js
+  - thField: key of value to compute threshold
 */
 export default {
   name: {
@@ -16,6 +17,12 @@ export default {
     icon: 'database',
     title: 'node type',
     filters: 'node-type'
+  },
+  mining: {
+    icon: 'ellipsis',
+    title: 'is mining',
+    filters: 'yes-no',
+    threshold: 'yesNo'
   },
   uptime: {
     icon: 'plug',
