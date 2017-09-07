@@ -1,11 +1,11 @@
 export const fields = [
   'name',
   'type',
-  'mining',
   'latency',
   'peers',
   'pending',
   'lastBlock',
+  'lastBlockDifference',
   'totalDiff',
   'blockTrans',
   'uncles',
