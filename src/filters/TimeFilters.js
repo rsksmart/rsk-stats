@@ -83,7 +83,7 @@ export const dateFromTs = Vue.filter('date-from-ts', (timestamp) => {
 export const miliseconds = Vue.filter('miliseconds', (time) => {
   time = parseInt(time)
   if (time === 0) return time
-  if (time < 1000) return time + ' ms'
+  if (time < 1000) return time + 'ms'
   let seconds = Math.floor(time / 1000)
   return sAgo(seconds)
 })
