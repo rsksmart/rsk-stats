@@ -66,6 +66,10 @@ export default {
     icon: 'cube',
     title: 'best block'
   },
+  lastBlockDifference: {
+    title: 'last block difference',
+    threshold: 'lastBlock'
+  },
   totalDiff: {
     icon: 'puzzle',
     title: 'total difficulty',
