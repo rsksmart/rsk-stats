@@ -137,12 +137,11 @@ $item-margin = .25em
     min-width: $item-min
     padding: 1em .25em .25em .25em
     color-dark()
+    color $color
     
     .label, .entity-icon .svg-icon
       color: $dark
 
-    .entity-icon .svg-icon
-      opacity: .75
     
     .entity-icon .svg-icon
       width: 2.5em

@@ -13,13 +13,14 @@
         //- col-a 
         aside.col-a
           logo
-          //-drop-area(@drop='drop') 
-          h3.nodes-count Nodes: {{ nodes.length }} / {{ activeNodes.length }}
+          h3.nodes-count nodes: {{ nodes.length }} / {{ activeNodes.length }}
 
           big-data(v-for='name,index in bigDataFields ' 
           v-if='!isVisibleDialog()(types.TOTAL,name)'
-          :key='index'
-          :name='name')
+          :key='name'
+          :name='name'
+          :options='{minimized:(name === "gasLimit" || name === "gasPrice")}'
+          )
           
           .options
             button.btn(@click="showMenu = !showMenu")
@@ -41,11 +42,12 @@
           mini-chart(name='uncleCountChart')
           mini-chart(name='lastBlocksTime')
           mini-chart(name='difficultyChart')
-          //- mini-chart(name='lastGasLimit')
           mini-chart(name='gasSpending')
           mini-chart(name='transactionDensity' )
+          mini-chart(name='lastGasLimit')
 
       //- Outside Layout
+      //-node-data(v-for='node,id in nodes' :node='node' :key='id' :size='options.nodeSize')
       
       d3-network(v-if='connected'
         :netNodes="nodes"
@@ -75,7 +77,8 @@
       
       
       //- table
-      dialog-drag.dialog-table(v-if='showTable' id='table' ref='table'
+      dialog-drag.dialog-table(v-if='showTable' id='table-dialog' ref='table'
+        :key='"dialog-table"'
         :options='tableOptions'
         @close='showHideTable()' 
         @load='tableLoaded')
@@ -85,10 +88,12 @@
         nodes-table
       
       //- Snapshots 
-      dialog-drag(v-if='showSnapshots' id="snapshots-list" title="Snapshots"
+      dialog-drag(v-if='showSnapshots' id="snapshots" title="Snapshots"
+        :key='"dialog-snaps"'
         :options="{top:0, left:0,centered:true}" 
         @close='showSnapshots = false')
         icon(name="close" slot="button-close")
+        
         snapshots-list( id='snapshots-list')       
     
     //- Not connected section
@@ -113,7 +118,6 @@ import MiniChart from './components/MiniChart.vue'
 import SnapshotsList from './components/SnapShotsList.vue'
 import NodesTable from './components/NodesTable.vue'
 import MainDialog from './components/MainDialog.vue'
-import DropArea from 'vue-dialog-drag/dist/drop-area'
 import { nodeFilter } from './filters/nodes.js'
 import { tSecondsAgo, mSecondsAgo, sSeconds } from './filters/TimeFilters.js'
 import { nodeType, yesNo } from './filters/TextFilters.js'
@@ -137,8 +141,7 @@ export default {
     IfaceBack,
     SnapshotsList,
     NodeData,
-    MainDialog,
-    DropArea
+    MainDialog
   },
   filters: {
     tSecondsAgo,
@@ -168,7 +171,16 @@ export default {
     data.tool = 'pointer'
     data.nodeSym = nodeIcon
     data.nodeFilter = nodeFilter
-    data.bigDataFields = ['bestBlock', 'lastBlockTime', 'avgBlockTime', 'lastDifficulty', 'avgHashrate', 'uncles']
+    data.bigDataFields = [
+      'bestBlock',
+      'lastBlockTime',
+      'avgBlockTime',
+      'lastDifficulty',
+      'avgHashrate',
+      'uncles',
+      'gasPrice',
+      'gasLimit'
+    ]
     return data
   },
   created () {
@@ -229,12 +241,11 @@ export default {
     }
   },
   methods: {
-    drop (event) {
-      console.log(event)
-    },
     tableLoaded (data) {
       let dialog = this.$refs.table
       dialog.center()
+      console.log(dialog)
+      if (dialog.top < 0) dialog.top = 0
     },
     ...mapActions([
       'setSize',
@@ -319,7 +330,6 @@ export default {
   }
 }
 </script>
-<style src="vue-d3-barchart/dist/vue-d3-barchart.css"></style>
 
 <style lang="stylus">
 @import './lib/styl/vars.styl'
@@ -364,20 +374,19 @@ export default {
   .options
     padding: .5em 2em
     text-align: center
+    display flex
+    justify-content center
+    align-items: center
     z-index: 100
     margin-top: 1em
-    position: absolute
+    position: relative
+    left:0
+      button
+          font-size: 2em
+          width 2em
+          height 2em
     .selected *
       fill: $color2
   
-  .drop-area
-    border: orange solid 1px
-    height 100%
-    width 100%
-    display: inline-block
-    left: 0
-    top: 0
-    position absolute
-    z-index: 1000
 
 </style>

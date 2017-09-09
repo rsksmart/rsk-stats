@@ -5,8 +5,8 @@
         span.block-number( :key='node.stats.block.number') {{nodes[id].stats.block.number}}
     svg(:width='size.w' :height='size.h')
       //- selection lines
-      g(id="selections" class="selection-lines" v-for='dialog,key in dialogs')
-        path(:d='quadCurve(dialog)')
+      g(id="selections" class="selection-lines")
+        path(v-for='dialog,key in dialogs' :key='key' :d='quadCurve(dialog)' )
 </template>
 <script>
 import { mapGetters } from 'vuex'
