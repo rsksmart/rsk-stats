@@ -28,3 +28,12 @@ export const updateOptions = ({ commit }, options) => {
     commit('UPDATE_OPTION', [op, options[op]])
   }
 }
+
+export const hideField = ({ commit }, field) => {
+  commit('HIDE_FIELD', field)
+}
+
+export const showField = ({ commit, getters }, field) => {
+  let index = getters.isHiddenField(field)
+  if (index > -1) commit('SHOW_FIELD', index)
+}

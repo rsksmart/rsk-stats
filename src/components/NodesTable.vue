@@ -3,28 +3,44 @@
     .search
       icon(name='search')
       input(name="search" type='search' v-model='filterRows' id="search" placeholder="type to filter")
+      
+      .hidden-fields(v-if='hiddenFields.length')
+        small Hidden fields:
+        button(v-for='field in hiddenFields' @click='showField(field)' @touchstart='showField(field)' )
+          entity-icon(:entity='entity[field]')   
+    
     table.nodes.dark(v-if='fields')
       thead
+        tr.field-actions
+          //- fields 
+          th(v-for='field,key in fields' v-if='!isHidden(field)' @touchstart='hideField(field)')
+            button(@click='hideField(field)')
+              icon(name='close')
+          th      
         tr
-          th(v-for='field,key in fields')
+          //- fields 
+          th(v-for='field,key in fields' v-if='!isHidden(field)')
             button(@click='sortBy(field)' @touchstart='sortBy(field)')
               entity-icon(:entity='entity[field]')
                 .order(slot='badge' v-if='field === sortKey')
                   span.arrow.up(v-if='sortOrders[field] > 0')
                   span.arrow.down(v-else)
           th
-            icon(name='pulse')
-          th
             icon(name='pin')
       tbody
+        
+        //- no content 
         tr.full(v-if='rows.length === 0')
           td(:colspan='fields.length + 2') There are no results that match your search
         
+        //- rows
         tr(v-for='node,index in rows' :class='rowClass(index,node.id)')
-          td(v-for='field,key in fields' :class='toKebab("td-" + field)') 
-            entity-value(:value='node[field]' :entity='entity[field]' :fields='node')
-          td
-            node-chart.node-history(:data='nodeChart(node.id)' :options='chartOptions')
+          //- fields
+          td(v-for='field,key in fields' v-if='!isHidden(field)' :class='toKebab(field)') 
+            node-chart.node-history(v-if='field === "nodeHistory"' :data='nodeChart(node.id)' :options='chartOptions')
+            entity-value(v-else :value='node[field]' :entity='entity[field]' :fields='node')
+            
+          //- Pin button
           td
             .pin(@click='pinRow(node.id)' @touchstart='pinRow(node.id)')
               icon.color2(v-if='isPinned()([node.id])' name='pinned' )
@@ -67,6 +83,7 @@ export default {
     }),
     ...mapGetters('app/nodesTable', [
       'fields',
+      'hiddenFields',
       'rows',
       'sortKey',
       'sortOrders'
@@ -83,14 +100,22 @@ export default {
   methods: {
     ...mapGetters(['getNode']),
     ...mapGetters('app/nodesTable', [
-      'isPinned']
+      'isPinned',
+      'isHiddenField'
+    ]
     ),
     ...mapActions('app/nodesTable', [
       'initTable',
       'sortBy',
+      'showField',
+      'hideField',
       'pinRow',
       'updateFilterKey'
     ]),
+    isHidden (field) {
+      let h = this.isHiddenField()(field)
+      return (h > -1)
+    },
     nodeChart (id) {
       return this.getNode()(id).history
     },
@@ -109,6 +134,8 @@ export default {
 </script>
 <style lang="stylus">
 @import '../lib/styl/vars.styl'
+  .nodes-table
+    overflow auto
   table.nodes
     min-width 100%
     tr.full 
@@ -129,12 +156,32 @@ export default {
     .node-history
     .node-chart
       height: 50px
+      padding 0
       max-width 10em
       max-height 2em
+      margin 0
       svg
         path
           stroke-width: 1px    
 
+  .search  
+    input
+      margin-right .5em
+
+  .hidden-fields
+    z-index 500
+    button
+      margin-left .5em
+  tr.field-actions
+    padding 0
+    line-height: 1em
+    td, th
+      background none
+      margin 0
+      padding 0
+      .svg-icon, button
+        width .8em
+        height @width
 
 </style>
 
