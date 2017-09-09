@@ -64,7 +64,7 @@ export const abbrTimeSeconds = Vue.filter('abbr-time-seconds', (time) => {
 })
 
 export const sSeconds = Vue.filter('s-seconds', (time) => {
-  if (time < 60) return parseFloat(time).toFixed(2) + ' s'
+  if (time < 60) return parseFloat(time).toFixed(2) + 's'
   return moment.duration(Math.round(time), 's').humanize()
 })
 
