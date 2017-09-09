@@ -1,10 +1,15 @@
 
 button
   color: $color
-  font-size: 0.9em
   border: none
   background-color: transparent
-
+  .svg-icon
+    fill: $color
+  &:hover
+      color $color2
+    .svg-icon
+      fill $color2
+      
 button.btn  
    background-color: $white
    padding .25em .5em
@@ -48,7 +53,7 @@ button.reset
     border-radius: 50%
     padding: .125em
     line-height: 1.5em
-    font-size: .8em
+    font-size: .7em
     background-color: $color
     color: $white
     width: 1.5em

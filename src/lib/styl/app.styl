@@ -1,4 +1,5 @@
 @import './vars.styl'
+@import './mixins.styl'
 @import './layout.styl'
 @import './dialogs.styl'
 @import './buttons.styl'
@@ -7,9 +8,7 @@
 @import './forms.styl'
 @import './tables.styl'
 @import './chart.styl'
-@import './text.styl'
 @import './hardCoded.styl'
-
 
 html, body
   height: 100%
@@ -26,6 +25,7 @@ body
   margin 1px
   max-width: 100%
   font-family: 'Titillium Web', sans-serif
+  // font-family: 'Raleway', sans-serif;
   background-color: $darkness !important
 
 h1,h2,h3,h4,h5,h6
@@ -54,7 +54,6 @@ svg text
 
 .net
 .graph
-  // background-color: $darkness
   z-index: 5
 h6
   color: $white
@@ -99,67 +98,17 @@ ul.inline
       content: '/'
       margin: 0 0.5em
   
-    
+.options button.btn
+  width: 3em
+  height: 3em
+  .svg-icon
+    width: 2em !important
+    height: 2em !important 
+   .badge
+      font-size: 1em
+          
 .cross-cursor
   cursor: crosshair
-
-.tools
-  position: absolute
-  bottom: 1em
-  right:4em
-  z-index: 101
-  text-align: center
-  ul
-    list-style: none
-    margin: 0 3em .5em  0
-    padding:0
-    li
-      display: inline
-      margin-left: .5em
-    button
-      width: 3em
-      height: 3em
-      padding: 0
-      box-shadow: $hard-sh
-      span
-        font-size: 2.25em
-        line-height: 1em
-        color: $color
-  .selected 
-    button
-    span
-    svg
-      color: $color2
-      fill: $color2
-
-.drag-col
-  position: absolute
-  z-index: 1
-  // pointer-events: none
-  width: 10%
-  min-height: 100%
-
-.drag-col-0
-  left: 5em
-  // border: red solid 1px
-
-.drag-col-1
-  right: 5em
-  // border: blue solid 1px
-
-.dark-chart
-  background-color: $darkness
-  border: solid $color 1px
-  .line
-    stroke: $color
-  .label
-    fill: $color 
-  .chart-title
-    color: $mid
-
- .dialog-header
-  .title
-    color:$color
 
 .suffix
   font-size: 0.8em
