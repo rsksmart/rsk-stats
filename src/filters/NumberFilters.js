@@ -24,3 +24,8 @@ export const toInt = Vue.filter('to-int', (value) => {
   if (value === true) value = 1
   return parseInt(value)
 })
+
+export const locale = Vue.filter('locale', (value) => {
+  let format = d3.format(',')
+  return format(value)
+})
