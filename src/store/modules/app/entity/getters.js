@@ -8,8 +8,9 @@ export const thresholdColors = state => (name) => {
   if (threshold) {
     let colors = threshold.colors
     let type = threshold.type
+    let defValue = threshold.firstColor || threshold.lastColor
     if (typeof (type) === 'function') {
-      return (value) => { return type(colors, value) }
+      return (value) => { return type(colors, value, defValue) }
     }
     let domain = Object.keys(colors).map((v) => { return parseInt(v) })
     let interpolator = threshold.interpolator
@@ -38,13 +39,21 @@ export const getEntity = (state, getters) => (name) => {
   return getters.createEntity(name)
 }
 
-export const createEntity = (state) => name => {
+export const createEntity = (state, getters) => name => {
   let entity = state.entities[name]
   if (entity) {
     entity.title = entity.title || name
     entity.id = name
     let threshold = entity.threshold
-    if (threshold) entity.thresholdObj = state.thresholds[threshold]
+    if (threshold) {
+      let thObj = state.thresholds[threshold]
+      if (thObj) {
+        let defaultFunc = () => { }
+        let colorFunc = getters.thresholdColors(threshold)
+        thObj.colorFunc = colorFunc || defaultFunc
+        entity.thresholdObj = thObj
+      }
+    }
     return entity
   }
 }

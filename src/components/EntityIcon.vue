@@ -25,7 +25,13 @@ export default {
         copy: false,
         pos: 'top'
       },
-      tooltip: false
+      tooltip: true
+    }
+  },
+  created () {
+    let options = this.options
+    if (options) {
+      if (options.hideTooltip) this.tooltip = false
     }
   },
   computed: {
@@ -38,12 +44,10 @@ export default {
 </script>
 <style lang="stylus">
   .entity-icon, .icon, bd-data
-    opacity .75
     .tip
       overflow visible
       word-break: unset
       .value
-        opacity: .9
         word-break: none
         min-width: 10em
 </style>
