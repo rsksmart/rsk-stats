@@ -58,9 +58,13 @@ export const restartDialog = ({ state, commit }, dialog) => {
   }
 }
 
-export const bringDialogToFront = ({ dispatch }, dialog) => {
-  dialog.zIndex = 5000
-  dispatch('restartDialog', dialog)
+export const bringDialogToFront = ({ state, commit, dispatch }, dialog) => {
+  let frontDialog = state.frontDialogId
+  if (frontDialog !== dialog.id) {
+    dialog.zIndex = 5000
+    dispatch('restartDialog', dialog)
+    commit('FRONT_DIALOG', dialog.id)
+  }
 }
 
 const findDialog = (dialogs, id, type) => {

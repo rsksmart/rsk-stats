@@ -58,6 +58,10 @@ export const UPDATE_DIALOG = (state, payload) => {
   }
 }
 
+export const FRONT_DIALOG = (state, id) => {
+  state.frontDialogId = id
+}
+
 export const SHOW_DIALOG = (state, index) => {
   Vue.set(state.dialogs[index], '_show', true)
 }
