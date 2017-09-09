@@ -1,25 +1,13 @@
 import { mapGetters } from 'vuex'
 export default {
   props: ['entity', 'value', 'fields'],
-  data () {
-    return {
-      colorFunc: null
-    }
-  },
-  created () {
-    let threshold = this.threshold
-    if (this.threshold) {
-      let cf = this.thresholdColors()(threshold)
-      if (cf) this.colorFunc = cf
-    }
-  },
   computed: {
     filteredValue () {
       return this.filterEntityValue()(this.entity, this.value)
     },
     color () {
       let cf = this.colorFunc
-      let value = this.thValue || this.value
+      let value = (this.thValue !== null) ? this.thValue : this.value
       value = this.thFilter(value)
       let color = (cf && (undefined !== this.value)) ? cf(value) : ''
       return color
@@ -28,21 +16,26 @@ export default {
       if (this.entity) return this.entity.threshold
       return
     },
+    colorFunc () {
+      if (this.entity && this.entity.thresholdObj) {
+        return this.entity.thresholdObj.colorFunc
+      }
+    },
     thValue () {
       let entity = this.entity
       let fields = this.fields
       if (entity && fields) {
         let th = entity.thField
         if (th) {
-          let thField = fields[th]
-          return thField
+          let thValue = fields[th]
+          return thValue
         }
       }
+      return null
     }
   },
   methods: {
     ...mapGetters('app/entity', [
-      'thresholdColors',
       'filterEntityValue',
       'applyFilter'
     ]),
