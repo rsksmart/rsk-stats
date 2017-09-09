@@ -1,6 +1,6 @@
 <template lang="pug">
-  .big-data(v-if='' @mousedown='startTimer' @mouseleave='stopTimer')
-    entity-icon.bd-icon(:entity='entity' :value='value')
+  .big-data(v-if='' @dblclick='toDialog' :class='(options.minimized) ? "mini":""' :style='styleObj')
+    entity-icon.bd-icon(:entity='entity' :value='value' :options='{ hideTooltip:true }')
     .bd-main
       .bd-title {{entity.title}}
       entity-value.bd-data(:entity='entity' :value='value')
@@ -17,6 +17,14 @@ export default {
     name: {
       type: String,
       required: true
+    },
+    options: {
+      type: Object,
+      default () {
+        return {
+          minimized: false
+        }
+      }
     }
   },
   data () {
@@ -42,6 +50,9 @@ export default {
     isMaximized () {
       if (this.dialog) return this.dialog.length
       return 0
+    },
+    styleObj () {
+      return {}
     }
   },
   methods: {
@@ -55,27 +66,6 @@ export default {
     ...mapActions('app/', [
       'createDialog'
     ]),
-    // open dialog if pressed by x seconds
-    startTimer (event) {
-      if (!this.timer) {
-        let vm = this
-        let ms = 333
-        this.timer = setInterval(() => {
-          if (vm.time >= vm.seconds / ms) {
-            if (vm.time) vm.toDialog()
-            vm.stopTimer()
-          } else {
-            vm.time++
-          }
-        }, ms)
-      }
-    },
-    stopTimer (event) {
-      if (this.timer) {
-        clearInterval(this.timer)
-      }
-      this.time = 0
-    },
     toDialog () {
       let id = this.name
       let type = this.types.TOTAL
@@ -91,40 +81,71 @@ export default {
 </script>
 <style lang="stylus">
 @import '../lib/styl/vars.styl'
+@import '../lib/styl/mixins.styl'
+$icon-size = 3vmax
+$mini-icon-size = ($icon-size / 2)
+
 .big-data
-  color: $midlight
+  display: flex
+  align-items center
+  color: $color
   user-select none
   width: 100%
   height: auto
-  display: flex
-  align-items center
-  border: dashed alpha($color,.5) 1px
+  border: $frame-border
   margin-top: .5em
   z-index: 100
   pointer-events all
   background lighten($bg-color,1%)
+  overflow visible
   
   .bd-icon
-    width: 3vmax
-    height: 3vmax 
-    color: $color
-    box-sizing:content-box
+    width  $icon-size
+    height  @width
+    color  $color
+    opacity: .6
+    box-sizing content-box
     margin-right .5vmax
-    margin-left: 1em
-    opacity: .5
+    margin-left  1em
     .svg-icon
-      width 3vmax
-      height 3vmax
+      width $icon-size
+      height @width
       
   .bd-main
     width: auto
     display: inline-block
     margin-left: 1em
-    opacity: .7
     // border: blue solid 1px
+    .bd-title 
+      small-titles()
     .bd-data
       font-size: 2.25vmax
+      line-height @font-size * 1.2
+      min-height @font-size
+    .bd-data.big-number
+      font-size 1.25vmax
 
+// minimized
+.big-data.mini 
+  .bd-main 
+    display flex
+    .bd-title 
+      display flex
+      justify-content center
+      flex-direction column
+      margin 0
+      margin-right 1em
+  
+  .bd-data 
+    font-size 1.5vmax
+  .bd-icon
+    width $mini-icon-size
+    height @width
+    .svg-icon
+      width $mini-icon-size
+      height @width
+
+// as dialog
 .totals-dialog
   background none
   box-shadow none
