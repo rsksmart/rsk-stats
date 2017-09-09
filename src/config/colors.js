@@ -1,10 +1,11 @@
 const colors = {
-  red: '#f00',
-  green: '#0f0',
-  blue: '#00f',
-  orange: '#e79a13',
-  yellow: '#fbdb0b',
-  gray: '#666'
+  red: '#d7343e',
+  green: '#1aad8d',
+  blue: '#3a618c',
+  orange: '#eaa55c',
+  yellow: '#f2c755',
+  gray: '#666',
+  white: '#fff'
 }
 
 export default colors

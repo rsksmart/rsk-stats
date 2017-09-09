@@ -39,6 +39,6 @@ export const arrMinMaxRange = (arr, min, max) => {
   return arr
 }
 
-export const valueToColor = (colors, value) => {
-  return colors[value] || colors[0]
+export const valueToColor = (colors, value, defValue) => {
+  return colors[value] || defValue || colors[0]
 }
