@@ -60,11 +60,20 @@ export default {
     icon: 'cube',
     title: 'last block',
     threshold: 'lastBlock',
-    thField: 'lastBlockDifference'
+    thField: 'lastBlockDifference',
+    filters: 'locale'
   },
   bestBlock: {
     icon: 'cube',
-    title: 'best block'
+    title: 'best block',
+    filters: 'locale'
+  },
+  bestBlockTrim: {
+    icon: 'cube',
+    title: 'last block hash',
+    filters: 'hash-trim',
+    threshold: 'lastBlock',
+    thField: 'lastBlockDifference'
   },
   lastBlockDifference: {
     title: 'last block difference',
@@ -108,5 +117,23 @@ export default {
     filters: 'numerals',
     threshold: 'hashes',
     suffix: 'H'
+  },
+  gasPrice: {
+    title: 'gas price',
+    icon: 'cube',
+    suffix: 'wei',
+    cssClass: 'big-number',
+    filters: 'locale'
+  },
+  gasLimit: {
+    title: 'gas limit',
+    icon: 'cube',
+    cssClass: 'big-number',
+    suffix: 'gas',
+    filters: 'locale'
+  },
+  nodeHistory: {
+    title: 'node history',
+    icon: 'pulse'
   }
 }
