@@ -2,6 +2,16 @@ export const fields = (state, getters, rootState) => {
   return state.fields
 }
 
+export const hiddenFields = (state) => {
+  return state.hiddenFields
+}
+
+export const isHiddenField = (state, getters) => field => {
+  return getters.hiddenFields.findIndex((item, index) => {
+    return (item === field)
+  })
+}
+
 export const nodes = (state, getters, rootState, rootGetters) => {
   return rootGetters['app/entity/getNodesEntitiesArr']
 }

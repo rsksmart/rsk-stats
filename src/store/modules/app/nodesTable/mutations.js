@@ -21,3 +21,11 @@ export const FILTER_KEY = (state, key) => {
 export const UPDATE_OPTION = (state, payload) => {
   Vue.set(state.options, payload[0], payload[1])
 }
+
+export const HIDE_FIELD = (state, field) => {
+  state.hiddenFields.push(field)
+}
+
+export const SHOW_FIELD = (state, index) => {
+  Vue.delete(state.hiddenFields, index)
+}

@@ -1,4 +1,5 @@
-export const fields = [
+
+export const fields = [ // (entity names )
   'name',
   'type',
   'latency',
@@ -6,11 +7,19 @@ export const fields = [
   'pending',
   'lastBlock',
   'lastBlockDifference',
+  'bestBlockTrim',
   'totalDiff',
   'blockTrans',
   'uncles',
   'lastBlockTime',
   'propTime',
   'avgPropTime',
-  'uptime'
+  'uptime',
+  'nodeHistory'
+]
+
+export const hiddenFields = [ // predefined hidden fields
+  'nodeHistory',
+  'type',
+  'uncles'
 ]

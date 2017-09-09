@@ -1,4 +1,4 @@
-import { fields } from '../../../../config/table.js'
+import { fields, hiddenFields } from '../../../../config/table.js'
 export default function () {
   return {
     fields: fields,
@@ -6,6 +6,7 @@ export default function () {
     pinned: {},
     sortKey: null,
     filterKey: '',
+    hiddenFields: hiddenFields,
     options: {
       x: 0,
       y: 0
