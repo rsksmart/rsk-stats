@@ -3,13 +3,15 @@
       .header
         slot(name='header')
       h3.chart-title {{ chart.title }}
+        small.gray &nbsp;{{chart.subtitle}}
       .chart-cointainer
-        .chart-cointainer
+        .chart-content
           d3-bar-chart(:data='chart.data' :options='chartOptions')
       slot
 </template>
 <script>
-import D3BarChart from 'vue-d3-barchart'
+// import D3BarChart from 'vue-d3-barchart'
+import D3BarChart from './vue-d3-barchart.vue'
 import { mapGetters } from 'vuex'
 export default {
   name: 'chart',
@@ -65,6 +67,16 @@ export default {
 }
 </script>
 <style lang="stylus">
+@import '../lib/styl/mixins.styl'
+  .chart .header button
+    position absolute
+    right: 0
+    z-index 10
+  .chart-title
+    small-titles()
+    margin-left 2em
+    margin-bottom .5em
+
   .chart.max-chart-xxx
       display flex
       flex-direction column

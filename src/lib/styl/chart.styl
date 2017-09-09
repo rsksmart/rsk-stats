@@ -1,5 +1,6 @@
 .chart
   margin-top: 1em
+  padding .5em 0
   position:relative
   .header
     display: flex
@@ -9,7 +10,11 @@
       position: absolute
       right: 1em
       top: .5em
-  
+
+.chart, .node-chart
+  svg 
+    overflow: visible  
+    
 .chart-title
   font-weight:normal
   margin-left: 2em
@@ -30,3 +35,17 @@
       left:0
       top:0
       min-width: 100%  
+
+.dark-chart
+  background-color: $darkness
+  border: $frame-border
+  .line
+    stroke: $color
+  .label
+    fill: $color 
+  .chart-title
+    color: $mid
+
+ .dialog-header
+  .title
+    color:$color

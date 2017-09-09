@@ -4,7 +4,7 @@
 </template>
 <script>
 import D3BarChart from 'vue-d3-barchart'
-// import D3BarChart from 'vue-d3-barchart/src/vue-d3-barchart.vue'
+// import D3BarChart from './vue-d3-barchart.vue'
 import { redGreen } from '../config/colorsInterpolators.js'
 export default {
   name: 'node-chart',
@@ -35,5 +35,11 @@ export default {
 .node-chart
   background-color: $darkness
   padding: .25em
+.d3-bar-chart
+  max-height: 100%
+  max-width 100%
+  svg
+    width 100%
+    overflow: visible 
 </style>
 
