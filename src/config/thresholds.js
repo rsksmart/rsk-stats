@@ -10,7 +10,9 @@
   
   - type: String | Function
     String: name of d3 scale function ex: Linear, Ordinal etc
-    Function: color callback
+    Function: color callback ->
+    Default: Linear
+    NOTE: Linear Scale requires 3 values
   
     - filters: String| Array:  Filter/s to apply before select color
   
@@ -23,6 +25,7 @@ import { valueToColor } from '../lib/js/colors.js'
 export default {
   time: {
     colors: {
+      0: COLORS.green,
       75: COLORS.red,
       90: COLORS.green
     }
@@ -41,14 +44,14 @@ export default {
       0: COLORS.gray,
       1: COLORS.green,
       100: COLORS.green,
-      500: COLORS.yellow,
+      200: COLORS.yellow,
       1000: COLORS.orange,
       1500: COLORS.red
     }
   },
   lastBlock: {
     type: 'Threshold',
-    lastColor: COLORS.green,
+    lastColor: COLORS.red,
     colors: {
       0: COLORS.green,
       1: COLORS.green,
@@ -69,6 +72,7 @@ export default {
   avgBlockTime: {
     filters: 'm-to-seconds',
     colors: {
+      0: COLORS.green,
       30: COLORS.green,
       90: COLORS.red
     }
@@ -87,10 +91,11 @@ export default {
     filters: 'to-int',
     type: valueToColor,
     colors: {
+      0: COLORS.gray,
       1: COLORS.green
     }
   },
-  yesRed: {
+  yesGreenNoRed: {
     filters: 'to-int',
     type: valueToColor,
     colors: {
