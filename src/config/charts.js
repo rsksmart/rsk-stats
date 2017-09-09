@@ -1,31 +1,34 @@
-
-import { blues } from './colorsInterpolators.js'
+import { blues, redGreen } from './colorsInterpolators.js'
+import COLORS from './colors.js'
 export default {
   uncleCountChart: {
-    title: 'Uncles',
+    title: 'uncles',
+    subtitle: '25 blocks per bar',
     options: {
       colorInterpol: blues
+      // colors: [COLORS.blue, COLORS.white]
     }
   },
   lastBlocksTime: {
-    title: 'Blocks Time',
+    title: 'blocks time',
     options: {
-      colors: ['red', 'yellow']
+      colors: [COLORS.red, COLORS.yellow]
     }
   },
   difficultyChart: {
-    title: 'Difficulty',
+    title: 'difficulty',
     options: {
-      colors: ['green', 'red']
+      colorInterpol: redGreen
+      // colors: ['green', 'red']
     }
   },
   lastGasLimit: {
-    title: 'Gas Limit'
+    title: 'gas Limit'
   },
   gasSpending: {
-    title: 'Gas Spending'
+    title: 'gas spending'
   },
   transactionDensity: {
-    title: 'Transaction Density'
+    title: 'transaction density'
   }
 }
