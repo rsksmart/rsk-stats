@@ -14,6 +14,7 @@ export const NODE = (node, date, totals) => {
       lastBlock: stats.block.number,
       lastBlockDifference: totals.bestBlock - stats.block.number,
       bestBlock: stats.block.hash,
+      bestBlockTrim: stats.block.hash,
       totalDiff: stats.block.totalDifficulty,
       propTime: stats.block.propagation,
       avgPropTime: stats.propagationAvg,
@@ -30,6 +31,8 @@ export const TOTAL = (totals, date) => {
     avgBlockTime: totals.avgBlockTime,
     lastDifficulty: totals.lastDifficulty,
     avgHashrate: totals.avgHashrate,
-    uncles: totals.bestStats.block.uncles.length + '/' + totals.uncleCount
+    uncles: totals.bestStats.block.uncles.length + '/' + totals.uncleCount,
+    gasPrice: totals.bestStats.gasPrice,
+    gasLimit: totals.bestStats.block.gasLimit
   }
 }
