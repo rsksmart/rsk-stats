@@ -82,9 +82,8 @@ export default {
   totalDiff: {
     icon: 'puzzle',
     title: 'total difficulty',
-    filters: 'numerals',
-    threshold: 'hashes',
-    suffix: 'H'
+    filters: 'H',
+    threshold: 'hashes'
   },
   propTime: {
     title: 'propagation time',
@@ -107,30 +106,26 @@ export default {
   avgHashrate: {
     title: 'avg hash rate',
     icon: 'zap',
-    filters: 'numerals',
-    suffix: 'Hs',
+    filters: 'Hs',
     threshold: 'hashes'
   },
   lastDifficulty: {
     title: 'difficulty',
     icon: 'puzzle',
-    filters: 'numerals',
-    threshold: 'hashes',
-    suffix: 'H'
+    filters: 'H',
+    threshold: 'hashes'
   },
   gasPrice: {
     title: 'gas price',
     icon: 'cube',
-    suffix: 'wei',
     cssClass: 'big-number',
-    filters: 'locale'
+    filters: 'wei'
   },
   gasLimit: {
     title: 'gas limit',
     icon: 'cube',
     cssClass: 'big-number',
-    suffix: 'gas',
-    filters: 'locale'
+    filters: 'gas'
   },
   nodeHistory: {
     title: 'node history',
