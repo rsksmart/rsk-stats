@@ -135,7 +135,10 @@ export default {
 <style lang="stylus">
 @import '../lib/styl/vars.styl'
   .nodes-table
-    overflow auto
+    overflow visible
+    display flex
+    flex-direction column
+    flex-grow right
   table.nodes
     min-width 100%
     tr.full 
@@ -165,11 +168,15 @@ export default {
           stroke-width: 1px    
 
   .search  
+    display flex
     input
       margin-right .5em
 
   .hidden-fields
     z-index 500
+    display flex
+    flex 1
+    order 2
     button
       margin-left .5em
   tr.field-actions
