@@ -13,13 +13,12 @@ export const fields = [ // (entity names )
   'uncles',
   'lastBlockTime',
   'propTime',
-  'avgPropTime',
-  'uptime',
+  // 'avgPropTime',
+  // 'uptime',
   'nodeHistory'
 ]
 
 export const hiddenFields = [ // predefined hidden fields
   'nodeHistory',
-  'type',
-  'uncles'
+  'type'
 ]
