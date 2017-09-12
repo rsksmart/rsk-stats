@@ -43,6 +43,7 @@ export default {
     title: 'pending transactions'
   },
   uncles: {
+    subtitle: 'current / last 50',
     icon: 'git-merge'
   },
   blockTrans: {
@@ -76,6 +77,7 @@ export default {
     thField: 'lastBlockDifference'
   },
   lastBlockDifference: {
+    icon: 'cube',
     title: 'last block difference',
     threshold: 'lastBlock'
   },
@@ -101,7 +103,7 @@ export default {
     title: 'avg block time',
     icon: 'stopwatch',
     filters: 's-seconds',
-    threshold: 'avgBlockTime'
+    threshold: 'blockTime'
   },
   avgHashrate: {
     title: 'avg hash rate',
@@ -130,5 +132,9 @@ export default {
   nodeHistory: {
     title: 'node history',
     icon: 'pulse'
+  },
+  blocksChart: {
+    threshold: 'blockTime',
+    suffix: 's'
   }
 }

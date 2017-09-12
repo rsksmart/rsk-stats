@@ -27,10 +27,11 @@ const sAgo = (time) => {
 }
 
 export const abbreviatedTimeObj = (time) => {
+  time = parseInt(time)
   let suffix = 'ms'
   if (time <= 0) return { time: 0, suffix }
   if (time < 1000) return { time, suffix }
-  time = Math.floor(parseInt(time) / 1000)
+  time = Math.floor(time / 1000)
   if (time < 1) return { time, suffix }
   let ts = {
     s: 60,

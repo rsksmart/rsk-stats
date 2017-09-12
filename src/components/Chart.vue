@@ -2,16 +2,17 @@
   .chart.dark-chart(v-if='chart' :class='(max)?"max-chart":""')
       .header
         slot(name='header')
-      h3.chart-title {{ chart.title }}
-        small.gray &nbsp;{{chart.subtitle}}
-      .chart-cointainer
-        .chart-content
-          d3-bar-chart(:data='chart.data' :options='chartOptions')
+        
+      .chart-title-cont
+        //-icon(v-if='chart.icon' :name='chart.icon') 
+        h3.chart-title {{ chart.title }}
+          small.gray &nbsp;{{chart.subtitle}}
+      .chart-container
+        d3-bar-chart(:data='chart.data' :options='chartOptions')
       slot
 </template>
 <script>
-// import D3BarChart from 'vue-d3-barchart'
-import D3BarChart from './vue-d3-barchart.vue'
+import D3BarChart from 'vue-d3-barchart'
 import { mapGetters } from 'vuex'
 export default {
   name: 'chart',
@@ -44,14 +45,20 @@ export default {
     chartOptions () {
       let size = { w: this.size.w, h: this.size.h }
       let options = Object.assign({ size }, this.chart.options)
-      options.points = false
-      options.labels = null
-      options.rulers = false
-      /*       if (this.max) {
-              options.rulers = true
-              options.axis = true
-              options.labels = { y: true, x: false }
-            } */
+      options.margin = 10
+      if (!options.formatLabel) options.formatLabel = this.formatLabel
+      if (this.max) {
+        options.fontSize = 12
+        options.margin = 20
+        size.w -= 50
+        size.h = size.w / 4
+        if (!options.axis) {
+          options.axis = {
+            valuesY: true,
+            linesY: true
+          }
+        }
+      }
       return options
     }
   },
@@ -62,12 +69,21 @@ export default {
     onResize () {
       this.size.w = this.$el.clientWidth
       this.size.h = this.size.w / 4
+    },
+    formatLabel (bar, formatX, formatY) {
+      return [
+        formatY(bar.yv)
+      ]
     }
   }
 }
 </script>
+<style src="vue-d3-barchart/dist/vue-d3-barchart.css"></style>
 <style lang="stylus">
 @import '../lib/styl/mixins.styl'
+  .chart-container
+    display flex
+    justify-content space-around
   .chart .header button
     position absolute
     right: 0
@@ -77,13 +93,6 @@ export default {
     margin-left 2em
     margin-bottom .5em
 
-  .chart.max-chart-xxx
-      display flex
-      flex-direction column
-      padding 3em
-    .bar-chart
-      max-width 70%
-      flex-shrink 1
-      display inline-block
-      float: left
+  // .chart.max-chart 
+
 </style>

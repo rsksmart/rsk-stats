@@ -1,30 +1,11 @@
 import Vue from 'vue'
 import * as entity from '../../../../config/entityValues.js'
-import { mapColor, interpolColor } from '../../../../lib/js/colors.js'
+import { thColors } from '../../../../lib/js/colors.js'
 
 // returns function to get color from value
 export const thresholdColors = state => (name) => {
   let threshold = state.thresholds[name]
-  if (threshold) {
-    let colors = threshold.colors
-    let type = threshold.type
-    let defValue = threshold.firstColor || threshold.lastColor
-    if (typeof (type) === 'function') {
-      return (value) => { return type(colors, value, defValue) }
-    }
-    let domain = Object.keys(colors).map((v) => { return parseInt(v) })
-    let interpolator = threshold.interpolator
-    if (interpolator) {
-      return interpolColor(domain, interpolator)
-    } else {
-      let range = Object.values(colors)
-
-      if (threshold.firstColor) range.unshift(threshold.firstColor)
-      else if (threshold.lastColor) range.push(threshold.lastColor)
-
-      return mapColor(domain, range, type)
-    }
-  }
+  if (threshold) return thColors(threshold)
 }
 
 export const getEntities = (state, getters) => {

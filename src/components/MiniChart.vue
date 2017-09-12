@@ -50,3 +50,10 @@ export default {
   }
 }
 </script>
+ <style lang="stylus">
+  .mini-chart
+    margin-bottom: .5em
+  .mini-chart:first-child
+    margin-top: .5em  
+ </style>
+ 
