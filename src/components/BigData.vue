@@ -3,7 +3,9 @@
     entity-icon.bd-icon(:entity='entity' :value='value' :options='{ hideTooltip:true }')
     .bd-main
       .bd-title {{entity.title}}
+        small.subtitle.gray(v-if='entity.subtitle') {{entity.subtitle}}
       entity-value.bd-data(:entity='entity' :value='value')
+      
 </template>
 <script>
 import { mapGetters, mapActions } from 'vuex'
@@ -118,6 +120,9 @@ $mini-icon-size = ($icon-size / 2)
     // border: blue solid 1px
     .bd-title 
       small-titles()
+    .bd-title  small
+      &::before
+        content ' '
     .bd-data
       font-size: 2.25vmax
       line-height @font-size * 1.2
@@ -129,16 +134,19 @@ $mini-icon-size = ($icon-size / 2)
 .big-data.mini 
   .bd-main 
     display flex
+    justify-content center
     .bd-title 
       display flex
       justify-content center
       flex-direction column
       margin 0
-      margin-right 1em
+      margin-right .5em
+      font-size 80%
   
   .bd-data 
-    font-size 1.5vmax
+    font-size 1.25vmax
   .bd-icon
+    margin-right 0
     width $mini-icon-size
     height @width
     .svg-icon
