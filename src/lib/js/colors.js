@@ -40,5 +40,40 @@ export const arrMinMaxRange = (arr, min, max) => {
 }
 
 export const valueToColor = (colors, value, defValue) => {
-  return colors[value] || defValue || colors[0]
+  if (Array.isArray(colors)) {
+    let color = colors.find((c) => {
+      return c.value === value
+    })
+    return (color) ? color.color : colors[0].color
+  } else {
+    return colors[value] || defValue || colors[0]
+  }
+}
+
+export const thColors = (threshold) => {
+  let colors = threshold.colors
+  let type = threshold.type
+  let defValue = threshold.firstColor || threshold.lastColor
+  if (typeof (type) === 'function') {
+    return (value) => { return type(colors, value, defValue) }
+  }
+  // defines domain and range
+  let domain, range
+  // array format
+  if (Array.isArray(colors)) {
+    domain = colors.map((v) => { return v.value })
+    range = colors.map((v) => { return v.color })
+  } else { // object format
+    domain = Object.keys(colors).map((v) => { return parseInt(v) })
+    range = Object.values(colors)
+  }
+  let interpolator = threshold.interpolator
+  if (interpolator) {
+    return interpolColor(domain, interpolator)
+  } else {
+    if (threshold.firstColor) range.unshift(threshold.firstColor)
+    else if (threshold.lastColor) range.push(threshold.lastColor)
+
+    return mapColor(domain, range, type)
+  }
 }

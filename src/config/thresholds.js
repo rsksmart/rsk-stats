@@ -2,7 +2,7 @@
 /*
   Thresholds definitions
   
-  - colors: { value : color }
+  - colors: { value : color } | [ { value:'', color:''} ] 
   
   - firstColor
   - lastColor
@@ -20,14 +20,15 @@
       this prop overrides type to 'interpolated'
 */
 import COLORS from './colors.js'
+import { SI } from '../lib/js/units.js'
 import { valueToColor } from '../lib/js/colors.js'
-// import { redGreen } from './colorsInterpolators.js'
 export default {
   time: {
     colors: {
-      0: COLORS.green,
-      75: COLORS.red,
-      90: COLORS.green
+      1: COLORS.red,
+      75: COLORS.yellow,
+      90: COLORS.green,
+      100: COLORS.green
     }
   },
   propagation: {
@@ -61,7 +62,7 @@ export default {
   },
   blockTime: {
     filters: 'm-to-seconds',
-    type: 'Quantize',
+    type: 'Quantile',
     colors: {
       0: COLORS.green,
       50: COLORS.yellow,
@@ -78,14 +79,13 @@ export default {
     }
   },
   hashes: {
-    filters: 'numerals-suffix',
-    type: valueToColor,
-    colors: {
-      P: COLORS.green,
-      T: COLORS.yellow,
-      G: COLORS.orange,
-      M: COLORS.red
-    }
+    type: 'Quantile',
+    colors: [
+      { value: SI.M, color: COLORS.red },
+      { value: SI.G, color: COLORS.orange },
+      { value: SI.T, color: COLORS.yellow },
+      { value: SI.P, color: COLORS.green }
+    ]
   },
   yesNo: {
     filters: 'to-int',

@@ -19,7 +19,7 @@
           v-if='!isVisibleDialog()(types.TOTAL,name)'
           :key='name'
           :name='name'
-          :options='{minimized:(name === "gasLimit" || name === "gasPrice")}'
+          :options='{minimized:(name === "gasLimit" || name === "gasPrice" || name ==="uncles")}'
           )
           
           .options
@@ -44,7 +44,8 @@
           mini-chart(name='difficultyChart')
           mini-chart(name='gasSpending')
           mini-chart(name='transactionDensity' )
-          mini-chart(name='lastGasLimit')
+          //-mini-chart(name='lastGasLimit')
+          mini-chart(name='blockPropagationChart')
 
       //- Outside Layout
       //-node-data(v-for='node,id in nodes' :node='node' :key='id' :size='options.nodeSize')
@@ -244,7 +245,6 @@ export default {
     tableLoaded (data) {
       let dialog = this.$refs.table
       dialog.center()
-      console.log(dialog)
       if (dialog.top < 0) dialog.top = 0
     },
     ...mapActions([
