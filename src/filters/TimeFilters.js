@@ -35,20 +35,23 @@ export const abbreviatedTimeObj = (time) => {
   if (time < 1) return { time, suffix }
   let ts = {
     s: 60,
-    m: 60 * 60 * 1.25,
+    m: 60 * 60,
     h: 60 * 60 * 24,
     d: 60 * 60 * 24 * 30,
     M: 60 * 60 * 24 * 30 * 300
   }
   suffix = 's'
+  let ant = 1
   if (time < 60) return { time, suffix }
   for (let t in ts) {
     let seconds = ts[t]
+    suffix = t
     if (time < seconds) {
-      time = Math.floor(time / seconds)
+      time = time / ant
+      time = Math.round(time * 100) / 100
       return { time, suffix }
     }
-    suffix = t
+    ant = seconds
   }
   return { time: 0, suffix: 'ms' }
 }
@@ -59,7 +62,7 @@ export const abbrTime = Vue.filter('abbr-time', (time) => {
 })
 
 export const abbrTimeSeconds = Vue.filter('abbr-time-seconds', (time) => {
-  if (time < 1000) return '0s'
+  if (time < 900) return '0s'
   let obj = abbreviatedTimeObj(time)
   return obj.time + '' + obj.suffix
 })
