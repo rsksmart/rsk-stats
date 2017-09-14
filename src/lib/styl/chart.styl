@@ -6,8 +6,7 @@
     .icon, .svg-icon
       width: 1em
       height : 1em
-      position: absolute
-      right: 1em
+      margin-right 1em
       top: .5em
 
 .chart, .node-chart
@@ -22,7 +21,7 @@
   button.max
     position:absolute
     top: 1em
-    right :1em
+    right :2em
     z-index: 50
     pointer-events: initial
     &:hover
@@ -36,7 +35,7 @@
       min-width: 100%  
 
 .dark-chart
-  background-color: $darkness
+  background-color $quasi-bg
   border: $frame-border
   .line
     stroke: $color
@@ -44,7 +43,15 @@
     fill: $color 
   .chart-title
     color: $mid
-
+  .axis
+    stroke $color 
+   .axis-label
+    fill $mid  
  .dialog-header
   .title
     color:$color
+
+.curve-back
+  path
+    opacity .2
+    stroke none

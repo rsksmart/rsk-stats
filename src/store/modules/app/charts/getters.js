@@ -2,10 +2,10 @@ export const charts = (state, getters, rootState, rootGetters) => {
   return rootGetters.getCharts
 }
 /* eslint-disable no-unused-vars */
-export const getChart = (state, getters, rootState, rootGetters) => name => {
+export const getChart = (state, getters, rootState, rootGetters) => (name, data) => {
   let chart = state.definitions[name]
   if (chart) {
-    chart.data = getters.charts[name]
+    chart.data = data || getters.charts[name]
     chart.options = chart.options || {}
     if (chart.entity) {
       let entity = rootGetters['app/entity/getEntity'](chart.entity)

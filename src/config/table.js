@@ -12,7 +12,7 @@ export const fields = [ // (entity names )
   'blockTrans',
   'uncles',
   'lastBlockTime',
-  'propTime',
+  // 'propTime',
   // 'avgPropTime',
   // 'uptime',
   'nodeHistory'

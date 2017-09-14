@@ -1,8 +1,7 @@
 <template lang="pug">
-  .chart.dark-chart(v-if='chart' :class='(max)?"max-chart":""')
+  .chart.dark-chart(v-if='chart' :class='(max)?"max-chart":"mini-chart"')
       .header
         slot(name='header')
-        
       .chart-title-cont
         //-icon(v-if='chart.icon' :name='chart.icon') 
         h3.chart-title {{ chart.title }}
@@ -12,7 +11,8 @@
       slot
 </template>
 <script>
-import D3BarChart from 'vue-d3-barchart'
+// import D3BarChart from 'vue-d3-barchart'
+import D3BarChart from './vue-d3-barchart.vue'
 import { mapGetters } from 'vuex'
 export default {
   name: 'chart',
