@@ -37,7 +37,7 @@
         tr(v-for='node,index in rows' :class='rowClass(index,node.id)')
           //- fields
           td(v-for='field,key in fields' v-if='!isHidden(field)' :class='toKebab(field)') 
-            node-chart.node-history(v-if='field === "nodeHistory"' :data='nodeChart(node.id)' :options='chartOptions')
+            node-chart.node-history(v-if='field === "nodeHistory"' :data='nodeChart(node.id)' name='nodeChart2')
             entity-value(v-else :value='node[field]' :entity='entity[field]' :fields='node')
             
           //- Pin button
@@ -60,19 +60,6 @@ export default {
   ],
   components: {
     NodeChart
-  },
-  data () {
-    return {
-      chartOptions: {
-        curve: true,
-        gradient: {
-          stroke: true
-        },
-        bars: false,
-        points: false,
-        line: true
-      }
-    }
   },
   created () {
     this.initTable()
@@ -161,6 +148,7 @@ export default {
       height: 50px
       padding 0
       max-width 10em
+      min-width 5em
       max-height 2em
       margin 0
       svg

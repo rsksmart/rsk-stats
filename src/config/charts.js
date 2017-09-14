@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-vars */
-import { blues, redGreen } from './colorsInterpolators.js'
 import COLORS from './colors.js'
 import Vue from 'vue'
 export default {
@@ -7,7 +5,6 @@ export default {
     title: 'uncles',
     subtitle: '25 blocks per bar',
     options: {
-      // colorInterpol: blues
       colors: [COLORS.blue, COLORS.green]
     }
   },
@@ -20,7 +17,25 @@ export default {
   },
   difficultyChart: {
     title: 'difficulty',
-    entity: 'totalDiff'
+    entity: 'totalDiff',
+    options: {
+      curveBack: {
+        close: true,
+        gradient: {
+          stroke: false,
+          fill: true
+        }
+      },
+      curve: {
+        type: 'Cardinal',
+        close: false,
+        gradient: {
+          stroke: true,
+          fill: false
+        }
+      },
+      bars: false
+    }
   },
   lastGasLimit: {
     entity: 'gasLimit'
@@ -29,7 +44,28 @@ export default {
     title: 'gas spending',
     options: {
       colors: [COLORS.red, COLORS.orange, COLORS.green, COLORS.green],
-      formatY: (y) => { return Vue.filter('locale')(y) }
+      formatY: (y) => { return Vue.filter('locale')(y) },
+      bars: false,
+      curve: {
+        type: 'Cardinal',
+        gradient: {
+          fill: false,
+          stroke: true
+        }
+      },
+      curveBack: {
+        close: true,
+        gradient: {
+          fill: true,
+          stroke: true
+        }
+      }
+    }
+  },
+  curveBack: {
+    gradient: {
+      stroke: true,
+      fill: false
     }
   },
   transactionDensity: {
@@ -43,6 +79,23 @@ export default {
       },
       bars: false,
       colors: [COLORS.orange]
+    }
+  },
+  nodeChart: {
+    title: 'node history',
+    entity: 'propTime'
+  },
+  nodeChart2: {
+    title: 'node history',
+    entity: 'propTime',
+    options: {
+      bars: false,
+      curve: {
+        gradient: {
+          stroke: true,
+          fill: false
+        }
+      }
     }
   },
   blockPropagationChart: {

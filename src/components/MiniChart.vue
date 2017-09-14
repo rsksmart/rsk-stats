@@ -1,7 +1,7 @@
 <template lang="pug">
   .mini-chart(v-if='!isMaximized' @touchstart.prevent='openDialog')
     chart(:name='name')
-      button(@click='openDialog' slot='header')
+      button.max(@click='openDialog' slot='header')
         icon.maximize(name='enlarge')
 </template>
 <script>
@@ -53,6 +53,8 @@ export default {
  <style lang="stylus">
   .mini-chart
     margin-bottom: .5em
+    .curve
+      stroke-width 2px
   .mini-chart:first-child
     margin-top: .5em  
  </style>
