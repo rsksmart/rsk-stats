@@ -1,37 +1,104 @@
-$column-padding = 1vmax
-
+$margin = 1rem
+$min-col-w = 4rem
 body
   margin: 0
- 
+  border 0
+  display flex
+  flex-direction column
+
 .wrapper
-  min-height: 100vh
-  display: flex
-  flex-direction: column
+  display flex
+  min-height 100vh
+  flex-direction column
 
-/*.header, .footer
-  height: 50px
-  background: #666
-  color: #fff
-*/
-.content 
+.content
   display: flex
   flex: 1
+  justify-content: flex-start
+  flex-wrap: wrap
+  min-height 100vh
+  
+.col-content
+  display flex
+  flex-flow column nowrap
+  
+  
+header, footer
+   flex 0 0 100%
+   padding 0 $margin 
+   z-index 5
 
-.columns
-  display: flex
-  flex:1
+header
+  display flex
+  flex-flow row nowrap
+  height $min-box-height / 2
 
-.main
-  flex: 1
-  order: 2
+  .logo-cont
+    order 1
+    flex 1 1 $min-col-w
+    text-align center
+  .header-content
+    order 2
+    flex 4 1 0
+  .menu
+    display flex
+    order 3
+    flex 1 2 2rem
+    width: 1rem
+    justify-content flex-end
+
+
+footer  
+  order 3
+  box-sizing border-box
 
 .col-a
-  width: 17%
-  padding-left: $column-padding
-  order: 1
+  order 2
+  flex 5 
+  padding-left $margin
+  z-index 100
+
+.col-b
+  order 1
+  flex 0 0 100%
+  min-height 100vw
 
 .col-c
-  width: 17%
-  padding-right: $column-padding
-  order: 3
+  order 3
+  flex  7
+  padding-right $margin
+  z-index 100
 
+ .box
+   box-sizing border-box
+   padding-left $margin
+
+@media screen and (min-width: 900px)
+  .col-a
+    order 1
+    flex 1 1 $min-col-w
+  .col-b
+    flex 3 0
+    min-height 0
+  .col-c
+    flex 0 1 100%
+    .col-content
+      flex-flow row wrap
+      flex 0 0 100%
+      .box
+        flex 0 1 50%
+
+@media screen and (min-width: 1200px)
+  .col-a
+    order 1
+    flex 1 0 $min-col-w
+  .col-b
+    order 2
+    flex 4 1 0
+  .col-c
+    order 3
+    flex 1 0 $min-col-w
+    .col-content
+      flex-flow column nowrap
+  .box
+    padding-left:  0 !important

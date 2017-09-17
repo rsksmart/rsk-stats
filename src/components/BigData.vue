@@ -84,7 +84,7 @@ export default {
 <style lang="stylus">
 @import '../lib/styl/vars.styl'
 @import '../lib/styl/mixins.styl'
-$icon-size = 3vmax
+$icon-size = 3em
 $mini-icon-size = ($icon-size / 2)
 
 .big-data
@@ -98,16 +98,17 @@ $mini-icon-size = ($icon-size / 2)
   margin-top: .5em
   z-index: 100
   pointer-events all
-  background lighten($bg-color,1%)
+  background $quasi-bg
   overflow visible
+  min-height $min-box-height
   
   .bd-icon
     width  $icon-size
     height  @width
     color  $color
     opacity: .6
-    box-sizing content-box
-    margin-right .5vmax
+    box-sizing border-box
+    margin-right  .125rem
     margin-left  1em
     .svg-icon
       width $icon-size
@@ -124,7 +125,7 @@ $mini-icon-size = ($icon-size / 2)
       &::before
         content ' '
     .bd-data
-      font-size: 2.25vmax
+      font-size: 2.5rem
       line-height @font-size * 1.2
       min-height @font-size
     .bd-data.big-number
@@ -132,6 +133,7 @@ $mini-icon-size = ($icon-size / 2)
 
 // minimized
 .big-data.mini 
+  min-height auto
   .bd-main 
     display flex
     justify-content center
@@ -177,4 +179,5 @@ $mini-icon-size = ($icon-size / 2)
 
   .dialog-body
     padding 0    
+
 </style>
