@@ -1,20 +1,26 @@
 <template lang="pug">
-  #app.wrapper()
+#app.wrapper
     //- snapshots hint
     .snapshot-hint(v-if='!isLive')
       small.hint.color2 running in snapthot mode
       button.btn.live(@click='goLive()') go Live
-
-    //- Layout
-    section.content(v-if='connected')
-      .columns
-        //- main - col-b
-        main.main
-        //- col-a 
-        aside.col-a
-          logo
-          h3.nodes-count nodes: {{ nodes.length }} / {{ activeNodes.length }}
-
+    
+    header
+      logo
+      .header-content
+      .menu
+        button.btn.big.main-menu
+          icon(name='equalizerh')
+    .content
+      .col-a
+        .col-content
+          .node-box.big-data(@touchstart.prevent='showHideTable()')
+            .bd-main
+              button.btn.badge.big(@click.stop='showHideTable()')
+                icon(name='table')
+                span.badge {{ activeNodes.length }}
+              button.big-txt(@click.stop='showHideTable()') tracked nodes {{ nodes.length }} 
+              //-{{ activeNodes.length }}
           big-data(v-for='name,index in bigDataFields ' 
           v-if='!isVisibleDialog()(types.TOTAL,name)'
           :key='name'
@@ -28,79 +34,89 @@
             button.btn.badge(@click='showSnapshots = !showSnapshots')
               icon(name='versions')
               span.badge(v-if='totalSnapshots') {{ totalSnapshots }}
-            button.btn(@click='showHideTable()')
-              icon(name='table')
             button.btn(v-for='t,to in tools' @click='setTool(to)' :class='buttonClass(to)')
               icon(:name='t.icon')
 
+
+      .col-b#main
         //- col-c 
         aside.col-c
+      .col-c
+        .col-content
           //- h6 blockPropagationChart
           //-chart(:data='blockChart')
 
           //- CHARTS --------------------------
-          mini-chart(name='uncleCountChart')
-          mini-chart(name='lastBlocksTime')
-          mini-chart(name='difficultyChart')
-          mini-chart(name='gasSpending')
-          mini-chart(name='transactionDensity' )
-          //-mini-chart(name='lastGasLimit')
-          mini-chart(name='blockPropagationChart')
-
-      //- Outside Layout
-      //-node-data(v-for='node,id in nodes' :node='node' :key='id' :size='options.nodeSize')
-      
-      d3-network(v-if='connected'
-        :netNodes="nodes"
-        :netLinks="links"
-        :selection="selection"
-        :node-sym='nodeSym'
-        :options="options"
-        :nodeCb='nodeFilter'
-        @node-click="nodeClick"
-        @link-click="linkClick"
-        class="net"
-        )      
-     
+          .box
+            mini-chart(name='uncleCountChart')
+          .box
+            mini-chart(name='lastBlocksTime')
+          .box
+            mini-chart(name='difficultyChart')
+          .box
+            mini-chart(name='gasSpending')
+          .box
+            mini-chart(name='transactionDensity' )
+            //-mini-chart(name='lastGasLimit')
+          .box
+            mini-chart(name='blockPropagationChart')
+      footer
+        p rsk
+    d3-network(v-if='connected'
+      :netNodes="nodes"
+      :netLinks="links"
+      :selection="selection"
+      :node-sym='nodeSym'
+      :options="options"
+      :nodeCb='nodeFilter'
+      @node-click="nodeClick"
+      @link-click="linkClick"
+      class="net"
+      :style='absStyle'
+      )    
       //- interface background 
-      iface-back(:size='options.size')
+    iface-back(:size='options.size'  :style='absStyle')
+     
+
       
       //- Dialogs
-      .dialogs
-        main-dialog(v-for="(dialog,index) in dialogs" :key='dialog.type + "-" + dialog.id' :dialog='dialog')
+    .dialogs
+      main-dialog(v-for="(dialog,index) in dialogs" :key='dialog.type + "-" + dialog.id' :dialog='dialog')
       
-      //- Menu
-      .over
-        .menu(v-if="showMenu")
-          stats-menu(:nodes="nodes" :links="links" :options="options" @options="changeOptions" @reset="resetOptions")
-            button.close(@click="showMenu = false" slot="header")
-              icon(name='close')
+    //- Menu
+    .over
+      .menu(v-if="showMenu")
+        stats-menu(:nodes="nodes" :links="links" :options="options" @options="changeOptions" @reset="resetOptions")
+          button.close(@click="showMenu = false" slot="header")
+            icon(name='close')
+    
       
+    //- table
+    dialog-drag.dialog-table(v-if='showTable' id='table-dialog' ref='table'
+      :key='"dialog-table"'
+      :options='tableOptions'
+      @close='showHideTable()' 
+      @load='tableLoaded')
+      icon(name='close' slot='button-close')
+      icon(name='pin' slot='button-pin')
+      icon(name='pinned' slot='button-pinned')
+      nodes-table
+    
+    //- Snapshots 
+    dialog-drag(v-if='showSnapshots' id="snapshots" title="Snapshots"
+      :key='"dialog-snaps"'
+      :options="{top:0, left:0,centered:true}" 
+      @close='showSnapshots = false')
+      icon(name="close" slot="button-close")
       
-      //- table
-      dialog-drag.dialog-table(v-if='showTable' id='table-dialog' ref='table'
-        :key='"dialog-table"'
-        :options='tableOptions'
-        @close='showHideTable()' 
-        @load='tableLoaded')
-        icon(name='close' slot='button-close')
-        icon(name='pin' slot='button-pin')
-        icon(name='pinned' slot='button-pinned')
-        nodes-table
-      
-      //- Snapshots 
-      dialog-drag(v-if='showSnapshots' id="snapshots" title="Snapshots"
-        :key='"dialog-snaps"'
-        :options="{top:0, left:0,centered:true}" 
-        @close='showSnapshots = false')
-        icon(name="close" slot="button-close")
-        
-        snapshots-list( id='snapshots-list')       
+      snapshots-list( id='snapshots-list')       
     
     //- Not connected section
-    section.loading(v-else)
+    .loading(v-if='!connected')
       h2.center requesting server data...
       
+
+
 </template>
 <script>
 import { mapState, mapActions, mapGetters } from 'vuex'
@@ -108,9 +124,9 @@ import { locStorage as storage } from './lib/js/io.js'
 
 import D3Network from 'vue-d3-network'
 import StatsMenu from './components/StatsMenu'
-import DialogDrag from 'vue-dialog-drag'
-
-import Logo from './components/logo.vue'
+// import DialogDrag from 'vue-dialog-drag'
+import DialogDrag from './components/vue-dialog-drag.vue'
+import Logo from './components/Logo.vue'
 import IfaceBack from './components/ifaceBack.vue'
 import NodeWatcher from './components/NodeWatcher.vue'
 import NodeData from './components/NodeData.vue'
@@ -157,6 +173,16 @@ export default {
   },
   data () {
     let data = Object.assign({}, defaultData)
+    data.center = {
+      top: 0,
+      left: 0
+    }
+    data.abs = {
+      left: 0,
+      top: 0,
+      width: 0,
+      height: 0
+    }
     data.options.size = { w: 500, h: 500 }
     data.options.offset = { x: 0, y: 0 }
     data.tools = {
@@ -191,7 +217,10 @@ export default {
     this.$store.dispatch('init', { snapshots: savedSnapshots })
   },
   mounted () {
-    this.onResize()
+    let vm = this
+    this.$nextTick(() => {
+      vm.onResize()
+    })
     window.addEventListener('resize', this.onResize)
   },
   beforeDestroy () {
@@ -239,6 +268,9 @@ export default {
       return this.charts.blockPropagationChart.map((d) => {
         return d.x
       })
+    },
+    absStyle () {
+      return this.addPx(this.abs)
     }
   },
   methods: {
@@ -276,10 +308,28 @@ export default {
     onResize () {
       let size = { w: this.$el.clientWidth, h: this.$el.clientHeight }
       this.setSize(size)
-      let options = this.options
-      options.size = size
-      this.changeOptions(options)
       if (this.showTable) this.$refs.table.center()
+
+      let main = document.querySelector('#main')
+      let vW = window.innerWidth
+      let width = this.$el.clientWidth
+      let height = main.scrollHeight + main.offsetTop
+      let left = 0
+      let top = 0
+      let x = 10
+      let y = 0
+      if (vW > 900 && vW < 1200) {
+        x = main.offsetLeft / 2
+      }
+
+      this.abs = { width, height, left, top }
+      this.center.left = (main.clientWidth / 2) + main.offsetLeft
+      this.center.top = (main.clientHeight / 2) + main.offsetTop
+
+      let options = this.options
+      options.size = { w: width, h: height }
+      options.offset = { x, y }
+      this.changeOptions(options)
     },
     resetOptions () {
       this.options = Object.assign({}, defaultData.options)
@@ -291,6 +341,12 @@ export default {
     },
     buttonClass (tool) {
       if (tool === this.tool) return 'selected'
+    },
+    addPx (style) {
+      Object.keys(style).map((key) => {
+        style[key] += 'px'
+      })
+      return style
     },
     setTool (tool) {
       this.tool = tool
@@ -335,12 +391,16 @@ export default {
 @import './lib/styl/vars.styl'
 @import './lib/styl/app.styl'
 @import './lib/styl/nodes.styl'
+ 
    #app
     min-height: 100%
+
   .iface-back
     position: absolute
     top: 0 
     left: 0
+    border 0
+    margin 0
     z-index: 1
     pointer-events: none
 
@@ -365,11 +425,6 @@ export default {
     z-index: 50
     position:relative
     pointer-events all
-  
-  .nodes-count
-    text-align center
-    padding: 0
-    margin:0 
   
   .options
     padding: .5em 2em

@@ -1,7 +1,7 @@
 <template lang="pug">
   .logo-cont
-    h1.logo
-      icon.iso(name='rsk' scale='1.2')
+    .logo
+      icon.iso(name='rsk' scale='1')
       span &nbsp; rsk network
 </template>
 <script>
@@ -14,10 +14,11 @@ export default {
 @import '../lib/styl/vars.styl'
   .logo-cont
     justify-content center
-    padding: 1em 0
+    padding:  0
     .logo
+      color $color
       margin:0 .5em
       white-space:nowrap
-      font-size: 2em
+      font-size: 1.75em
     
 </style>

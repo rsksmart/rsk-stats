@@ -1,5 +1,5 @@
 <template lang="pug">
-  .iface-back(:width='size.w + "px"' :height='size.h + "px"')
+  .iface-back(:style='styleObj')
     .node-block(v-for='node,id in nodes' :key='id' :style='nodeBlockStyle(node)')
       transition(name="block-number" type="animation"  appear )
         span.block-number( :key='node.stats.block.number') {{nodes[id].stats.block.number}}
@@ -17,7 +17,12 @@ export default {
     ...mapGetters({
       dialogs: 'app/getNodeDialogs',
       nodes: 'getNodes'
-    })
+    }),
+    styleObj () {
+      let width = this.size.w + 'px'
+      let height = this.size.h + 'px'
+      return { width, height }
+    }
   },
   methods: {
     ...mapGetters([
