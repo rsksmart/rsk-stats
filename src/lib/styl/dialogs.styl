@@ -15,11 +15,10 @@
   overflow: visible
   display: flex
   flex-direction: column
-  border: $color solid 2px
   background-color: $white
   box-shadow: $dialog-sh
   animation-duration: 0.2s
-  // animation-name: dialog-anim
+  animation-name: dialog-anim
   animation-timing-function: ease-in
   border-radius: 1px
   border: none
@@ -52,7 +51,7 @@
       width: $action-btn-size / 1.2
   
   .dialog-body
-    padding: 1em
+     padding:  0 .25em .35em .25em
 
 
 .dialog-drag.fixed  // dialog pinned
@@ -73,18 +72,14 @@
 
 $searchBg = $darkness
 // Nodes Table
-.dialog-table
+.table-dialog
   .buttons 
     margin-right: 1em
   input
     background-color: $searchBg
     color: $color
     border: $dark solid 1px
-  .dialog-header
-    float: right
   .search
-    display: flex
-    position: absolute
     overflow: visible
     top: .5em
     left 1em

@@ -52,10 +52,10 @@ export default {
 </script>
  <style lang="stylus">
   .mini-chart
-    margin-bottom: .5em
+    display flex
+    flex-flow column nowrap
+    margin-bottom: .25rem
     .curve
       stroke-width 2px
-  .mini-chart:first-child
-    margin-top: .5em  
  </style>
  

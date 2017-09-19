@@ -1,12 +1,11 @@
 <template lang="pug">
-  #menu
+  .stats-menu
     .header
       slot(name="header" scoped='')
     ul.setts-menu
       li
-        label Nodes spread: 
+        label Nodes spread: {{opts.force}}
         input(type="range" v-model.number="opts.force" @input="change" min="1" max="7000" step="10")  
-    ul.setts-menu
       li
         label Node Size: {{opts.nodeSize}}
         input(type="range" v-model.number="opts.nodeSize" @input="change" min="5" max="200" step="1")
@@ -18,8 +17,9 @@
           span {{ opts.fontSize }} 
         input(type="range" v-model.number="opts.fontSize" @input="change" min="5" max="30" step="1")
       li  
-        button.reset(@click="reset" title="reset options")
-          icon(name='reload-alt')
+        button.reset(@click="reset" title="reset options") 
+          icon(name='reload-alt' scale='1.5')
+          
 
 </template>
 <script>
@@ -61,44 +61,31 @@ export default {
 </script>
 <style lang="stylus" scoped>
  @import '../lib/styl/vars.styl'
- 
- #menu 
-  display inline-block
 
-.debug 
-  font-size: 0.5em
-  list-style: none
-
-.header
-  background: $light
-  button.close
-    background: $light
-    height $action-btn-size
-    width $action-btn-size
-    line-height $action-btn-size
-    border-radius 50%
-    float: right 
-    margin-right: -2.5em
-.setts-menu
-  display: table-cell
-  padding: 1em
+.stats-menu
   border: $border
-  list-style: none
-  box-shadow: $hard-sh
   background: $light
-  li
-    margin: 0.5em 0
-    label
-      font-weight: bold
-      font-size: 0.85em
-      display: block
-      span
-        font-weight: normal
-    input + label
-      display: inline
-      margin-left: .5em
-label
-  font-weight: bold
+  box-shadow: $hard-sh
+  .header 
+    text-align right 
+    margin 0
+    padding 0 .5em
+  .setts-menu
+    display: table-cell
+    padding: 0 1em
+    list-style: none
+    li
+      margin: 0.5em 0
+      label
+        font-weight: bold
+        font-size: 0.85em
+        display: block
+        span
+          font-weight: normal
+      input + label
+        display: inline
+        margin-left: .5em
+
 
 $mbr = .4em
 
@@ -111,5 +98,11 @@ ul.test-menu + ul.test-menu
 .menu ul.test-menu:last-child
   border-radius: 0 $mbr $mbr 0    
 
+button.reset 
+  padding:0.0625em
+  border-radius: 50%
+  float:right
+  background-color: white
+  margin-bottom .5em
 </style>  
 

@@ -6,20 +6,30 @@
       button.btn.live(@click='goLive()') go Live
     
     header
-      logo
-      .header-content
-      .menu
-        button.btn.big.main-menu
+      .head-1  
+        logo
+      .head-2
+        button.btn.big.main-menu(@click='showMenu=!showMenu')
           icon(name='equalizerh')
+      .head-3
+        .options(v-if='showMenu')
+          button.btn(@click="showConfig = !showConfig")
+            icon(name='settings')
+          button.btn.badge(@click='showSnapshots = !showSnapshots')
+            icon(name='versions')
+            span.badge(v-if='totalSnapshots') {{ totalSnapshots }}
+          button.btn(v-for='t,to in tools' @click='setTool(to)' :class='buttonClass(to)')
+            icon(:name='t.icon')
+
     .content
       .col-a
         .col-content
-          .node-box.big-data(@touchstart.prevent='showHideTable()')
+          .node-box.big-data(@touchstart.prevent='showHideTable(true)')
             .bd-main
-              button.btn.badge.big(@click.stop='showHideTable()')
+              button.btn.badge.big(@click.stop='showHideTable(true)')
                 icon(name='table')
                 span.badge {{ activeNodes.length }}
-              button.big-txt(@click.stop='showHideTable()') tracked nodes {{ nodes.length }} 
+              button.big-txt(@click.stop='showHideTable(true)') tracked nodes {{ nodes.length }} 
               //-{{ activeNodes.length }}
           big-data(v-for='name,index in bigDataFields ' 
           v-if='!isVisibleDialog()(types.TOTAL,name)'
@@ -28,19 +38,11 @@
           :options='{minimized:(name === "gasLimit" || name === "gasPrice" || name ==="uncles")}'
           )
           
-          .options
-            button.btn(@click="showMenu = !showMenu")
-              icon(name='settings')
-            button.btn.badge(@click='showSnapshots = !showSnapshots')
-              icon(name='versions')
-              span.badge(v-if='totalSnapshots') {{ totalSnapshots }}
-            button.btn(v-for='t,to in tools' @click='setTool(to)' :class='buttonClass(to)')
-              icon(:name='t.icon')
-
-
       .col-b#main
-        //- col-c 
-        aside.col-c
+        
+        //- Not connected 
+        .loading(v-if='!connected')
+          h2.center requesting server data...
       .col-c
         .col-content
           //- h6 blockPropagationChart
@@ -60,7 +62,7 @@
             //-mini-chart(name='lastGasLimit')
           .box
             mini-chart(name='blockPropagationChart')
-      footer
+    //-  footer
         p rsk
     d3-network(v-if='connected'
       :netNodes="nodes"
@@ -76,8 +78,6 @@
       )    
       //- interface background 
     iface-back(:size='options.size'  :style='absStyle')
-     
-
       
       //- Dialogs
     .dialogs
@@ -85,22 +85,9 @@
       
     //- Menu
     .over
-      .menu(v-if="showMenu")
-        stats-menu(:nodes="nodes" :links="links" :options="options" @options="changeOptions" @reset="resetOptions")
-          button.close(@click="showMenu = false" slot="header")
-            icon(name='close')
-    
-      
-    //- table
-    dialog-drag.dialog-table(v-if='showTable' id='table-dialog' ref='table'
-      :key='"dialog-table"'
-      :options='tableOptions'
-      @close='showHideTable()' 
-      @load='tableLoaded')
-      icon(name='close' slot='button-close')
-      icon(name='pin' slot='button-pin')
-      icon(name='pinned' slot='button-pinned')
-      nodes-table
+      stats-menu(v-if="showConfig" :nodes="nodes" :links="links" :options="options" @options="changeOptions" @reset="resetOptions")
+        button.close(@click="showConfig = false" slot="header")
+          icon(name='close')
     
     //- Snapshots 
     dialog-drag(v-if='showSnapshots' id="snapshots" title="Snapshots"
@@ -110,11 +97,8 @@
       icon(name="close" slot="button-close")
       
       snapshots-list( id='snapshots-list')       
-    
-    //- Not connected section
-    .loading(v-if='!connected')
-      h2.center requesting server data...
       
+
 
 
 </template>
@@ -124,8 +108,7 @@ import { locStorage as storage } from './lib/js/io.js'
 
 import D3Network from 'vue-d3-network'
 import StatsMenu from './components/StatsMenu'
-// import DialogDrag from 'vue-dialog-drag'
-import DialogDrag from './components/vue-dialog-drag.vue'
+import DialogDrag from 'vue-dialog-drag'
 import Logo from './components/Logo.vue'
 import IfaceBack from './components/ifaceBack.vue'
 import NodeWatcher from './components/NodeWatcher.vue'
@@ -143,7 +126,6 @@ import { percent, numerals, toInt, numeralsSuffix } from './filters/NumberFilter
 import nodeIcon from '!!raw-loader!./assets/node.svg'
 import defaultData from './data.js'
 import './icons'
-
 export default {
   name: 'rsk-stats',
   components: {
@@ -208,6 +190,7 @@ export default {
       'gasPrice',
       'gasLimit'
     ]
+    data.showMenu = false
     return data
   },
   created () {
@@ -238,8 +221,7 @@ export default {
   computed: {
     ...mapState({
       state: state => state,
-      snapshots: state => state.snapshots,
-      showTable: state => state.app.showTable
+      snapshots: state => state.snapshots
     }),
     ...mapGetters({
       connected: 'isConnected',
@@ -316,7 +298,7 @@ export default {
       let height = main.scrollHeight + main.offsetTop
       let left = 0
       let top = 0
-      let x = 10
+      let x = 0
       let y = 0
       if (vW > 900 && vW < 1200) {
         x = main.offsetLeft / 2
@@ -394,7 +376,15 @@ export default {
  
    #app
     min-height: 100%
-
+  
+  .over
+    position: absolute
+    top: 0
+    right: 0
+    z-index: 100
+    padding: 1em
+  .head-2
+    z-index 500 !important 
   .iface-back
     position: absolute
     top: 0 
@@ -427,19 +417,17 @@ export default {
     pointer-events all
   
   .options
-    padding: .5em 2em
     text-align: center
     display flex
-    justify-content center
     align-items: center
     z-index: 100
-    margin-top: 1em
     position: relative
     left:0
       button
-          font-size: 2em
-          width 2em
-          height 2em
+        font-size: 2em
+        width 2em
+        height 2em
+        z-index: 100
     .selected *
       fill: $color2
   

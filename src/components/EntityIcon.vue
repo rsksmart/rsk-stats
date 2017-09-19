@@ -43,7 +43,7 @@ export default {
 }
 </script>
 <style lang="stylus">
-  .entity-icon, .icon, bd-data
+  .entity-icon, .icon, .bd-data
     .tip
       overflow visible
       word-break: unset

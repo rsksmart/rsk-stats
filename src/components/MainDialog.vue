@@ -9,27 +9,28 @@
       @pin='updateDialog'
       @focus='bringDialogToFront(dialog)'
       )
-        template(v-if='!is(types.TOTAL)')
-          icon( v-if='buttonClose' name='close' slot='button-close')
-          icon( v-if='buttonPin' name='pin' slot='button-pin')
-          icon( v-if='buttonPin' name='pinned' slot='button-pinned')
-        
-        //- Node Dialog
-        template(v-if='is(types.NODE)')
-          .node-header(slot='title')
-            icon.med(name='rsk')
-            h3.node-title.title {{ dialog.name }}
-          node-watcher(:dialog='dialog')
-        //- Chart Dialog
-        template(v-if='is(types.CHART)')
-          h3.node-title(slot='title') {{ dialog.name }}
-          chart(:name='dialog.id' :max='true')  
-        
-        template(v-if='is(types.TOTAL)')
-          big-data(:name='dialog.id')
-          icon( v-if='buttonClose' name='close' slot='button-close')
-        template(v-if='is(types.TABLE)')
-          nodes-table  
+
+      template(v-if='!is(types.TOTAL)')
+        icon( v-if='buttonClose' name='close' slot='button-close')
+        icon( v-if='buttonPin' name='pin' slot='button-pin')
+        icon( v-if='buttonPin' name='pinned' slot='button-pinned')
+      
+      //- Node Dialog
+      template(v-if='is(types.NODE)')
+        .node-header(slot='title')
+          icon.med(name='rsk')
+          h3.node-title.title {{ dialog.name }}
+        node-watcher(:dialog='dialog')
+      //- Chart Dialog
+      template(v-if='is(types.CHART)')
+        h3.node-title(slot='title') {{ dialog.name }}
+        chart(:name='dialog.id' :max='true')  
+      
+      template(v-if='is(types.TOTAL)')
+        big-data(:name='dialog.id')
+        icon( v-if='buttonClose' name='close' slot='button-close')
+      template(v-if='is(types.TABLE)')
+        nodes-table  
   
 </template>
 <script>
@@ -45,16 +46,6 @@ import '../icons/pin'
 import '../icons/pinned'
 import '../icons/rsk'
 
-// Dialog event cb
-const dialogEventFormatter = (type) => (obj) => {
-  obj.type = type // set type
-  obj.w = obj.width // save computed width
-  obj.h = obj.height // save computed height
-  obj.height = 0 // auto height
-  obj.centered = false // remove autocenter, after load
-  return obj
-}
-
 export default {
   name: 'main-dialog',
   components: {
@@ -68,8 +59,7 @@ export default {
   data () {
     return {
       buttonPin: true,
-      buttonClose: true,
-      dialogEventFormatter: dialogEventFormatter
+      buttonClose: true
     }
   },
   created () {
@@ -78,6 +68,7 @@ export default {
     }
     this.dialog.buttonClose = this.buttonClose
     this.dialog.buttonPin = this.buttonPin
+    // this.dialog.dropEnabled = false
   },
   computed: {
     ...mapGetters('app/', {
@@ -92,7 +83,23 @@ export default {
     ]),
     is (type) {
       return this.dialog.type === type
+    },
+    // Dialog event cb
+    dialogEventFormatter (type) {
+      return (obj) => {
+        obj.type = type // set type
+        obj.w = obj.width // save computed width
+        obj.h = obj.height // save computed height
+        // auto size for all dialogs except TOTALS
+        if (type !== this.types.TOTAL) {
+          obj.height = 0 // auto height
+          obj.width = 0 // auto height
+        }
+        obj.centered = false // remove autocenter, after load
+        return obj
+      }
     }
+
   }
 }
 </script>
