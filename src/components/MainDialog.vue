@@ -95,7 +95,9 @@ export default {
           obj.height = 0 // auto height
           obj.width = 0 // auto height
         }
-        obj.centered = false // remove autocenter, after load
+        if (type !== this.types.TABLE) {
+          obj.centered = false // remove autocenter, after load
+        }
         return obj
       }
     }
