@@ -38,6 +38,8 @@ svg text
 footer
   background: $darkness-even
   color $dark
+header 
+  align-items center
 :focus 
     outline: 0
 
@@ -62,11 +64,6 @@ footer
 h6
   color: $white
 
-.center
-  display:block
-  text-align: center
-  margin:auto
-
 
 .connected
   color: $color
@@ -74,12 +71,7 @@ h6
 .disconnected
   color: $warn
 
-.over
-  position: absolute
-  bottom: 0
-  left: 0
-  z-index: 100
-  padding: 1em
+
 
 h1
   color: $color
@@ -102,15 +94,15 @@ ul.inline
       content: '/'
       margin: 0 0.5em
   
-.options button.btn
-  width: 3em
-  height: 3em
+/*.options button.btn
+  width: 2em
+  height: 2em
   .svg-icon
-    width: 2em !important
-    height: 2em !important 
+    width: 1.25em !important
+    height: @width 
    .badge
-      font-size: 1em
-          
+      font-size: .8em
+*/        
 .cross-cursor
   cursor: crosshair
 

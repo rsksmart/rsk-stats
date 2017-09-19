@@ -1,5 +1,5 @@
 export default {
-  showMenu: false,
+  showConfig: false,
   showSnapshots: false,
   selected: {},
   linksSelected: {},

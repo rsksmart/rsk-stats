@@ -37,7 +37,8 @@ export default {
       1: COLORS.green,
       1000: COLORS.yellow,
       3000: COLORS.orange,
-      7000: COLORS.red
+      7000: COLORS.red,
+      8000: COLORS.red
     }
   },
   latency: {

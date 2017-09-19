@@ -47,7 +47,7 @@ export default {
       formatY: (y) => { return Vue.filter('locale')(y) },
       bars: false,
       curve: {
-        type: 'Cardinal',
+        type: 'MonotoneX',
         gradient: {
           fill: false,
           stroke: true

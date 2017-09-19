@@ -25,27 +25,32 @@ body
   
 header, footer
    flex 0 0 100%
-   padding 0 $margin 
+   flex-flow row nowrap
+   padding 0 $margin
+   overflow: visible 
    z-index 5
 
 header
   display flex
-  flex-flow row nowrap
+  flex-flow row nowrfap
+  max-height: 3rem // firefox 
   height $min-box-height / 2
+  z-index 20
 
-  .logo-cont
+  .head-1
     order 1
     flex 1 1 $min-col-w
     text-align center
-  .header-content
+    z-index: 5
+  .head-2
     order 2
     flex 4 1 0
-  .menu
-    display flex
+    z-index: 5
+    text-align right
+  .head-3
     order 3
-    flex 1 2 2rem
-    width: 1rem
-    justify-content flex-end
+    flex 0
+
 
 
 footer  
@@ -102,3 +107,8 @@ footer
       flex-flow column nowrap
   .box
     padding-left:  0 !important
+  header
+    .head-3
+      flex 1.1 1 2rem
+      padding-right $margin
+

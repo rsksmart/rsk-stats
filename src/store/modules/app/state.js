@@ -6,8 +6,7 @@ export default function (types) {
         [types.LINK]: {}
       },
       dialogs: [],
-      frontDialogId: null,
-      showTable: false
+      frontDialogId: null
     }
   }
 }

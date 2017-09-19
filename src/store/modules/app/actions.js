@@ -131,8 +131,8 @@ export const updateDialog = ({ state, commit }, payload) => {
   }
 }
 
-export const showHideTable = ({ state, commit }, show) => {
-  // optional show argument
-  show = show || !state.showTable
-  commit('SET_SHOW_TABLE', show)
+export const showHideTable = ({ state, commit, dispatch }, show) => {
+  let dialog = { type: types.TABLE, id: 'table-dialog', centered: true }
+  if (show) dispatch('createDialog', dialog)
+  else dispatch('closeDialog', dialog)
 }

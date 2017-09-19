@@ -1,13 +1,10 @@
 <template lang="pug">
   .snapshots-list
-    //-button.close(@click='close')
-      icon(name='close')
-    //-slot.title(name='title')
-    input(type="text" v-model='snapShotName' placeholder="snapshot name")
+    input(v-model='snapShotName')
     button.btn(@click='takeSnapshot(snapShotName)')
       icon(name='floppy')
     table.snapshots.dark
-      tr(v-for='snapshot,key in snapshots')
+      tr(v-for='snapshot,key in snapshots' :key='key' :class='(key % 2) ? "odd" : "even"')
         td
           button(@click='removeSnapshot(key)')
             //-tool-tip(:value='"delete"')
