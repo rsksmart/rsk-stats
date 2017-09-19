@@ -44,7 +44,7 @@ const newDialog = (data) => {
   dialog.title = data.title || ''
   dialog.name = data.name || ''
   dialog._show = true
-  dialog._persistent = true // <- Hard coded persisffindDialogindDialogtence for all dialogs
+  dialog._persistent = true // <- Hard coded perrsistence for all dialogs
   return dialog
 }
 export const restartDialog = ({ state, commit }, dialog) => {
@@ -83,6 +83,7 @@ export const closeDialog = ({ state, commit, dispatch }, dialog) => {
   let id = dialog.id
   let index = findDialog(state.dialogs, id, type)
   if (index !== null) {
+    dialog = state.dialogs[index]
     // unselect nodes
     if (type === types.NODE) {
       dispatch('unSelectNode', dialog.id)
@@ -132,7 +133,7 @@ export const updateDialog = ({ state, commit }, payload) => {
 }
 
 export const showHideTable = ({ state, commit, dispatch }, show) => {
-  let dialog = { type: types.TABLE, id: 'table-dialog', centered: true }
+  let dialog = { type: types.TABLE, id: 'table-dialog', centered: 'viewport' }
   if (show) dispatch('createDialog', dialog)
   else dispatch('closeDialog', dialog)
 }
