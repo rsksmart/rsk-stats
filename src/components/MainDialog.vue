@@ -3,7 +3,7 @@
     dialog-drag(:options='dialog' :id='dialog.id'
       :class='dialog.type + "-dialog"'
       :event-cb='dialogEventFormatter(dialog.type)'
-      @close='closeDialog(dialog)'
+      @close='closeDialog'
       @move='updateDialog'
       @load='updateDialog'
       @pin='updateDialog'
