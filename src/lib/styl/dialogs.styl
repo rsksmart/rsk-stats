@@ -24,26 +24,25 @@
   border: none
 
   .dialog-header
-    position:relative
-    text-align: left
-    padding: .25em 3em .25em 1em
     width: auto
     font-size: 0.9em
     color: white
-
+    display flex
+    flex-flow row nowrap
+    .title
+      flex 2 0 
     .buttons 
-      position: absolute
-      right: 0
-      top:0
+      flex 1 1 2rem
+      text-align:  right
       margin: $buttons-margin $buttons-margin * 2 0 0
       width: $action-btn-size * 2
       text-align: right
       button svg
          width: $action-btn-size
-    button.close, button.pin
-      background: transparent
-      box-shadow: none
-      border:none
+      button.close, button.pin
+        background: transparent
+        box-shadow: none
+        border:none
       
       &:hover
         color: $color2 
@@ -95,7 +94,6 @@ $searchBg = $darkness
     .dialog-body
       padding: 0 !important
     .dialog-header
-      padding: 1.2em !important
       .node-title
         display none
 

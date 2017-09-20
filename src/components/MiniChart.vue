@@ -1,5 +1,5 @@
 <template lang="pug">
-  .mini-chart(v-if='!isMaximized' @touchstart.prevent='openDialog')
+  .mini-chart(@touchstart.prevent='openDialog')
     chart(:name='name')
       button.max(@click='openDialog' slot='header')
         icon.maximize(name='enlarge')
@@ -25,12 +25,9 @@ export default {
     openDialog (event) {
       let dialog = {
         id: this.name,
-        width: this.size.w / 2,
+        width: this.size.w / 2.1,
         height: this.size.w / 6,
         centered: 'viewport'
-      }
-      if (event.touches) {
-        this.centerDialog(dialog)
       }
       this.createChartDialog(dialog)
     }
@@ -39,14 +36,7 @@ export default {
     ...mapGetters({
       size: 'getSize',
       types: 'app/getTypes'
-    }),
-    dialog () {
-      return this.getDialog()(this.types.CHART, this.name)
-    },
-    isMaximized () {
-      if (this.dialog) return this.dialog.length
-      return 0
-    }
+    })
   }
 }
 </script>
