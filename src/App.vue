@@ -2,7 +2,7 @@
 #app.wrapper
     //- snapshots hint
     .snapshot-hint(v-if='!isLive')
-      small.hint.color2 running in snapthot mode
+      small.hint.color2 running in snapshot mode
       button.btn.live(@click='goLive()') go Live
     
     header
@@ -45,23 +45,11 @@
           h2.center requesting server data...
       .col-c
         .col-content
-          //- h6 blockPropagationChart
-          //-chart(:data='blockChart')
-
           //- CHARTS --------------------------
-          .box
-            mini-chart(name='uncleCountChart')
-          .box
-            mini-chart(name='lastBlocksTime')
-          .box
-            mini-chart(name='difficultyChart')
-          .box
-            mini-chart(name='gasSpending')
-          .box
-            mini-chart(name='transactionDensity' )
-            //-mini-chart(name='lastGasLimit')
-          .box
-            mini-chart(name='blockPropagationChart')
+          .box(v-for='name in charts')
+            //- v-if fails in firefox
+            mini-chart(v-show='!isChartMaximized(name)' :name='name' :key='name')
+    
     //-  footer
         p rsk
     d3-network(v-if='connected'
@@ -190,6 +178,13 @@ export default {
       'gasPrice',
       'gasLimit'
     ]
+    data.charts = ['uncleCountChart',
+      'lastBlocksTime',
+      'difficultyChart',
+      'gasSpending',
+      'transactionDensity',
+      // 'lastGasLimit',
+      'blockPropagationChart']
     data.showMenu = false
     return data
   },
@@ -256,6 +251,10 @@ export default {
     }
   },
   methods: {
+    isChartMaximized (name) {
+      let chart = this.getDialog()(this.types.CHART, name)
+      return (chart) ? chart.length : 0
+    },
     tableLoaded (data) {
       let dialog = this.$refs.table
       dialog.center()
@@ -285,7 +284,8 @@ export default {
     ...mapGetters('app/', [
       'isNodeSelected',
       'isLinkSelected',
-      'isVisibleDialog'
+      'isVisibleDialog',
+      'getDialog'
     ]),
     onResize () {
       let size = { w: this.$el.clientWidth, h: this.$el.clientHeight }
