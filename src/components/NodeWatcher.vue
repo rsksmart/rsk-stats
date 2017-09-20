@@ -1,6 +1,6 @@
 <template lang="pug">
   .watcher
-      ul.node-data 
+      ul.node-data(:class='nodeClass')
         li(v-for='ent in ["latency","peers","pending","uncles","blockTrans","totalDiff","lastBlockTime","lastBlockDifference"]')
           entity-icon(:entity='entity[ent]' :value='fields[ent]')
           entity-value.txt(:entity='entity[ent]' :value='fields[ent]' :fields='fields')
@@ -30,6 +30,7 @@ import { mapActions, mapGetters } from 'vuex'
 import NodeChart from './NodeChart.vue'
 import ToolTip from './ToolTip.vue'
 import EntityMixin from '../mixins/Entity'
+import { nodeFilter } from '../filters/nodes.js'
 export default {
   name: 'node-watcher',
   mixins: [
@@ -39,6 +40,9 @@ export default {
     NodeChart,
     ToolTip
   },
+  filters: [
+    nodeFilter
+  ],
   props: ['dialog'],
   data () {
     return {
@@ -84,6 +88,11 @@ export default {
     },
     fields () {
       return this.createNodeEntity()(this.dialog.id)
+    },
+    nodeClass () {
+      let node = this.node
+      node = nodeFilter(node)
+      return node._cssClass
     }
   }
 }

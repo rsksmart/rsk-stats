@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import * as moment from 'moment'
+import { isDigits } from './NumberFilters.js'
 
 export const tSecondsAgo = Vue.filter('t-seconds-ago', (timestamp) => {
   let time = moment(timestamp).format('s')
@@ -27,6 +28,7 @@ const sAgo = (time) => {
 }
 
 export const abbreviatedTimeObj = (time) => {
+  if (!isDigits(time)) return { time, suffix: '' }
   time = parseInt(time)
   let suffix = 'ms'
   if (time <= 0) return { time: 0, suffix }

@@ -64,5 +64,9 @@
 .node.is-mining
     .node-back
       fill: #e1bd45 // temporal
-.inactive
-  color: alpha($graylight,.5)
+.inactive, tr.inactive td *, .node-data.inactive * 
+  $inactive-color = alpha($graylight,.5)
+  color $inactive-color !important
+  fill $inactive-color !important
+
+ 

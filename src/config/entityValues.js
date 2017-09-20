@@ -1,10 +1,12 @@
+const NA = 'n/a'
+
 export const NODE = (node, date, totals) => {
   if (node) {
     let stats = node.stats
     let fields = {
       name: node.info.name,
       type: node.info.node,
-      latency: (stats.active) ? stats.latency : 0,
+      latency: (stats.active) ? stats.latency : NA,
       uptime: stats.uptime,
       peers: stats.peers,
       pending: stats.pending,
@@ -18,7 +20,8 @@ export const NODE = (node, date, totals) => {
       totalDiff: stats.block.totalDifficulty,
       propTime: stats.block.propagation,
       avgPropTime: stats.propagationAvg,
-      mining: stats.mining
+      mining: stats.mining,
+      active: stats.active
     }
     return fields
   }
