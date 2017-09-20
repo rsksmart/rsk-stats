@@ -32,8 +32,8 @@ export default {
   latency: {
     icon: 'stopwatch',
     title: 'node latency',
-    suffix: 'ms',
-    threshold: 'latency'
+    threshold: 'latency',
+    filters: 'ms-suffix'
   },
   peers: {
     icon: 'server'

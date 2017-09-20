@@ -107,9 +107,10 @@ export default {
       return this.getNode()(id).history
     },
     rowClass (index, id) {
-      let node = this.getNode()(id)
+      // let node = this.getNode()(id)
+      let data = this.rows[index]
       let cssClass = (index % 2) ? 'odd' : 'even'
-      if (node && !node.stats.active) cssClass += ' inactive'
+      if (data && !data.active) cssClass += ' inactive'
       if (this.isPinned()(id)) cssClass += ' pinned'
       return cssClass
     },

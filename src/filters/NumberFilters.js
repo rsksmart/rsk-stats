@@ -46,3 +46,7 @@ export const gas = Vue.filter('gas', (value) => {
 export const wei = Vue.filter('wei', (value) => {
   return locale(value) + 'wei'
 })
+
+export const isDigits = Vue.filter('is-digits', (value) => {
+  return /^-?\d+\.?\d*$/.test(value) // true for digits and '.'
+})
