@@ -80,19 +80,29 @@ export const getNodesEntitiesArr = (state, getters) => {
   return Object.values(getters.getNodesEntities)
 }
 
-export const applyFilter = (state) => (filters, value, err) => {
+export const applyFilter = (state) => (filters, value) => {
   if (filters) {
     filters = (Array.isArray(filters)) ? filters : [filters]
-    for (let filterName of filters) {
-      let filter = Vue.filter(filterName)
-      if (filter) {
-        value = filter(value)
+    for (let f of filters) {
+      if (typeof (f) === 'object') {
+        let filterName = f.name
+        let args = f.args
+        if (filterName) value = filter(filterName, value, args)
       } else {
-        err = err || 'Unknown filter '
-        err += filterName
-        console.info(err)
+        value = filter(f, value)
       }
     }
+  }
+  return value
+}
+
+const filter = (filterName, value, args) => {
+  let filter = Vue.filter(filterName)
+  if (filter) {
+    if (args) value = filter(value, ...args)
+    else value = filter(value)
+  } else {
+    console.info('Unknown filter ' + filterName)
   }
   return value
 }

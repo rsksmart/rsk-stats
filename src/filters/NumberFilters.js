@@ -35,8 +35,8 @@ export const Hs = Vue.filter('Hs', (value) => {
   return numerals(value) + 'Hs'
 })
 
-export const H = Vue.filter('H', (value) => {
-  return numerals(value) + 'H'
+export const H = Vue.filter('H', (value, fixed) => {
+  return numerals(value, fixed) + 'H'
 })
 
 export const gas = Vue.filter('gas', (value) => {
