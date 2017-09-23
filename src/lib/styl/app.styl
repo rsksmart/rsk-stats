@@ -1,18 +1,17 @@
 @import './vars.styl'
 @import './mixins.styl'
 @import './layout.styl'
-@import './dialogs.styl'
 @import './buttons.styl'
 @import './symbols.styl'
 @import './colors.styl'
 @import './forms.styl'
 @import './tables.styl'
 @import './chart.styl'
+@import './dialogs.styl'
 @import './hardCoded.styl'
 
-html, body
-  height: 100%
-
+html
+  font-size 100%
 html
 body 
 .net
@@ -21,10 +20,9 @@ button
   padding: 0
   
 body
-  padding: 0 
-  margin 1px
-  max-width: 100%
-  background-color: $darkness !important
+  // margin 1px
+  // max-width: 100%
+  background-color: $bg-dark
 
 body, button, input 
   font-family: 'Titillium Web', sans-serif
@@ -54,24 +52,13 @@ header
   align-items: center
 
 .net
-  max-width: 100%
-  max-height: 95%
   position: absolute
-
-.net
-.graph
-  z-index: 5
-h6
-  color: $white
-
 
 .connected
   color: $color
 
 .disconnected
   color: $warn
-
-
 
 h1
   color: $color
@@ -93,16 +80,7 @@ ul.inline
     &:after
       content: '/'
       margin: 0 0.5em
-  
-/*.options button.btn
-  width: 2em
-  height: 2em
-  .svg-icon
-    width: 1.25em !important
-    height: @width 
-   .badge
-      font-size: .8em
-*/        
+
 .cross-cursor
   cursor: crosshair
 

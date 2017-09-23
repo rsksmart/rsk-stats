@@ -17,7 +17,7 @@
           span {{ opts.fontSize }} 
         input(type="range" v-model.number="opts.fontSize" @input="change" min="5" max="30" step="1")
       li  
-        button.reset(@click="reset" title="reset options") 
+        button.reset(@click="reset" title="reset options" aria-label="reset options") 
           icon(name='reload-alt' scale='1.5')
           
 
@@ -90,13 +90,7 @@ export default {
 $mbr = .4em
 
 ul.test-menu + ul.test-menu
-  border-left: none
-
-.menu ul.test-menu:first-child
-  border-radius: $mbr 0 0 $mbr  
-
-.menu ul.test-menu:last-child
-  border-radius: 0 $mbr $mbr 0    
+  border-left: none 
 
 button.reset 
   padding:0.0625em

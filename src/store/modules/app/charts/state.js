@@ -1,6 +1,7 @@
-import charts from '../../../../config/charts.js'
+import { definitions, charts } from '../../../../config/charts.js'
 export default function () {
   return {
-    definitions: charts
+    definitions: definitions,
+    charts: charts
   }
 }

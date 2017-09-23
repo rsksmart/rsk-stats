@@ -4,4 +4,18 @@ small-titles()
     margin-left: .5em
     margin-top .25em
     letter-spacing .0625em
+
+apply-colors($colors, $pref='')
+    for $color in $colors  
+        $val = lookup($pref + $color)
+        .bg-{$color}
+            background: $val
+
+        .{$color}
+            color: $val
+            fill: $val
+
+        .border-{$color}
+          border: $val
+          stroke: $val
     

@@ -1,6 +1,19 @@
 import COLORS from './colors.json'
 import Vue from 'vue'
-export default {
+
+// Charts: { name:minimized }
+export const charts = {
+  uncleCountChart: true,
+  lastBlocksTime: true,
+  difficultyChart: true,
+  gasSpending: true,
+  transactionDensity: true,
+  // lastGasLimit:true,
+  blockPropagationChart: true
+}
+
+// Charts Definitions
+export const definitions = {
   uncleCountChart: {
     title: 'uncles',
     subtitle: '25 blocks per bar',

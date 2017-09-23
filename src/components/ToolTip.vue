@@ -13,8 +13,8 @@
       .value(:class=' (clicked) ? "clicked" : ""' )
         .msg(v-if='show && opts.copyMsg' :class='(anim) ? "anim" : ""') copied!
         .copy-txt(@touchend.stop='show = !show' @click.stop='show = !show')
-          .tip-txt(:class='(anim) ? "copying" : ""') {{value}}
-          textarea(ref='cptxt' rows='1' :cols='value.length' ) {{ value }}
+          .tip-txt(:class='tipClass') {{value}}
+          textarea(ref='cptxt' rows='1' :cols='value.length') {{ value }}
 </template>
 <script>
 import '../icons/copy'
@@ -69,6 +69,12 @@ export default {
         let p = (pos === 'left') ? 'right' : 'left'
         return p + ':' + this.$el.clientWidth + 'px;  bottom: -50%;'
       }
+    },
+    tipClass () {
+      let css = []
+      if (this.anim) css.push('copying')
+      if (this.value.length < 30) css.push('nowrap')
+      return css
     }
   },
   methods: {
@@ -119,7 +125,10 @@ export default {
     position: relative
     display: inline-block
     overflow visible
- 
+    z-index: 1000
+
+  .nowrap
+    white-space nowrap
   // Arrow mixin
   arrow(pos)
     if pos == 'top' || pos == 'bottom'  
@@ -143,13 +152,12 @@ export default {
       position: absolute
       filter: drop-shadow($box-sh)
       width: 100%
-      font-size: 0.7em
       color: $dark
       display: flex
       justify-content flex-start // arrow on start
-      flex
       .value 
         border-radius: 3px
+        padding .125em .25em
         background-color: $tip-bg
         word-break: break-all
         display: flex
@@ -157,9 +165,11 @@ export default {
         align-items center
       .tip-txt
         padding: .25em
-        display inline
         overflow visible
+        display inline
         margin: 0
+        font-size: .9rem
+        
   .tip:after 
   .tip:before
     border: solid transparent
@@ -237,6 +247,7 @@ export default {
   top: -1.5em
   left: 0
   width: 100%
+  font-size .8em
   opacity: 0
 
 // Copy Animations

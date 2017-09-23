@@ -1,58 +1,62 @@
 <template lang="pug">
-#app.wrapper
+#app.wrapper(@keyup.esc='keyEsc')
     //- snapshots hint
     .snapshot-hint(v-if='!isLive')
       small.hint.color2 running in snapshot mode
       button.btn.live(@click='goLive()') go Live
     
-    header
-      .head-1  
-        logo
-      .head-2
-        button.btn.big.main-menu(@click='showMenu=!showMenu')
-          icon(name='equalizerh')
-      .head-3
-        .options(v-if='showMenu')
-          button.btn(@click="showConfig = !showConfig")
-            icon(name='settings')
-          button.btn.badge(@click='showSnapshots = !showSnapshots')
-            icon(name='versions')
-            span.badge(v-if='totalSnapshots') {{ totalSnapshots }}
-          button.btn(v-for='t,to in tools' @click='setTool(to)' :class='buttonClass(to)')
-            icon(:name='t.icon')
-
+    .header-wrapper
+      header
+        .head-1  
+          logo#logo-head
+        .head-2
+          button.btn.big.main-menu(@click='showMenu=!showMenu' aria-label="main menu")
+            icon(name='equalizerh')
+       
+          .menu(v-if='showMenu')
+            button.btn(@click="showConfig = !showConfig")
+              icon(name='settings')
+            button.btn.badge(@click='showSnapshots = !showSnapshots')
+              icon(name='versions')
+              span.badge(v-if='totalSnapshots') {{ totalSnapshots }}
+            button.btn(v-for='t,tool in tools' @click='setTool(tool)' :class='buttonClass(tool)' aria-label="tools")
+              icon(:name='t.icon')
+        .head-3
     .content
+      //- COl-A
       .col-a
         .col-content
+          logo#logo-col
           .node-box.big-data(@touchstart.prevent='showHideTable(true)')
             .bd-main
-              button.btn.badge.big(@click.stop='showHideTable(true)')
+              button.btn.badge.big(@click.stop='showHideTable(true)' aria-label="table")
                 icon(name='table')
                 span.badge {{ activeNodes.length }}
-              button.big-txt(@click.stop='showHideTable(true)') tracked nodes {{ nodes.length }} 
-              //-{{ activeNodes.length }}
+              button.big-txt(@click.stop='showHideTable(true)'  aria-label="table") tracked nodes {{ nodes.length }} 
           big-data(v-for='name,index in bigDataFields ' 
           v-if='!isVisibleDialog()(types.TOTAL,name)'
           :key='name'
           :name='name'
           :options='{minimized:(name === "gasLimit" || name === "gasPrice" || name ==="uncles")}'
           )
+          miners-chart
           
+      //- COl-B Main
       .col-b#main
-        
         //- Not connected 
         .loading(v-if='!connected')
           h2.center requesting server data...
+      //- COl-C
       .col-c
         .col-content
           //- CHARTS --------------------------
-          .box(v-for='name in charts')
+          .box(v-for='show,name,index in charts')
             //- v-if fails in firefox
-            mini-chart(v-show='!isChartMaximized(name)' :name='name' :key='name')
+            mini-chart(v-if='show' v-show='show' :name='name' :key='index')
     
     //-  footer
         p rsk
-    d3-network(v-if='connected'
+    d3-network#network(v-if='connected'
       :netNodes="nodes"
       :netLinks="links"
       :selection="selection"
@@ -62,19 +66,19 @@
       @node-click="nodeClick"
       @link-click="linkClick"
       class="net"
-      :style='absStyle'
+      :style='mainStyle'
       )    
       //- interface background 
-    iface-back(:size='options.size'  :style='absStyle')
+    iface-back(:size='options.size'  :style='mainStyle' :center='center')
       
       //- Dialogs
     .dialogs
       main-dialog(v-for="(dialog,index) in dialogs" :key='dialog.type + "-" + dialog.id' :dialog='dialog')
       
-    //- Menu
+    //- Config
     .over
       stats-menu(v-if="showConfig" :nodes="nodes" :links="links" :options="options" @options="changeOptions" @reset="resetOptions")
-        button.close(@click="showConfig = false" slot="header")
+        button.close(@click="showConfig = false" slot="header" aria-label="close")
           icon(name='close')
     
     //- Snapshots 
@@ -86,9 +90,6 @@
       
       snapshots-list( id='snapshots-list')       
       
-
-
-
 </template>
 <script>
 import { mapState, mapActions, mapGetters } from 'vuex'
@@ -103,6 +104,7 @@ import NodeWatcher from './components/NodeWatcher.vue'
 import NodeData from './components/NodeData.vue'
 import BigData from './components/BigData.vue'
 import MiniChart from './components/MiniChart.vue'
+import MinersChart from './components/MinersChart.vue'
 import SnapshotsList from './components/SnapShotsList.vue'
 import NodesTable from './components/NodesTable.vue'
 import MainDialog from './components/MainDialog.vue'
@@ -128,7 +130,8 @@ export default {
     IfaceBack,
     SnapshotsList,
     NodeData,
-    MainDialog
+    MainDialog,
+    MinersChart
   },
   filters: {
     tSecondsAgo,
@@ -143,11 +146,7 @@ export default {
   },
   data () {
     let data = Object.assign({}, defaultData)
-    data.center = {
-      top: 0,
-      left: 0
-    }
-    data.abs = {
+    data.mainVp = {
       left: 0,
       top: 0,
       width: 0,
@@ -178,13 +177,6 @@ export default {
       'gasPrice',
       'gasLimit'
     ]
-    data.charts = ['uncleCountChart',
-      'lastBlocksTime',
-      'difficultyChart',
-      'gasSpending',
-      'transactionDensity',
-      // 'lastGasLimit',
-      'blockPropagationChart']
     data.showMenu = false
     return data
   },
@@ -195,10 +187,7 @@ export default {
     this.$store.dispatch('init', { snapshots: savedSnapshots })
   },
   mounted () {
-    let vm = this
-    this.$nextTick(() => {
-      vm.onResize()
-    })
+    this.onResize()
     window.addEventListener('resize', this.onResize)
   },
   beforeDestroy () {
@@ -228,11 +217,12 @@ export default {
       totalSnapshots: 'totalSnapshots',
       snapshotsListOptions: 'getSnapshotsListOptions',
       now: 'getDate',
-      types: 'app/getTypes'
+      charts: 'app/charts/showCharts'
     }),
     ...mapGetters('app/', {
       selection: 'selection',
-      dialogs: 'getDialogs'
+      dialogs: 'getDialogs',
+      types: 'getTypes'
     }),
     ...mapGetters('app/nodesTable', {
       tableOptions: 'options'
@@ -246,14 +236,19 @@ export default {
         return d.x
       })
     },
-    absStyle () {
-      return this.addPx(this.abs)
+    mainStyle () {
+      return this.addPx(Object.assign({}, this.mainVp))
+    },
+    center () {
+      let mvp = this.mainVp
+      let x = mvp.width / 2 + this.options.offset.x
+      let y = mvp.height / 2 + this.options.offset.y
+      return { x, y }
     }
   },
   methods: {
-    isChartMaximized (name) {
-      let chart = this.getDialog()(this.types.CHART, name)
-      return (chart) ? chart.length : 0
+    keyEsc (event) {
+      if (!this.isLive) this.goLive()
     },
     tableLoaded (data) {
       let dialog = this.$refs.table
@@ -290,28 +285,26 @@ export default {
     onResize () {
       let size = { w: this.$el.clientWidth, h: this.$el.clientHeight }
       this.setSize(size)
-      if (this.showTable) this.$refs.table.center()
+      let vm = this
+      this.$nextTick(() => {
+        let main = document.querySelector('#main')
+        let vW = window.innerWidth
+        let width = vm.$el.clientWidth
+        let height = main.scrollHeight
+        let left = 0
+        let top = 0
+        let x = 0
+        let y = 0
+        if (vW > 900 && vW < 1200) {
+          x = main.offsetLeft / 2
+        }
 
-      let main = document.querySelector('#main')
-      let vW = window.innerWidth
-      let width = this.$el.clientWidth
-      let height = main.scrollHeight + main.offsetTop
-      let left = 0
-      let top = 0
-      let x = 0
-      let y = 0
-      if (vW > 900 && vW < 1200) {
-        x = main.offsetLeft / 2
-      }
-
-      this.abs = { width, height, left, top }
-      this.center.left = (main.clientWidth / 2) + main.offsetLeft
-      this.center.top = (main.clientHeight / 2) + main.offsetTop
-
-      let options = this.options
-      options.size = { w: width, h: height }
-      options.offset = { x, y }
-      this.changeOptions(options)
+        this.mainVp = { width, height, left, top }
+        let options = vm.options
+        options.size = { w: width, h: height }
+        options.offset = { x, y }
+        vm.changeOptions(options)
+      })
     },
     resetOptions () {
       this.options = Object.assign({}, defaultData.options)
@@ -373,18 +366,22 @@ export default {
 @import './lib/styl/vars.styl'
 @import './lib/styl/app.styl'
 @import './lib/styl/nodes.styl'
- 
-   #app
-    min-height: 100%
-  
+  #network
+    z-index 99  
+  .main-menu
+    z-index 500
+  .menu
+    display inline-block
+    margin-top 5rem
+    button
+      display block
   .over
     position: absolute
     top: 0
     right: 0
     z-index: 100
     padding: 1em
-  .head-2
-    z-index 500 !important 
+
   .iface-back
     position: absolute
     top: 0 
@@ -394,42 +391,31 @@ export default {
     z-index: 1
     pointer-events: none
 
-  .debug
-    position: absolute
-    z-index: 100 
   .snapshot-hint
     position: absolute
     min-height: 99.5%
     min-width: 99.5%
+    display inline-block
     text-align: center
+    box-sizing border-box
     top: 0
     left: 0
     border: $warn dashed 1px
-    .live
-      position: absolute
-      z-index: 1000
-      .hint
-        color: $color2
+    z-index 900
+    pointer-events none
+  .live
+    position: absolute
+    pointer-events all
+    z-index: 1000 !important
+    .hint
+      color: $color2
   
   .mini-chart, .big-data
     z-index: 50
     position:relative
     pointer-events all
   
-  .options
-    text-align: center
-    display flex
-    align-items: center
-    z-index: 100
-    position: relative
-    left:0
-      button
-        font-size: 2em
-        width 2em
-        height 2em
-        z-index: 100
-    .selected *
-      fill: $color2
+ 
   
 
 </style>

@@ -43,12 +43,6 @@ export default {
 }
 </script>
 <style lang="stylus">
-  .entity-icon, .icon, .bd-data
-    .tip
-      overflow visible
-      word-break: unset
-      .value
-        word-break: none
-        min-width: 10em
+
 </style>
 

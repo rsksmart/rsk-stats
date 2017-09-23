@@ -3,7 +3,6 @@
       .header
         slot(name='header')
       .chart-title-cont
-        //-icon(v-if='chart.icon' :name='chart.icon') 
         h3.chart-title {{ chart.title }}
           small.gray &nbsp;{{chart.subtitle}}
       .chart-container
@@ -11,15 +10,14 @@
       slot
 </template>
 <script>
-// import D3BarChart from 'vue-d3-barchart'
-import D3BarChart from './vue-d3-barchart.vue'
+import D3BarChart from 'vue-d3-barchart'
 import { mapGetters } from 'vuex'
 export default {
   name: 'chart',
   components: {
     D3BarChart
   },
-  props: ['name', 'width', 'height', 'max'],
+  props: ['name', 'xsize', 'max'],
   data () {
     return {
       size: {
@@ -28,16 +26,18 @@ export default {
       }
     }
   },
+  watch: {
+    xsize (newValue) {
+      this.onResize()
+    }
+  },
   mounted () {
     this.onResize()
-    window.addEventListener('resize', this.onResize)
-  },
-  beforeDestroy () {
-    window.removeEventListener('resize', this.onResize)
   },
   computed: {
+    ...mapGetters({ appSize: 'getSize' }),
     chart () {
-      return this.getChart()(this.name)
+      if (this.name) return this.getChart()(this.name)
     },
     chartStyle () {
       return { width: this.w + 'px', height: this.h + 'px' }
@@ -48,10 +48,10 @@ export default {
       options.margin = 10
       if (!options.formatLabel) options.formatLabel = this.formatLabel
       if (this.max) {
+        let w = this.appSize.w / 2.2
+        options.size = { w, h: w / 4 }
         options.fontSize = 12
         options.margin = 20
-        size.w -= 50
-        size.h = size.w / 4
         if (!options.axis) {
           options.axis = {
             valuesY: true,
@@ -80,6 +80,7 @@ export default {
 </script>
 <style src="vue-d3-barchart/dist/vue-d3-barchart.css"></style>
 <style lang="stylus">
+@import '../lib/styl/vars.styl'
 @import '../lib/styl/mixins.styl'
   .chart-container
     display flex

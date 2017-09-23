@@ -3,7 +3,7 @@
     dialog-drag(:options='dialog' :id='dialog.id'
       :class='dialog.type + "-dialog"'
       :event-cb='dialogEventFormatter(dialog.type)'
-      @close='closeDialog'
+      @close='close'
       @move='updateDialog'
       @load='updateDialog'
       @pin='updateDialog'
@@ -19,7 +19,7 @@
       template(v-if='is(types.NODE)')
         .node-header(slot='title')
           icon.med(name='rsk')
-          h3.node-title.title {{ dialog.name }}
+          h3.node-title.title {{ dialog.name | txt-trim  }}
         node-watcher(:dialog='dialog')
       //- Chart Dialog
       template(v-if='is(types.CHART)')
@@ -71,8 +71,9 @@ export default {
     // this.dialog.dropEnabled = false
   },
   computed: {
-    ...mapGetters('app/', {
-      types: 'getTypes'
+    ...mapGetters({
+      types: 'app/getTypes',
+      size: 'getSize'
     })
   },
   methods: {
@@ -81,22 +82,36 @@ export default {
       'closeDialog',
       'bringDialogToFront'
     ]),
+    ...mapActions('app/charts', [
+      'minimizeChart'
+    ]),
     is (type) {
       return this.dialog.type === type
     },
+    close (dialog) {
+      if (dialog.type === this.types.CHART) {
+        this.minimizeChart(dialog.id)
+      }
+      this.closeDialog(dialog)
+    },
     // Dialog event cb
     dialogEventFormatter (type) {
+      // let size = this.size
       return (obj) => {
         obj.type = type // set type
         obj.w = obj.width // save computed width
         obj.h = obj.height // save computed height
+        if (obj.y < 0) obj.y = 0
+        /*         if (obj.x < 0) obj.x = 0
+                if (obj.x + obj.w > size.w) obj.x = size.w - obj.w */
+
         // auto size for all dialogs except TOTALS
         if (type !== this.types.TOTAL) {
           obj.height = 0 // auto height
           obj.width = 0 // auto height
         }
         if (type !== this.types.TABLE) {
-          obj.centered = false // remove autocenter, after load
+          obj.centered = null // remove autocenter, after load
         }
         return obj
       }

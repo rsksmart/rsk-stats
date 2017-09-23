@@ -1,29 +1,29 @@
 <template lang="pug">
   .snapshots-list
     input(v-model='snapShotName')
-    button.btn(@click='takeSnapshot(snapShotName)')
+    button.btn(@click='takeSnapshot(snapShotName)' aria-label="take")
       icon(name='floppy')
     table.snapshots.dark
       tr(v-for='snapshot,key in snapshots' :key='key' :class='(key % 2) ? "odd" : "even"')
         td
-          button(@click='removeSnapshot(key)')
-            //-tool-tip(:value='"delete"')
-            icon(name='delete-forever') 
+          button(@click='removeSnapshot(key)' aria-label="remove")
+            tool-tip(:value='"delete"')
+              icon(name='delete-forever') 
         td {{ snapshot.name }}
         td
           small {{ key | date-from-ts}}
         td
-          button(@click='downloadSnapshot(key)' title="Download")
-            //-tool-tip(:value='"download"')
-            icon(name='clowd-down') 
+          button(@click='downloadSnapshot(key)' aria-label="download")
+            tool-tip(:value='"download"')
+              icon(name='clowd-down') 
         td
-          button(@click='loadSnapshot(key)' title="Load snapsshot")
-            //-tool-tip(:value='"load"')
-            icon(name='load')  
+          button(@click='loadSnapshot(key)' aria-label="load snapshot" )
+            tool-tip(:value='"load"')
+              icon(name='load')  
         td
-          button(@click='loadLayout(key)' title="Load layout")
-            //-tool-tip(:value='"load Layout"')
-            icon(name='link-external')  
+          button(@click='loadLayout(key)' aria-label="load layout")
+            tool-tip(:value='"load Layout"')
+              icon(name='link-external')  
 
 </template>
 <script>
@@ -71,7 +71,8 @@ export default {
       background-color: $light
       padding: .5em
       max-height: 20em
-      overflow: auto
+      overflow-y: scroll
+      overflow-x: visible
       display inline-block
       position: relative
       .title 
@@ -81,4 +82,5 @@ export default {
         position: absolute
         right: .5em
         top: .5em
+        
 </style>

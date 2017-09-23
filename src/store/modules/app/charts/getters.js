@@ -3,7 +3,7 @@ export const charts = (state, getters, rootState, rootGetters) => {
 }
 /* eslint-disable no-unused-vars */
 export const getChart = (state, getters, rootState, rootGetters) => (name, data) => {
-  let chart = state.definitions[name]
+  let chart = Object.assign({}, state.definitions[name])
   if (chart) {
     chart.data = data || getters.charts[name]
     chart.options = chart.options || {}
@@ -30,4 +30,8 @@ export const getChart = (state, getters, rootState, rootGetters) => (name, data)
     }
     return chart
   }
+}
+
+export const showCharts = (state) => {
+  return state.charts
 }

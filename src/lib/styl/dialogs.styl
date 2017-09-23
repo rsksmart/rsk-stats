@@ -29,6 +29,7 @@
     color: white
     display flex
     flex-flow row nowrap
+    height: auto
     .title
       flex 2 0 
     .buttons 
@@ -39,6 +40,7 @@
       text-align: right
       button svg
          width: $action-btn-size
+         height: @width
       button.close, button.pin
         background: transparent
         box-shadow: none
@@ -91,37 +93,39 @@ $searchBg = $darkness
 // Nodes Dialogs
 .main-dialog
   .chart-dialog
+    .dialog-header
+      position absolute
+      top .25rem
+      right .25rem
+      z-index 150
     .dialog-body
       padding: 0 !important
     .dialog-header
       .node-title
         display none
 
+.nodes-dialog, .table-dialog
+   border solid 1px $dark
+
 .nodes-dialog 
-  .dialog-body
-    padding:  0 .25em .35em .25em
-  
   .dialog-drag.fixed
     dialog-pinned() 
-  
   .node-title
     margin: 0
-  .dialog-header .title
-    color: $dark
-  
+  .dialog-header
+    .title
+      color: $dark
   .node-header
     display: flex
     align-items: center
     margin-top: .25em
+    padding .5em 0 .5em 1em
     .title
       margin-left .5em
     .svg-icon
-      width: 1.1em
-      height: 1.1em
-      padding: .125em  
+      width: 1em
+      height: @width
       fill: $color
 
-
-    
 
 
