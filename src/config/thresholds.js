@@ -19,7 +19,7 @@
   - interpolator: interpolator name, see colorsInterpolators.js, 
       this prop overrides type to 'interpolated'
 */
-import COLORS from './colors.js'
+import COLORS from './colors.json'
 import { SI } from '../lib/js/units.js'
 import { valueToColor } from '../lib/js/colors.js'
 export default {
