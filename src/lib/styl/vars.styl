@@ -1,26 +1,34 @@
-$color = #1aad8d
-$color2 = #eaa55c
+// Colors
+json('../../config/colors.json')
+$color = green
+$color2 = orange
 
 $white = lightness($color, 92%)
 
 $dark = lightness($color, 27%)
 $dark2 = lightness($color2, 27%)
-$darkness = #102026;
+$darkness = #102026
 $darkness-odd = $darkness
 $darkness-even = lightness($darkness-odd, 15%)
 $darkness2 = lightness($color2, 10%)
 
-$warn = #DA003D   
+$warn = red   
 $light = lightness($color, 97%)
+$selected = $color2
 $midlight = lightness($color, 65%)
 $mid = lightness($color, 55%)
-$bg-color = $darkness
+$bg-color = $darkness 
+$bg-dark = lightness($darkness,7%)
 $quasi-bg = lighten($bg-color, 1%)
-$gray = saturation($color,25%)
+// $quasi-bg = lighten($bg-dark, 3%)
+$gray = gray
 $graylight = lighten($gray,25%)
 
+// Borders
 $border = $color solid 2px
 $frame-border = dashed alpha($color,.5) 1px
+
+// Shadows
 $txt-sh = 1px 1px 1px  rgba(0,0,0,.5)
 $box-sh = 1px 1px 2px rgba(0,0,0,0.7)
 $box-sh2 = -1px -1px 1px rgba(0,0,0,0.2)
@@ -29,5 +37,9 @@ $hard-sh = 2px 2px 4px rgba(0,0,0,.8)
 
 $sym-close = "✖"
 
-$action-btn-size = 2em
+// Boxes
 $min-box-height = 4.75rem
+
+// Buttons
+$action-btn-size = 1.5rem
+$button-close-size = $action-btn-size * 1.5

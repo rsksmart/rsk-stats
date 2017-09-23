@@ -1,12 +1,8 @@
 @import './vars.styl'
+@import './mixins.styl'
 
-.color
-  color: $color
-  fill: $color
-
-.color2
-  color:$color2
-  fill: $color2
+  // generates colors classes
+  apply-colors('color' 'color2' 'gray','$')
 
  color-dark()
     color: $mid
@@ -30,9 +26,7 @@
     .title, h1, h2,h3,h4,h5,h6
       color: $light
 
-.gray
-  color: $gray
-  fill: $gray
+
 
 .active
   color $color
