@@ -1,9 +1,14 @@
 <template lang="pug">
   .iface-back(:style='styleObj')
-    .node-block(v-for='node,id in nodes' :key='id' :style='nodeBlockStyle(node)')
+    //-.node-block(v-for='node,id in nodes' :key='id' :style='nodeBlockStyle(node)')
       transition(name="block-number" type="animation"  appear )
         span.block-number( :key='node.stats.block.number') {{nodes[id].stats.block.number}}
-    svg(:width='size.w' :height='size.h')
+    svg(:width='size.w' :height='size.h' id="iface-back-svg" )
+      radialGradient#bg-gradient(:cx='gCenter.x' :cy='gCenter.y' gradientUnits='userSpaceOnUse' )
+        stop.stop-1(stop-color='white' offset='0')
+        stop.stop-2(stop-color='black' offset='70%')
+        stop.stop-3(stop-color='black' offset='100%')
+      rect(:width='size.w' :height='size.h' fill='url(#bg-gradient)')
       //- selection lines
       g(id="selections" class="selection-lines")
         path(v-for='dialog,key in dialogs' :key='key' :d='quadCurve(dialog)' )
@@ -12,7 +17,7 @@
 import { mapGetters } from 'vuex'
 export default {
   name: 'iface-background',
-  props: ['size'],
+  props: ['size', 'center'],
   computed: {
     ...mapGetters({
       dialogs: 'app/getNodeDialogs',
@@ -22,6 +27,11 @@ export default {
       let width = this.size.w + 'px'
       let height = this.size.h + 'px'
       return { width, height }
+    },
+    gCenter () {
+      let x = this.center.x * 100 / this.size.w + '%'
+      let y = this.center.y * 100 / this.size.h + '%'
+      return { x, y }
     }
   },
   methods: {
@@ -51,6 +61,17 @@ export default {
 </script>
 <style lang="stylus">
 @import '../lib/styl/vars.styl'
+  .stop-1
+    stop-color lightness($bg-color,14%)
+  .stop-2
+    stop-color $bg-color  
+  .stop-3
+    stop-color $bg-dark  
+/*    .iface-back
+    background-image:
+      radial-gradient(circle closest-corner,
+        lightness($bg-color,14%) 0, $bg-dark 60vw  
+      ) */
   .node-block
     position: absolute
     font-size: .8em
