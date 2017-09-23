@@ -27,12 +27,12 @@
       .col-a
         .col-content
           logo#logo-col
-          .node-box.big-data(@touchstart.prevent='showHideTable(true)')
+          .node-box.big-data(@touchstart.prevent='showHideTable()')
             .bd-main
-              button.btn.badge.big(@click.stop='showHideTable(true)' aria-label="table")
+              button.btn.badge.big(@click.stop='showHideTable()' aria-label="table")
                 icon(name='table')
                 span.badge {{ activeNodes.length }}
-              button.big-txt(@click.stop='showHideTable(true)'  aria-label="table") tracked nodes {{ nodes.length }} 
+              button.big-txt(@click.stop='showHideTable()'  aria-label="table") tracked nodes {{ nodes.length }} 
           big-data(v-for='name,index in bigDataFields ' 
           v-if='!isVisibleDialog()(types.TOTAL,name)'
           :key='name'
