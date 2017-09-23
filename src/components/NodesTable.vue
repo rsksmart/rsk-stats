@@ -126,7 +126,6 @@ export default {
     overflow visible
     display flex
     flex-direction column
-    flex-grow right
   table.nodes
     min-width 100%
     tr.full 

@@ -21,8 +21,10 @@ body
 .col-content
   display flex
   flex-flow column nowrap
-  
-  
+
+#logo-col
+  display none
+
 header, footer
    flex 0 0 100%
    flex-flow row nowrap
@@ -30,28 +32,34 @@ header, footer
    overflow: visible 
    z-index 5
 
+.header-wrapper
+  position absolute
+  width 100%
+  display inline block
+
 header
   display flex
-  flex-flow row nowrfap
+  flex-flow row nowrap
   max-height: 3rem // firefox 
   height $min-box-height / 2
-  z-index 20
 
   .head-1
     order 1
     flex 1 1 $min-col-w
     text-align center
     z-index: 5
+
+    
   .head-2
     order 2
     flex 4 1 0
     z-index: 5
     text-align right
+    z-index 100
+
   .head-3
     order 3
     flex 0
-
-
 
 footer  
   order 3
@@ -67,7 +75,6 @@ footer
   order 1
   flex 0 0 100%
   min-height 100vw
-
 .col-c
   order 3
   flex  7
@@ -79,6 +86,10 @@ footer
    padding-left $margin
 
 @media screen and (min-width: 900px)
+  #logo-head
+    display none
+   #logo-col
+    display flex  
   .col-a
     order 1
     flex 1 1 $min-col-w
@@ -94,6 +105,7 @@ footer
         flex 0 1 50%
 
 @media screen and (min-width: 1200px)
+
   .col-a
     order 1
     flex 1 0 $min-col-w
@@ -109,6 +121,6 @@ footer
     padding-left:  0 !important
   header
     .head-3
-      flex 1.1 1 2rem
+      flex 1 0 $min-col-w
       padding-right $margin
 

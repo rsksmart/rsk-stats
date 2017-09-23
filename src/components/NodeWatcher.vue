@@ -100,8 +100,6 @@ export default {
 <style lang="stylus">
  @import '../lib/styl/vars.styl'
  @import '../lib/styl/colors.styl'
-  
-
 
 .watcher
   width: auto
@@ -139,10 +137,12 @@ $item-margin = .25em
   background $darkness-even
   margin 0
   li
-    display: inline-block
-    margin: $item-margin
+    flex 1 1 24%
+    margin: .5%
     text-align: center
-    box-shadow: 1px 1px 0.5px alpha(black,.5), -1px -1px 30px alpha($color, 0.1)
+    // box-shadow: 1px 1px 0.5px alpha(black,.5)
+    box-shadow: 1px 1px 1px alpha($color,.2)
+    box-sizing border-box
     min-width: $item-min
     padding: 1em .25em .25em .25em
     color-dark()
@@ -163,13 +163,15 @@ $item-margin = .25em
       font-size: 1.75em
 
   li.double
-    min-width: ($item-min * 2) + (4 * $item-margin) 
+    // min-width: ($item-min * 2) + (4 * $item-margin) 
+    flex 2 0 49%
     .label
       font-size: 1.5em
     .data
       font-size: 2em  
   li.quad
-    min-width: ($item-min * 4) + (12 * $item-margin) 
+    flex 4 0 99%
+    // min-width: ($item-min * 4) + (12 * $item-margin) 
     .label
       font-size: 1.5em
      .data

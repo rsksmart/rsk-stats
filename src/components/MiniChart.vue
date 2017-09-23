@@ -1,7 +1,7 @@
 <template lang="pug">
-  .mini-chart(@touchstart.prevent='openDialog')
-    chart(:name='name')
-      button.max(@click='openDialog' slot='header')
+  .mini-chart(v-if='name' @touchstart.prevent='maximize')
+    chart(:name='name' :xsize='size.w')
+      button.max(@click='maximize' slot='header' aria-label="maximize-chart")
         icon.maximize(name='enlarge')
 </template>
 <script>
@@ -16,20 +16,10 @@ export default {
   props: ['name'],
   methods: {
     ...mapActions('app/charts', [
-      'createChartDialog'
+      'maximizeChart'
     ]),
-    ...mapActions('app/', ['centerDialog']),
-    ...mapGetters({
-      getDialog: 'app/getDialog'
-    }),
-    openDialog (event) {
-      let dialog = {
-        id: this.name,
-        width: this.size.w / 2.1,
-        height: this.size.w / 6,
-        centered: 'viewport'
-      }
-      this.createChartDialog(dialog)
+    maximize () {
+      this.maximizeChart(this.name)
     }
   },
   computed: {
@@ -40,11 +30,11 @@ export default {
   }
 }
 </script>
- <style lang="stylus">
+ <style lang="stylus" scoped>
   .mini-chart
     display flex
     flex-flow column nowrap
-    margin-bottom: .25rem
+    margin-top: .25rem
     .curve
       stroke-width 2px
  </style>

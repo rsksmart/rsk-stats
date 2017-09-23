@@ -66,10 +66,13 @@ button.circle
     height: 1.5em
     display: inline-block
 
-button.close svg
-  display: inline-block
-  min-height: $action-btn-size
+button.close 
+  min-width: $button-close-size
+  min-width: @min-height
+  svg
+    display: inline-block
+    min-height: $button-close-size
+    min-width: @min-height
 
-button.main-menu
-  border-top-left-radius 50%
-  border-bottom-left-radius 50%
+button.btn.selected
+  color $selected
