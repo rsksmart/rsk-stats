@@ -4,7 +4,7 @@
   - title: entity title
   - prefix: entity value prefix
   - suffix: entity value suffix
-  - filters: String | Array : Vue filters names
+  - filters: String | Array : Vue filters names | { name:filterName, args:[] }
   - threshold: threshold name, view thresholds.js
   - thField: key of value to compute threshold
 */
@@ -84,7 +84,7 @@ export default {
   totalDiff: {
     icon: 'puzzle',
     title: 'total difficulty',
-    filters: 'H',
+    filters: { name: 'H', args: [2] },
     threshold: 'hashes'
   },
   propTime: {
