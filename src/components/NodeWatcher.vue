@@ -2,7 +2,7 @@
   .watcher
       ul.node-data(:class='nodeClass')
         li(v-for='ent in ["latency","peers","pending","uncles","blockTrans","totalDiff","lastBlockTime","lastBlockDifference"]')
-          entity-icon(:entity='entity[ent]' :value='fields[ent]')
+          entity-icon(:entity='entity[ent]' :value='fields[ent]' :fields='fields')
           entity-value.txt(:entity='entity[ent]' :value='fields[ent]' :fields='fields')
           
         li.double 

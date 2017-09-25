@@ -10,12 +10,10 @@
     
 </template>
 <script>
-import EntityCommon from '../mixins/EntityCommon'
 import ToolTip from './ToolTip.vue'
 export default {
   name: 'entity-icon',
-  props: ['options'],
-  mixins: [EntityCommon],
+  props: ['entity', 'fields', 'value', 'options'],
   components: {
     ToolTip
   },
@@ -38,6 +36,9 @@ export default {
     iconStyle () {
       let color = this.color
       return { color, fill: color }
+    },
+    color () {
+      return this.entity.color(this.value, this.fields)
     }
   }
 }
