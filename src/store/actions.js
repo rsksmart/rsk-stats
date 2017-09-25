@@ -7,6 +7,7 @@ export const connectionUpdate = ({ commit }, connected) => {
 export const init = ({ dispatch }, data) => {
   dispatch('setDateInterval')
   dispatch('initData', data)
+  dispatch('app/entity/renderEntities')
 }
 
 export const setSize = ({ commit }, size) => {
@@ -70,6 +71,7 @@ export const loadLayout = ({ state, commit }, id) => {
 export const loadPrevState = ({ state, commit }) => {
   if (state.appPrevState) {
     let appPrevState = cloneObj(state.appPrevState)
+    commit('SET_APP_PREVSTATE', null)
     commit('REPLACE_STATE', ['app', appPrevState])
   }
 }
@@ -77,7 +79,7 @@ export const loadPrevState = ({ state, commit }) => {
 export const goLive = ({ state, dispatch, commit }) => {
   commit('ACTIVE_SNAPSHOT', null)
   dispatch('initData')
-  dispatch('loadPrevState')
+    .then(dispatch('loadPrevState'))
 }
 
 export const downloadSnapshot = ({ state }, id) => {

@@ -9,34 +9,11 @@ export const thresholdColors = state => (name) => {
 }
 
 export const getEntities = (state, getters) => {
-  let entities = {}
-  for (let e in state.entities) {
-    entities[e] = getters.createEntity(e)
-  }
-  return entities
+  return state.renderedEntities
 }
 
 export const getEntity = (state, getters) => (name) => {
-  return getters.createEntity(name)
-}
-
-export const createEntity = (state, getters) => name => {
-  let entity = state.entities[name]
-  if (entity) {
-    entity.title = entity.title || name
-    entity.id = name
-    let threshold = entity.threshold
-    if (threshold) {
-      let thObj = state.thresholds[threshold]
-      if (thObj) {
-        let defaultFunc = () => { }
-        let colorFunc = getters.thresholdColors(threshold)
-        thObj.colorFunc = colorFunc || defaultFunc
-        entity.thresholdObj = thObj
-      }
-    }
-    return entity
-  }
+  return state.renderedEntities[name]
 }
 
 export const nodeEntity = (state, getters, rootState, rootGetters) => node => {

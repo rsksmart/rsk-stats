@@ -4,6 +4,7 @@ import thresholds from '../../../../config/thresholds.js'
 export default function () {
   return {
     entities: entities,
-    thresholds: thresholds
+    thresholds: thresholds,
+    renderedEntities: {}
   }
 }
