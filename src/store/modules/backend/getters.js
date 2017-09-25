@@ -21,3 +21,14 @@ export const bestBlock = (state, getters) => {
   if (node) return node.stats.block.number
   return
 }
+
+export const getMinerName = (state) => addr => {
+  return state.minersNames[addr]
+}
+
+export const getMiners = (state, getters) => {
+  return state.miners.map((miner) => {
+    if (!miner.name && miner.miner) miner.name = getters.getMinerName(miner.miner)
+    return miner
+  })
+}

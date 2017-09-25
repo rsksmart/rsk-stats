@@ -59,7 +59,6 @@ export const socket_charts = ({ state, dispatch, commit }, data) => {
   dispatch('commitTotalsCheckBins', ['transactionDensity', data.transactions, 'SET_CHARTS'])
   dispatch('commitTotalsCheckBins', ['gasSpending', data.gasSpending, 'SET_CHARTS'])
   commit('SET_MINERS', data.miners)
-  dispatch('setMinnersNames')
 }
 
 // socket_chart helper
@@ -75,17 +74,6 @@ export const commitTotalsCheckBins = ({ state, commit }, payload) => {
       mutation = mutation || 'SET_TOTALS'
       commit(mutation, data)
     }
-  }
-}
-
-export const setMinnersNames = ({ state, commit }) => {
-  if (state.miners.length > 0) {
-    _.forIn(state.miners, (value, key) => {
-      if (value.name !== false) return
-      if (value.miner === '0x0000000000000000000000000000000000000000') return
-      let name = _.result(_.find(_.map(state.nodes, 'info'), 'coinbase', value.miner), 'name')
-      if (!_.isUndefined(name)) commit('UPDATE_MINER_NAME', { key, name })
-    })
   }
 }
 
@@ -168,8 +156,6 @@ export const removeLinks = ({ dispatch }, links) => {
 
 export const removeLink = ({ commit }, linkId) => {
   commit('REMOVE_LINK', linkId)
-  // let newNodes = utils.rebuildNodes(state.links, state.nodes)
-  // dispatch('updateNodes', newNodes)
 }
 
 export const updateLinks = ({ commit, dispatch }, links) => {

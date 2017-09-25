@@ -1,3 +1,4 @@
+import * as miners from '../../../config/miners.json'
 export default function () {
   return {
     config: {
@@ -34,6 +35,7 @@ export default function () {
       transactionDensity: [],
       gasSpending: []
     },
-    miners: []
+    miners: [],
+    minersNames: miners
   }
 }
