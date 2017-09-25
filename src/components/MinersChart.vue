@@ -7,7 +7,7 @@
           th blocks
       tbody
         tr(v-for='miner in miners')
-          td {{miner.name || miner.miner | hash-trim  }}
+          td {{ miner.name || ( miner.miner | hash-trim )  }}
           td {{miner.blocks}}
 </template>
 <script>
@@ -21,3 +21,8 @@ export default {
   }
 }
 </script>
+<style lang="stylus">
+  table.miners
+    min-width 100%
+</style>
+
