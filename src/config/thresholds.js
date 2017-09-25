@@ -59,6 +59,7 @@ const definitions = {
       0: 'green',
       1: 'green',
       2: 'yellow',
+      4: 'orange',
       5: 'red'
     }
   },
@@ -109,6 +110,12 @@ const definitions = {
 
 const thMap = (thresholds) => {
   for (let t in thresholds) {
+    let lastColor = thresholds[t].lastColor
+    if (lastColor) thresholds[t].lastColor = COLORS[lastColor]
+
+    let firstColor = thresholds[t].firstColor
+    if (firstColor) thresholds[t].firstColor = COLORS[firstColor]
+
     let colors = thresholds[t].colors
     thresholds[t].status = colors
     if (Array.isArray(colors)) {
