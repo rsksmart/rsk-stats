@@ -22,86 +22,120 @@
 import COLORS from './colors.json'
 import { SI } from '../lib/js/units.js'
 import { valueToColor } from '../lib/js/colors.js'
-export default {
+
+const definitions = {
   time: {
     colors: {
-      1: COLORS.red,
-      75: COLORS.yellow,
-      90: COLORS.green,
-      100: COLORS.green
+      1: 'red',
+      75: 'yellow',
+      90: 'green',
+      100: 'green'
     }
   },
   propagation: {
     colors: {
-      0: COLORS.gray,
-      1: COLORS.green,
-      1000: COLORS.yellow,
-      3000: COLORS.orange,
-      7000: COLORS.red,
-      8000: COLORS.red
+      0: 'gray',
+      1: 'green',
+      1000: 'yellow',
+      3000: 'orange',
+      7000: 'red',
+      8000: 'red'
     }
   },
   latency: {
     colors: {
-      0: COLORS.gray,
-      1: COLORS.green,
-      100: COLORS.green,
-      200: COLORS.yellow,
-      1000: COLORS.orange,
-      1500: COLORS.red
+      0: 'gray',
+      1: 'green',
+      100: 'green',
+      200: 'yellow',
+      1000: 'orange',
+      1500: 'red'
     }
   },
   lastBlock: {
     type: 'Threshold',
-    lastColor: COLORS.red,
+    lastColor: 'red',
     colors: {
-      0: COLORS.green,
-      1: COLORS.green,
-      2: COLORS.yellow,
-      5: COLORS.red
+      0: 'green',
+      1: 'green',
+      2: 'yellow',
+      5: 'red'
     }
   },
   blockTime: {
     filters: 'm-to-seconds',
     type: 'Quantile',
     colors: {
-      0: COLORS.green,
-      50: COLORS.yellow,
-      70: COLORS.orange,
-      90: COLORS.red
+      0: 'green',
+      50: 'yellow',
+      70: 'orange',
+      90: 'red'
     }
   },
   avgBlockTime: {
     filters: 'm-to-seconds',
     colors: {
-      0: COLORS.green,
-      30: COLORS.green,
-      90: COLORS.red
+      0: 'green',
+      30: 'green',
+      90: 'red'
     }
   },
   hashes: {
     type: 'Quantile',
     colors: [
-      { value: SI.M, color: COLORS.red },
-      { value: SI.G, color: COLORS.orange },
-      { value: SI.T, color: COLORS.yellow },
-      { value: SI.P, color: COLORS.green }
+      { value: SI.M, color: 'red' },
+      { value: SI.G, color: 'orange' },
+      { value: SI.T, color: 'yellow' },
+      { value: SI.P, color: 'green' }
     ]
   },
   yesNo: {
     filters: 'to-int',
     type: valueToColor,
     colors: {
-      0: COLORS.gray,
-      1: COLORS.green
+      0: 'gray',
+      1: 'green'
     }
   },
   yesGreenNoRed: {
     filters: 'to-int',
     type: valueToColor,
     colors: {
-      0: COLORS.red,
-      1: COLORS.green
+      0: 'red',
+      1: 'green'
     }
   }
 }
+
+const thMap = (thresholds) => {
+  for (let t in thresholds) {
+    let colors = thresholds[t].colors
+    thresholds[t].status = colors
+    if (Array.isArray(colors)) {
+      thresholds[t].status = []
+      let len = colors.length
+      for (let i = 0; i < len; i++) {
+        thresholds[t].status.push(Object.assign({}, colors[i]))
+        colors[i].color = COLORS[colors[i].color]
+      }
+    } else {
+      thresholds[t].status = Object.assign({}, colors)
+      for (let c in colors) {
+        let name = thresholds[t].colors[c]
+        thresholds[t].colors[c] = COLORS[name]
+      }
+    }
+  }
+  return thresholds
+}
+
+export const status = {
+  gray: 0,
+  green: 1,
+  blue: 2,
+  yellow: 3,
+  orange: 4,
+  red: 5
+}
+
+export const thresholds = thMap(definitions)
