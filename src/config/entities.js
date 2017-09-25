@@ -78,6 +78,8 @@ export default {
   },
   lastBlockDifference: {
     icon: 'cube',
+    prefix: '-',
+    suffix: 'B',
     title: 'last block difference',
     threshold: 'lastBlock'
   },

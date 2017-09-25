@@ -17,6 +17,14 @@ export const createEntity = ({ state, commit, getters }, name) => {
     entity.filteredValue = (value) => {
       return getters.applyFilter(entity.filters, value)
     }
+    entity.formatValue = (value, noP, noS) => {
+      let prefix = ''
+      let suffix = ''
+      if (!noP) prefix = entity.prefix || ''
+      if (!noS) suffix = entity.suffix || ''
+      value = entity.filteredValue(value)
+      return prefix + value + suffix
+    }
     let threshold = entity.threshold
     if (threshold) {
       let thObj = state.thresholds[threshold]
