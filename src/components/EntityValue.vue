@@ -4,11 +4,10 @@
     slot
 </template>
 <script>
-import EntityCommon from '../mixins/EntityCommon'
 
 export default {
   name: 'entity-value',
-  mixins: [EntityCommon],
+  props: ['entity', 'value', 'fields'],
   computed: {
     styleObj () {
       let style = {}
@@ -19,6 +18,12 @@ export default {
       let cssClass = this.entity.cssClass || ''
       if (this.color) cssClass += ' colored'
       return cssClass
+    },
+    filteredValue () {
+      return this.entity.filteredValue(this.value)
+    },
+    color () {
+      return this.entity.color(this.value, this.fields)
     }
   }
 }
