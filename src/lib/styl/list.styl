@@ -1,0 +1,63 @@
+@import './vars.styl'
+@import './mixins.styl'
+
+ul.list, .list-head, .list-item, .list-buttons
+  list-style none
+  padding 0
+  margin 0
+  li
+    padding 0
+    margin 0
+ul.list
+  display flex
+  flex-flow column nowrap
+  min-width 100%
+  li.min
+    display flex
+    justify-content space-between
+    li
+      display none
+    ul.list-head, ul.list-buttons
+      display inline-flex
+      flex-flow row nowrap 
+      align-items flex-start
+      li 
+       display inline
+    ul.list-head li:first-child
+      font-weight normal
+    li.action
+      display inline-flex
+      flex-flow column nowrap
+      justify-content center
+      button
+        font-size .6em
+        margin-left .5em
+  li
+    flex 2 1 50% 
+    padding .5rem 1rem
+    &.even
+      even()
+    &.odd
+      odd()
+    ul.list-head, ul.list-buttons
+      display inline-flex
+      li
+        padding 0 
+    ul.list-head li:first-child
+      letter-spacing .0625em
+      font-weight bold     
+    ul.list-buttons
+      display flex 
+      li
+        text-align right
+        align-self flex-end
+    ul.list-item
+      display flex
+      flex-flow row wrap
+      padding 0 .5em 
+      li
+        padding 0
+        flex 1 0 100%
+      li.col
+        flex 1 2 
+      

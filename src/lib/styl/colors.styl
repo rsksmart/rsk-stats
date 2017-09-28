@@ -1,8 +1,8 @@
 @import './vars.styl'
 @import './mixins.styl'
 
-  // generates colors classes
-  apply-colors('color' 'color2' 'gray','$')
+// generates colors classes
+ apply-colors('color' 'color2' 'gray','$')
 
  color-dark()
     color: $mid
@@ -26,9 +26,15 @@
     .title, h1, h2,h3,h4,h5,h6
       color: $light
 
-
-
+.delete
+  color $warn-light
+  fill $warn-light
+  border-color $warn-light !important
+    &:hover
+      color $warn
+      fill @color
+      border-color @color
 .active
   color $color
-  &:hover
-    color $colo2  
+    &:hover
+      color $colo2  

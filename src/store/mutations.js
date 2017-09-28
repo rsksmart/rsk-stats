@@ -19,8 +19,10 @@ export const SET_DATE = (state) => {
 
 export const SAVE_SNAPSHOT = (state, snapshot) => {
   let date = Date.now()
+  date = snapshot.date || date
   snapshot.date = date
-  Vue.set(state.snapshots, date, snapshot)
+  if (!snapshot.name) snapshot.name = date
+  if (!state.snapshots[date]) Vue.set(state.snapshots, date, snapshot)
 }
 
 export const REMOVE_SNAPSHOT = (state, id) => {
@@ -45,4 +47,12 @@ export const SET_BACKEND_DATA = (state, payload) => {
 
 export const SET_APP_PREVSTATE = (state, prevState) => {
   state.appPrevState = prevState
+}
+
+export const IMPORT_NAME = (state, name) => {
+  Vue.set(state.snapshotImport, 'name', name)
+}
+
+export const IMPORT_ERROR = (state, error) => {
+  Vue.set(state.snapshotImport, 'error', error)
 }

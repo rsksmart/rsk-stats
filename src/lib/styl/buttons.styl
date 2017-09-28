@@ -1,17 +1,29 @@
-
 button
   color: $color
   background-color: transparent
   border: none
+  cursor hand
+  .arrow
+    border-color $color
   .svg-icon
     fill: $color
-    width: 1em
-    height: 1em
+    width  1em
+    height  @width
   &:hover
       color $color2
+      .arrow
+        border-color $color2
     .svg-icon
       fill $color2
-      
+
+button.icon
+  width 1.5em
+  height @width
+  padding .25em
+  &.svg-icon, .icon
+    width 1em
+    height 1em
+
 button.btn  
    background-color: $white
    padding .25em .5em
@@ -42,9 +54,12 @@ button.menu
 button.circle
   border-radius: 50%
   border:$border
+  padding .4em
   .svg-icon
     width: 1.5em
     height: 1.5em
+   &:hover
+    border-color $color2 
 
 
 
@@ -76,3 +91,6 @@ button.close
 
 button.btn.selected
   color $selected
+
+button.delete
+  delete()
