@@ -10,10 +10,10 @@ export const createEntity = ({ state, commit, getters }, name) => {
     entity.title = entity.title || name
     entity.id = name
     entity.thFilter = (value) => { return value }
-    entity.thValue = () => { return null }
+    // entity.thValue = () => { return null }
     entity.colorValue = (value) => { return value }
     entity.color = (value) => { return '' }
-    entity.status = (value) => { return null }
+    // entity.status = (value) => { return null }
     entity.filteredValue = (value) => {
       return getters.applyFilter(entity.filters, value)
     }

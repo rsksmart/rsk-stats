@@ -44,3 +44,13 @@ export const storageAvailable = (type) => {
       storage.length !== 0
   }
 }
+
+export const loadJSON = (file, cb) => {
+  if (file.type && file.type === 'application/json') {
+    let reader = new FileReader()
+    reader.onload = (event) => {
+      cb(event.target.result)
+    }
+    reader.readAsText(file)
+  }
+}

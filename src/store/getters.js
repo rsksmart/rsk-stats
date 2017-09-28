@@ -55,8 +55,23 @@ export const totalSnapshots = (state) => {
   return 0
 }
 
-export const getSnapshotsListOptions = (state) => {
-  return state.snapshotsListOptions
+export const checkSnapshot = () => snapshot => {
+  if (!snapshot) return
+  let data = snapshot.data
+  if (data && snapshot.name && snapshot.date) {
+    if (data.app && data.backend) {
+      return snapshot
+    }
+  }
+}
+
+export const ifSnapshot = (state) => snapshot => {
+  let date = snapshot.date
+  let name = snapshot.name
+  if (name && date) {
+    let dup = state.snapshots[date]
+    return (dup && (dup.name === name))
+  }
 }
 
 export const getCharts = (state) => {

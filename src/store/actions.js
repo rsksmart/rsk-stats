@@ -1,4 +1,4 @@
-import { cloneObj, downloadJSON } from './utils.js'
+import { cloneObj, downloadJSON, loadJSON } from './utils.js'
 
 export const connectionUpdate = ({ commit }, connected) => {
   commit('SOCKET_CONNECTION', (connected === true))
@@ -95,9 +95,26 @@ export const downloadSnapshot = ({ state }, id) => {
   }
 }
 
+export const loadSnapshotFromFile = ({ dispatch, commit, getters }, files) => {
+  if (files && files.length) {
+    loadJSON(files[0],
+      (data) => {
+        commit('IMPORT_NAME', null)
+        commit('IMPORT_ERROR', null)
+        let snapshot = getters.checkSnapshot(JSON.parse(data))
+        if (snapshot) {
+          if (snapshot.name) commit('IMPORT_NAME', snapshot.name)
+          commit('SAVE_SNAPSHOT', snapshot)
+        } else {
+          commit('IMPORT_ERROR', 'Error parsing snapshot file') // generic error
+        }
+      }
+    )
+  }
+}
+
 // Helpers
 
 const cloneSnapshot = (state, id) => {
   return cloneObj(state.snapshots[id])
 }
-
