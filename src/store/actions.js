@@ -49,23 +49,27 @@ export const removeSnapshot = ({ state, commit }, id) => {
     commit('REMOVE_SNAPSHOT', id)
   }
 }
-export const loadSnapshot = ({ state, commit, getters }, id) => {
+export const loadSnapshot = ({ state, commit, dispatch, getters }, id) => {
   let snapshot = cloneSnapshot(state, id)
   if (snapshot) {
     // save app state
     if (getters.isLive) commit('SET_APP_PREVSTATE', cloneObj(state.app))
     commit('ACTIVE_SNAPSHOT', snapshot)
     snapshot = state.activeSnapshot
-    commit('REPLACE_STATE', ['app', snapshot.data['app']])
     commit('SET_BACKEND_DATA', snapshot.data)
+    dispatch('loadAppData', snapshot)
   }
 }
 
-export const loadLayout = ({ state, commit }, id) => {
-  let snapshot = cloneSnapshot(state, id)
+export const loadAppData = ({ commit, dispatch }, snapshot) => {
   if (snapshot) {
     commit('REPLACE_STATE', ['app', snapshot.data['app']])
+    dispatch('app/entity/renderEntities')
   }
+}
+
+export const loadLayout = ({ state, dispatch }, id) => {
+  dispatch('loadAppData', cloneSnapshot(state, id))
 }
 
 export const loadPrevState = ({ state, commit }) => {
