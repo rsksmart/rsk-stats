@@ -8,6 +8,8 @@
   border: 3px solid $color2
 
 .dialog-drag
+  will-change trasform
+  transform translate3d(0,0,0)
   z-index: 101
   width: auto
   height: auto
@@ -77,7 +79,7 @@ $searchBg = $darkness
   .buttons 
     margin-right: 1em
   input
-    background-color: $searchBg
+    background $darkness
     color: $color
     border: $dark solid 1px
   .search
@@ -126,6 +128,5 @@ $searchBg = $darkness
       width: 1em
       height: @width
       fill: $color
-
 
 

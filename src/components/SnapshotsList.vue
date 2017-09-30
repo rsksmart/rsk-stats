@@ -1,16 +1,16 @@
 <template lang="pug">
   .snapshots-list
     .controls
-      input(v-model='snapShotName' placeholder="snapshot name")
-      button.btn(@click='takeSnapshot(snapShotName)' aria-label="take snapshot")
+      .label create snapshot
+      input.big(v-model='snapShotName' placeholder="snapshot name" size="15")
+      button.btn.big.dark(@click='takeSnapshot(snapShotName)' aria-label="take snapshot")
         tool-tip(:value='"take snapshot"')
           icon(name='floppy')
 
       input(type='file' id='snapshot-file' @change='loadFile' accept='.json,application/json' style="display:none" ref='sfile')
-      button.btn(@click='$refs.sfile.click()' aria-label="import snapshot")
+      button.btn.dark.big(@click='$refs.sfile.click()' aria-label="import snapshot")
         tool-tip(:value='"import snapshot"')
           icon(name='clowd-up')
-
 
     ul.list.snapshots.dark
       li(v-for='snapshot,id,key in snapshots' :key='key' :class='rowClass(id,key)')
@@ -38,7 +38,7 @@
         ul.list-buttons
           li
             button(@click='minMaxRow(id)')
-              span.arrow(:class='(isMin(id)) ? "down":"up" ')
+              span.arrow(:class='(isMax(id)) ? "up":"down" ')
 </template>
 <script>
 import { mapGetters, mapActions } from 'vuex'
@@ -52,7 +52,7 @@ export default {
   data () {
     return {
       snapShotName: '',
-      miniRows: {}
+      maxRows: {}
     }
   },
   components: {
@@ -79,19 +79,19 @@ export default {
       this.$emit('close')
     },
     minMaxRow (id) {
-      let min = this.isMin(id)
-      this.$set(this.miniRows, id, !min)
+      let min = this.isMax(id)
+      this.$set(this.maxRows, id, !min)
     },
     loadFile (event) {
       this.loadSnapshotFromFile(event.target.files)
     },
-    isMin (id) {
-      return this.miniRows[id] || false
+    isMax (id) {
+      return this.maxRows[id] || false
     },
     rowClass (id, key) {
       let rowClass = []
       rowClass.push((key % 2) ? 'odd' : 'even')
-      rowClass.push((this.isMin(id)) ? 'min' : 'max')
+      rowClass.push((this.isMax(id)) ? 'max' : 'min')
       return rowClass
     }
   }

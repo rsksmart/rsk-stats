@@ -59,7 +59,11 @@ export const getDialog = (state, getters) => (type, id) => {
   }
 }
 
-export const tableFields = (state, getters, rootState) => {
+export const tableFields = (state) => {
   return state.tableFields
+}
+
+export const bigDataFields = (state) => {
+  return state.bigDataFields
 }
 

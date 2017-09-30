@@ -6,16 +6,24 @@ small-titles()
     letter-spacing .0625em
 
 apply-colors($colors, $pref='')
-    for $color in $colors  
-        $val = lookup($pref + $color)
-        .bg-{$color}
+    for $col in $colors  
+        $val = lookup($pref + $col)
+        .bg-{$col}
             background: $val
 
-        .{$color}
+        .{$col}
             color: $val
             fill: $val
 
-        .border-{$color}
-          border: $val
+        .border-{$col}
+          border-color: $val
           stroke: $val
-    
+
+
+odd()
+ background $darkness-odd 
+ color $color
+
+even()   
+ background $darkness-even 
+ color $color

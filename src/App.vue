@@ -1,94 +1,88 @@
 <template lang="pug">
-#app.wrapper(@keyup.esc='keyEsc')
+#app(@keyup.esc='keyEsc')
+  .wrapper
     //- snapshots hint
     .snapshot-hint(v-if='!isLive')
       small.hint.color2 running in snapshot mode
       button.btn.live(@click='goLive()') go Live
+    //- Menu
+    app-menu(v-if='showMenu' @close='menuShow(false)' :options='options' @options='changeOptions' @reset='resetOptions')
     
     .header-wrapper
       header
         .head-1  
-          logo#logo-head
+          logo 
         .head-2
-          button.btn.big.main-menu(@click='showMenu=!showMenu' aria-label="main menu")
-            icon(name='equalizerh')
        
-          .menu(v-if='showMenu')
-            button.btn(@click="showConfig = !showConfig")
-              icon(name='settings')
-            button.btn.badge(@click='showSnapshots = !showSnapshots')
-              icon(name='versions')
-              span.badge(v-if='totalSnapshots') {{ totalSnapshots }}
-            button.btn(v-for='t,tool in tools' @click='setTool(tool)' :class='buttonClass(tool)' aria-label="tools")
-              icon(:name='t.icon')
         .head-3
+          //- Menu Button & tools
+          transition(name='menu-buttons')
+            .main-menu(v-if='!showMenu')
+              button.btn.dark.big(v-for='t,tool in tools' @click='setTool(tool)' :class='toolClass(tool)' aria-label="tools")
+                icon(:name='t.icon')
+              button.btn.big.dark( @click='menuShow' aria-label="main menu")
+                icon(name='equalizerh')
     .content
       //- COl-A
       .col-a
         .col-content
-          logo#logo-col
-          .node-box.big-data(@touchstart.prevent='showHideTable()')
+          .node-box.big-data.mini(v-if='hasNodes' @touchstart.prevent='showHideTable()')
             .bd-main
-              button.btn.badge.big(@click.stop='showHideTable()' aria-label="table")
+              button.btn.badge(@click.stop='showHideTable()' aria-label="table")
                 icon(name='table')
                 span.badge {{ activeNodes.length }}
               button.big-txt(@click.stop='showHideTable()'  aria-label="table") tracked nodes {{ nodes.length }} 
-          big-data(v-for='name,index in bigDataFields ' 
-          v-if='!isVisibleDialog()(types.TOTAL,name)'
+          big-data(v-for='bd,name,index in bigDataFields ' 
+          v-if='bd.show && !isVisibleDialog()(types.TOTAL,name)'
           :key='name'
           :name='name'
-          :options='{minimized:(name === "gasLimit" || name === "gasPrice" || name ==="uncles")}'
+          :options='{minimized:bd.minimized}'
           )
           miners-chart
           
       //- COl-B Main
       .col-b#main
         //- Not connected 
-        .loading(v-if='!connected')
-          h2.center requesting server data...
+        .loading(v-if='!hasNodes')
+          h2.center(v-if='!connected') connecting to server...
+          h2.center(v-else) requesting server data...
+          
       //- COl-C
       .col-c
         .col-content
-          //- CHARTS --------------------------
+          //- charts
           .box(v-for='show,name,index in charts')
             //- v-if fails in firefox
-            mini-chart(v-if='show' v-show='show' :name='name' :key='index')
+            mini-chart(v-if='show'  :name='name' :key='index+name')
     
     //-  footer
         p rsk
-    d3-network#network(v-if='connected'
+    transition(name='fade-nodes')
+      #node-data(v-if='hasNodes')
+        template(v-for='node,id in nodes')
+          node-data(:node='node' :size='options.nodeSize' :key='id')        
+    transition(name='fade-nodes')
+      d3-network#network.net(
+      v-if='hasNodes'
       :netNodes="nodes"
       :netLinks="links"
       :selection="selection"
       :node-sym='nodeSym'
-      :options="options"
+      :options='options'
       :nodeCb='nodeFilter'
       @node-click="nodeClick"
       @link-click="linkClick"
-      class="net"
+      :class='netClass'
       :style='mainStyle'
       )    
+
       //- interface background 
     iface-back(:size='options.size'  :style='mainStyle' :center='center')
-      
+    //-transition(name='apply-mask')
+      iface-mask(v-if='hasNodes' :size='options.size'  :style='mainStyle' :center='center')  
       //- Dialogs
     .dialogs
       main-dialog(v-for="(dialog,index) in dialogs" :key='dialog.type + "-" + dialog.id' :dialog='dialog')
-      
-    //- Config
-    .over
-      stats-menu(v-if="showConfig" :nodes="nodes" :links="links" :options="options" @options="changeOptions" @reset="resetOptions")
-        button.close(@click="showConfig = false" slot="header" aria-label="close")
-          icon(name='close')
-    
-    //- Snapshots 
-    dialog-drag(v-if='showSnapshots' id="snapshots" title="Snapshots"
-      :key='"dialog-snaps"'
-      :options="{top:0, left:0,centered:true}" 
-      @close='showSnapshots = false')
-      icon(name="close" slot="button-close")
-      
-      snapshots-list( id='snapshots-list')       
       
 </template>
 <script>
@@ -96,7 +90,6 @@ import { mapState, mapActions, mapGetters } from 'vuex'
 import { locStorage as storage } from './lib/js/io.js'
 
 import D3Network from 'vue-d3-network'
-import StatsMenu from './components/StatsMenu'
 import DialogDrag from 'vue-dialog-drag'
 import Logo from './components/Logo.vue'
 import IfaceBack from './components/ifaceBack.vue'
@@ -105,9 +98,10 @@ import NodeData from './components/NodeData.vue'
 import BigData from './components/BigData.vue'
 import MiniChart from './components/MiniChart.vue'
 import MinersChart from './components/MinersChart.vue'
-import SnapshotsList from './components/SnapShotsList.vue'
 import NodesTable from './components/NodesTable.vue'
 import MainDialog from './components/MainDialog.vue'
+import AppMenu from './components/AppMenu.vue'
+import IfaceMask from './components/IfaceMask.vue'
 import { nodeFilter } from './filters/nodes.js'
 import { tSecondsAgo, mSecondsAgo, sSeconds } from './filters/TimeFilters.js'
 import { nodeType, yesNo } from './filters/TextFilters.js'
@@ -121,17 +115,17 @@ export default {
   components: {
     Logo,
     D3Network,
-    StatsMenu,
     DialogDrag,
     NodeWatcher,
     BigData,
     MiniChart,
     NodesTable,
     IfaceBack,
-    SnapshotsList,
     NodeData,
     MainDialog,
-    MinersChart
+    MinersChart,
+    AppMenu,
+    IfaceMask
   },
   filters: {
     tSecondsAgo,
@@ -167,16 +161,6 @@ export default {
     data.tool = 'pointer'
     data.nodeSym = nodeIcon
     data.nodeFilter = nodeFilter
-    data.bigDataFields = [
-      'bestBlock',
-      'lastBlockTime',
-      'avgBlockTime',
-      'lastDifficulty',
-      'avgHashrate',
-      'uncles',
-      'gasPrice',
-      'gasLimit'
-    ]
     data.showMenu = false
     return data
   },
@@ -216,20 +200,21 @@ export default {
       isLive: 'isLive',
       totalSnapshots: 'totalSnapshots',
       snapshotsListOptions: 'getSnapshotsListOptions',
-      now: 'getDate',
-      charts: 'app/charts/showCharts'
+      now: 'getDate'
     }),
     ...mapGetters('app/', {
       selection: 'selection',
       dialogs: 'getDialogs',
-      types: 'getTypes'
+      types: 'getTypes',
+      charts: 'charts/showCharts',
+      config: 'getConfig',
+      bigDataFields: 'bigDataFields'
     }),
     ...mapGetters('app/nodesTable', {
       tableOptions: 'options'
     }),
-    lastBlock () {
-      let lb = this.totals.lastBlock
-      return (lb) ? this.now - lb : 0
+    netClass () {
+      return (this.tool === 'pin') ? 'cross-cursor' : ''
     },
     blockChart () {
       return this.charts.blockPropagationChart.map((d) => {
@@ -244,9 +229,16 @@ export default {
       let x = mvp.width / 2 + this.options.offset.x
       let y = mvp.height / 2 + this.options.offset.y
       return { x, y }
+    },
+    hasNodes () {
+      return this.nodes.length
     }
   },
   methods: {
+    menuShow (show) {
+      show = (undefined === show) ? !this.showMenu : show
+      this.showMenu = show
+    },
     keyEsc (event) {
       if (!this.isLive) this.goLive()
     },
@@ -314,7 +306,7 @@ export default {
     showSelection () {
       return Object.keys(this.selection.nodes).length + Object.keys(this.selection.links).length
     },
-    buttonClass (tool) {
+    toolClass (tool) {
       if (tool === this.tool) return 'selected'
     },
     addPx (style) {
@@ -325,8 +317,6 @@ export default {
     },
     setTool (tool) {
       this.tool = tool
-      let cursorClass = (tool === 'pointer') ? '' : 'cross-cursor'
-      this.$el.className = cursorClass
     },
     changeOptions (options) {
       this.options = Object.assign({}, options)
@@ -367,29 +357,49 @@ export default {
 @import './lib/styl/app.styl'
 @import './lib/styl/nodes.styl'
   #network
-    z-index 99  
+    z-index 90 
+    overflow hidden
+  #node-data
+    z-index 91   
   .main-menu
-    z-index 500
-  .menu
-    display inline-block
-    margin-top 5rem
-    button
-      display block
-  .over
-    position: absolute
-    top: 0
-    right: 0
-    z-index: 100
-    padding: 1em
+    z-index 190
 
-  .iface-back
+  .app-menu
+    z-index 200
+  .iface-back, .iface-mask
     position: absolute
     top: 0 
     left: 0
     border 0
     margin 0
     z-index: 1
-    pointer-events: none
+    //-pointer-events: none
+  
+  .iface-mask
+    z-index 91
+    mix-blend-mode: multiply
+    opacity 1
+    will-change opacity
+  .apply-mask-enter-active 
+    transition: opacity 3s ease-out
+  .apply-mask-enter, .apply-mask-leave-to 
+     opacity 0
+  
+   .fade-nodes
+     will-change opacity
+  .fade-nodes-enter-active
+    transition opacity 3s ease-out
+    opacity 1
+  .fade-nodes-enter, .fade-nodes-leave-to
+    opacity 0 
+
+
+  .menu-buttons-enter-active
+    will-change opacity
+    transition opacity .5s ease
+    opacity 1
+  .menu-buttons-enter, .menu-buttons-leave-to
+    opacity 0
 
   .snapshot-hint
     position: absolute
@@ -410,6 +420,15 @@ export default {
     .hint
       color: $color2
   
+  .loading
+    position relative
+    z-index 1000
+    display flex
+    justify-content center
+    align-items center
+    min-width 100%
+    min-height 100%
+
   .mini-chart, .big-data
     z-index: 50
     position:relative

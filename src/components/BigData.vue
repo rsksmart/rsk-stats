@@ -1,5 +1,5 @@
 <template lang="pug">
-  .big-data(v-if='' @dblclick='toDialog' :class='(options.minimized) ? "mini":""' :style='styleObj')
+  .big-data(@dblclick='toDialog' :class='(options.minimized) ? "mini":""')
     entity-icon.bd-icon(:entity='entity' :value='value' :options='{ hideTooltip:true }')
     .bd-main
       .bd-title {{entity.title}}
@@ -88,15 +88,15 @@ $icon-size = 3em
 $mini-icon-size = ($icon-size / 2)
 
 .big-data
-  display: flex
+  display flex
   align-items center
-  color: $color
+  color $color
   user-select none
-  width: 100%
-  height: auto
-  border: $frame-border
-  margin-top: .5em
-  z-index: 100
+  width 100%
+  height auto
+  border $frame-border
+  margin-top .5em
+  z-index 100
   pointer-events all
   background $quasi-bg
   overflow visible
@@ -106,7 +106,7 @@ $mini-icon-size = ($icon-size / 2)
     width  $icon-size
     height  @width
     color  $color
-    opacity: .6
+    opacity .6
     box-sizing border-box
     margin-right  .125rem
     margin-left  1em
@@ -115,21 +115,21 @@ $mini-icon-size = ($icon-size / 2)
       height @width
       
   .bd-main
-    width: auto
-    display: inline-block
-    margin-left: 1em
-    // border: blue solid 1px
+    width auto
+    display inline-block
+    margin-left 1em
+    // border blue solid 1px
     .bd-title 
       small-titles()
     .bd-title  small
       &::before
         content ' '
     .bd-data
-      font-size: 2.5rem
+      font-size 2.5rem
       line-height @font-size * 1.2
       min-height @font-size
     .bd-data.big-number
-      font-size 1.25vmax
+      font-size 1.25rem
 
 // minimized
 .big-data.mini 
@@ -146,7 +146,7 @@ $mini-icon-size = ($icon-size / 2)
       font-size 80%
   
   .bd-data 
-    font-size 1.25vmax
+    font-size 1.25rem
   .bd-icon
     margin-right 0
     width $mini-icon-size
@@ -160,20 +160,20 @@ $mini-icon-size = ($icon-size / 2)
   background none
   box-shadow none
   .big-data
-    margin-top: 0
+    margin-top 0
     background lighten($bg-color,3%)
   .buttons , .dialog-header
     position absolute
-    top:1em
+    top 1em
     right 0
     height 1em
-    margin:0
+    margin 0
    button.close
       position absolute
-      z-index: 1000
+      z-index 1000
       pointer-events all
-      width: 2em
-      height: 2em
+      width 2em
+      height 2em
       right 0
       top -1em
 

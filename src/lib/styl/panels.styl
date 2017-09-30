@@ -1,0 +1,51 @@
+.panels
+  position absolute
+  display flex
+  flex-flow column wrap
+  align-items  flex-start
+  justify-content flex-start
+  right 0
+  top 0
+  background $darkness-even
+  box-shadow -1px -1px 2px rgba(0,0,0,.7)
+  min-width 20rem
+  width 22rem
+  border-left $border-panel
+  min-height 100%
+  padding-left 1rem
+  will-change transform
+  .panel
+    padding .5rem 1rem
+    display flex
+    flex-flow row wrap
+    align-items  flex-start
+    justify-content flex-start
+    width auto
+    .active
+      border $darkness-odd solid 1px
+      border-bottom $darkness-even solid 3px
+      border-radius .25em .25em 0 0
+      box-shadow $panel-sh
+      box-sizing border-box
+      margin 0
+      &:after
+        content ''
+        display block
+        position relative
+        width 100%
+        height 3px
+        margin 0
+        margin-bottom -4px
+        padding 0
+        background $darkness-even
+  .panel.active 
+    box-shadow $panel-sh
+  .panel.tabs, ul.tabs
+    padding 0
+    margin 0
+  .panel ul.tabs
+    list-style none
+    display flex
+    button
+      margin  .5em 1em .25em 1em
+      background none
