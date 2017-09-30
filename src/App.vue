@@ -26,7 +26,7 @@
       //- COl-A
       .col-a
         .col-content
-          .node-box.big-data.mini(v-if='hasNodes' @touchstart.prevent='showHideTable()')
+          .node-box.big-data.mini(v-if='hasNodes' @touchstart.passive='showHideTable()')
             .bd-main
               button.btn.badge(@click.stop='showHideTable()' aria-label="table")
                 icon(name='table')
@@ -381,8 +381,9 @@ export default {
     opacity 1
     will-change opacity
   .apply-mask-enter-active 
-    transition: opacity 3s ease-out
+    transition: opacity .5s ease-out
   .apply-mask-enter, .apply-mask-leave-to 
+     will-change opacity
      opacity 0
   
    .fade-nodes
@@ -395,7 +396,6 @@ export default {
 
 
   .menu-buttons-enter-active
-    will-change opacity
     transition opacity .5s ease
     opacity 1
   .menu-buttons-enter, .menu-buttons-leave-to
@@ -433,8 +433,5 @@ export default {
     z-index: 50
     position:relative
     pointer-events all
-  
- 
-  
 
 </style>

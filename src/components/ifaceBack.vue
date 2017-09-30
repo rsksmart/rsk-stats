@@ -6,7 +6,7 @@
     svg(:width='size.w' :height='size.h' id="iface-back-svg" )
       radialGradient#bg-gradient(:cx='gCenter.x' :cy='gCenter.y' gradientUnits='userSpaceOnUse' )
         stop.stop-1(stop-color='white' offset='0')
-        stop.stop-2(stop-color='black' offset='70%')
+        stop.stop-2(stop-color='black' offset='90%')
         stop.stop-3(stop-color='black' offset='100%')
       rect(:width='size.w' :height='size.h' fill='url(#bg-gradient)')
       //- selection lines
@@ -66,34 +66,14 @@ export default {
   .stop-2
     stop-color $bg-color  
   .stop-3
-    stop-color $bg-dark  
-/*    .iface-back
+    stop-color $bg-color
+    //stop-color $bg-dark  
+/*   .iface-back
     background-image:
       radial-gradient(circle closest-corner,
         lightness($bg-color,14%) 0, $bg-dark 60vw  
-      ) */
-  .node-block
-    position: absolute
-    font-size: .8em
-  .block-number-enter-active
-    color: $color
-    position: absolute
-    top:0
-    left:0
-    animation-name: blocknumber-anim
-    animation-duration: 2s
-    animation-iteration-count: 1
-    opacity: 0
-  .block-number
-    opacity:0 
-  @keyframes blocknumber-anim
-    0%
-      opacity: 0
-    10%
-      opacity: 1  
-    100%     
-      opacity: 0
-      transform: translateY(-100px)
+      )  */
+
 
 </style>
 

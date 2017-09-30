@@ -20,7 +20,7 @@ export default {
       return cssClass
     },
     filteredValue () {
-      return this.entity.filteredValue(this.value)
+      return this.entity.formatValue(this.value, true, true)
     },
     color () {
       return this.entity.color(this.value, this.fields)

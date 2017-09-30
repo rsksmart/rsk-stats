@@ -96,15 +96,11 @@ export default {
     },
     // Dialog event cb
     dialogEventFormatter (type) {
-      // let size = this.size
       return (obj) => {
         obj.type = type // set type
         obj.w = obj.width // save computed width
         obj.h = obj.height // save computed height
         if (obj.y < 0) obj.y = 0
-        /*         if (obj.x < 0) obj.x = 0
-                if (obj.x + obj.w > size.w) obj.x = size.w - obj.w */
-
         // auto size for all dialogs except TOTALS
         if (type !== this.types.TOTAL) {
           obj.height = 0 // auto height

@@ -7,7 +7,7 @@
           th blocks
       tbody
         tr(v-for='miner in miners')
-          td {{ miner.name || ( miner.miner | hash-trim )  }}
+          td {{ (miner.name) ? miner.name : miner.miner | hash-trim  }}
           td {{miner.blocks}}
 </template>
 <script>
