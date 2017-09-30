@@ -1,5 +1,5 @@
 <template lang="pug">
-  .tooltip(@mouseleave='show=false' @mouseenter='show=true' @touchend='touch')
+  .tooltip(@mouseleave='show=false' @mouseenter='show=true' @touchend.passive='touch')
     .trim(v-if='trim') {{trimed}}
     slot(v-else)
     .points(v-if='trim' :class='[(opts.trimend) ? "left": "right", (clicked) ? "clicked" : "" ]')

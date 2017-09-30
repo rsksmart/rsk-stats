@@ -1,5 +1,5 @@
 <template lang="pug">
-  .mini-chart(v-if='name' @touchstart.prevent='maximize')
+  .mini-chart(v-if='name')
     chart(:name='name' :xsize='size.w')
       button.max(@click='maximize' slot='header' aria-label="maximize-chart")
         icon.maximize(name='enlarge')
@@ -34,7 +34,7 @@ export default {
   .mini-chart
     display flex
     flex-flow column nowrap
-    margin-top: .25rem
+    margin-top .25rem
     .curve
       stroke-width 2px
  </style>

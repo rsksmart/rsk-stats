@@ -6,21 +6,21 @@
       
       .hidden-fields(v-if='hiddenFields.length')
         small Hidden fields:
-        button(v-for='field in hiddenFields' @click='showField(field)' @touchstart='showField(field)' )
+        button(v-for='field in hiddenFields' @click='showField(field)' @touchstart.passive='showField(field)' )
           entity-icon(:entity='entity[field]')   
     
     table.nodes.dark(v-if='fields')
       thead
         tr.field-actions
           //- fields 
-          th(v-for='field,key in fields' v-if='!isHidden(field)' @touchstart='hideField(field)')
+          th(v-for='field,key in fields' v-if='!isHidden(field)' @touchstart.passive='hideField(field)')
             button(@click='hideField(field)')
               icon(name='close')
           th      
         tr
           //- fields 
           th(v-for='field,key in fields' v-if='!isHidden(field)')
-            button(@click='sortBy(field)' @touchstart='sortBy(field)')
+            button(@click='sortBy(field)' @touchstart.passive='sortBy(field)')
               entity-icon(:entity='entity[field]')
                 .order(slot='badge' v-if='field === sortKey')
                   span.arrow.up(v-if='sortOrders[field] > 0')
@@ -42,7 +42,7 @@
             
           //- Pin button
           td
-            .pin(@click='pinRow(node.id)' @touchstart='pinRow(node.id)')
+            .pin(@click='pinRow(node.id)' @touchstart.passive='pinRow(node.id)')
               icon.color2(v-if='isPinned()([node.id])' name='pinned' )
               icon(v-else name='pin')
     .loading(v-else)
@@ -124,19 +124,25 @@ export default {
 @import '../lib/styl/vars.styl'
   .nodes-table
     overflow visible
-    display flex
     flex-direction column
   table.nodes
     min-width 100%
+    thead
+      tr
+        min-width 100%
+    tbody
+      overflow-y: auto
+      overflow-x: visible
     tr.full 
       min-width: 100%  
     td, th
+     will-change trasform
      animation-name: row-anim
      animation-duration: .5s
      animation-timing-function: ease-out 
     @keyframes row-anim
       0%
-        transform: rotateX(-90deg) rotateZ(-90deg)
+        transform: rotateX(-90deg) 
       40%
         rotateZ(10deg)   
       50%

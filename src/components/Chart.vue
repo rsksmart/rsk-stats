@@ -1,5 +1,5 @@
 <template lang="pug">
-  .chart.dark-chart(v-if='chart' :class='(max)?"max-chart":"mini-chart"')
+  .chart.dark-chart(v-if='chart' :class='(max)?"max-chart":"mini-chart"' :key='(max)?"max"+name:name')
       .header
         slot(name='header')
       .chart-title-cont
@@ -68,7 +68,7 @@ export default {
     ]),
     onResize () {
       this.size.w = this.$el.clientWidth
-      this.size.h = this.size.w / 4
+      this.size.h = this.size.w / 4.5
     },
     formatLabel (bar, formatX, formatY) {
       return [
