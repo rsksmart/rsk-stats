@@ -3,6 +3,7 @@
 
 // generates colors classes
  apply-colors('color' 'color2' 'gray','$')
+ apply-colors('red' 'green' 'blue' 'orange' 'yellow' 'violet')
 
  color-dark()
     color: $mid
@@ -20,21 +21,33 @@
       color: $white
      .tolltip
         color: $color
+
+    input
+      background $darkness
+      color: $color
+      border: alpha($dark,.5) solid 1px
+    .search
+      overflow: visible
+      top: .5em
+      left 1em
+      input
+        color: $color2
+        margin-left: .25em
+      .svg-icon
+        fill: $dark
         
 .darkness
   color-darkness()
     .title, h1, h2,h3,h4,h5,h6
       color: $light
 
-.delete
+delete()
   color $warn-light
   fill $warn-light
-  border-color $warn-light !important
-    &:hover
-      color $warn
-      fill @color
-      border-color @color
+  &:hover
+    color $warn
+    fill @color
+    border-color @color
+
 .active
   color $color
-    &:hover
-      color $colo2  

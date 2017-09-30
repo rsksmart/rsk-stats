@@ -1,3 +1,5 @@
+@import './media_queries.styl'
+
 $margin = 1rem
 $min-col-w = 4rem
 body
@@ -33,7 +35,7 @@ header, footer
    z-index 5
 
 .header-wrapper
-  position absolute
+  //position absolute
   width 100%
   display inline block
 
@@ -59,7 +61,10 @@ header
 
   .head-3
     order 3
-    flex 0
+    flex 1 1 $min-col-w
+    z-index 100
+    align-items flex-end
+    text-align right
 
 footer  
   order 3
@@ -85,7 +90,8 @@ footer
    box-sizing border-box
    padding-left $margin
 
-@media screen and (min-width: 900px)
+// Tablet
++media_breakpoint(tablet)
   #logo-head
     display none
    #logo-col
@@ -104,7 +110,8 @@ footer
       .box
         flex 0 1 50%
 
-@media screen and (min-width: 1200px)
+// Desktop
++media_breakpoint(desktop)
 
   .col-a
     order 1
@@ -123,4 +130,4 @@ footer
     .head-3
       flex 1 0 $min-col-w
       padding-right $margin
-
+      z-index 500

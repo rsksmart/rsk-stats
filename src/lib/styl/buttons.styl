@@ -1,4 +1,6 @@
+@import './colors.styl'
 button
+  cursor pointer
   color: $color
   background-color: transparent
   border: none
@@ -40,7 +42,7 @@ button.big
     width: 1.75em 
     height: @width
   .badge
-    font-size 1em !important  
+    font-size .8em !important 
 button.big-txt
   font-size 1.25em
 
@@ -65,7 +67,7 @@ button.circle
 
 .btn.badge, .w-badge
   position: relative
-  margin-right: .75em
+  margin .75em .5em .75em .25em
   display: inline-block
   .badge
     position: absolute
@@ -80,6 +82,11 @@ button.circle
     width: 1.5em
     height: 1.5em
     display: inline-block
+    .arrow
+      border-color $white
+  &:hover
+    .badge
+      background $color2  
 
 button.close 
   min-width: $button-close-size
@@ -89,8 +96,13 @@ button.close
     min-height: $button-close-size
     min-width: @min-height
 
-button.btn.selected
+button.btn.selected, button.btn.dark.selected
   color $selected
+  fill @color
 
 button.delete
   delete()
+  border-color $warn-light
+
+button.btn.dark
+  color-darkness()

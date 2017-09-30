@@ -1,6 +1,6 @@
 
 ::-webkit-input-placeholder
-  color $graylight
+  color alpha($graylight,.4)
   font-style italic
 
 ::-webkit-search-cancel-button
@@ -10,3 +10,12 @@
   width: .75em
   background: $dark
 
+
+label 
+  margin-top .5em
+
+label + input[type='range']
+  display block  
+
+input.big
+  font-size 1.125em
