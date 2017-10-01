@@ -1,5 +1,6 @@
 export default function () {
   return {
+    APP: process.env.APP,
     date: Date.now(),
     dateInterval: null,
     size: {

@@ -15,10 +15,14 @@
     ul.list.snapshots.dark
       li(v-for='snapshot,id,key in snapshots' :key='key' :class='rowClass(id,key)')
         ul.list-head
-          li(@touchstart.passive='minMaxRow(id)') {{ (snapshot.name || id ) }}
+          li(@touchstart.passive='minMaxRow(id)' :class='nameClass(snapshot.version)') {{ (snapshot.name || id ) }}
         ul.list-item
           li 
             small {{ id | date-from-ts }}
+          li(v-if='snapshot.version')
+            small version: {{snapshot.version}}  
+          li
+            small.warn {{versionWarning(snapshot.version)}}  
           li.col
             button.circle.delete(@click='removeSnapshot(id)' aria-label="remove")
               tool-tip(:value='"delete"')
@@ -63,7 +67,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      snapshots: 'getSnapshots'
+      snapshots: 'getSnapshots',
+      appData: 'appData'
     })
   },
   methods: {
@@ -87,6 +92,20 @@ export default {
     },
     isMax (id) {
       return this.maxRows[id] || false
+    },
+    versionWarning (version) {
+      let vArr = version.split('.')
+      let aVarr = this.appData.vArr
+      let warning = null
+      if ((vArr[0] !== aVarr[0]) || (vArr[1] !== aVarr[1])) {
+        warning = 'The app and snapshot versions does not match. The snapshot maybe don\'t work'
+      }
+      return warning
+    },
+    nameClass (version) {
+      if (this.versionWarning(version)) {
+        return 'warn'
+      }
     },
     rowClass (id, key) {
       let rowClass = []
