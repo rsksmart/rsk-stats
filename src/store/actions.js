@@ -40,6 +40,7 @@ export const setDateInterval = ({ state, commit }) => {
 export const takeSnapshot = ({ state, commit }, name) => {
   let snapshot = {
     name: name,
+    version: state.APP.version,
     data: {
       backend: cloneObj(state.backendData),
       app: cloneObj(state.app)

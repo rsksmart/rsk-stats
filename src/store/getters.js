@@ -65,6 +65,12 @@ export const checkSnapshot = () => snapshot => {
   }
 }
 
+export const appData = (state) => {
+  let data = state.APP
+  if (data.version) data.vArr = data.version.split('.')
+  return data
+}
+
 export const ifSnapshot = (state) => snapshot => {
   let date = snapshot.date
   let name = snapshot.name
