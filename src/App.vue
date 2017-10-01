@@ -6,7 +6,7 @@
       small.hint.color2 running in snapshot mode
       button.btn.live(@click='goLive()') go Live
     //- Menu
-    app-menu(v-if='showMenu' @close='menuShow(false)' :options='options' @options='changeOptions' @reset='resetOptions')
+    app-menu(v-if='showMenu' @close='menuShow(false)')
     
     .header-wrapper
       header
@@ -57,6 +57,7 @@
     
     //-  footer
         p rsk
+    //- Node data
     transition(name='fade-nodes')
       #node-data(v-if='hasNodes')
         template(v-for='node,id in nodes')
@@ -108,7 +109,6 @@ import { nodeType, yesNo } from './filters/TextFilters.js'
 import { percent, numerals, toInt, numeralsSuffix } from './filters/NumberFilters.js'
 
 import nodeIcon from '!!raw-loader!./assets/node.svg'
-import defaultData from './data.js'
 import './icons'
 export default {
   name: 'rsk-stats',
@@ -139,52 +139,41 @@ export default {
     numeralsSuffix
   },
   data () {
-    let data = Object.assign({}, defaultData)
-    data.mainVp = {
-      left: 0,
-      top: 0,
-      width: 0,
-      height: 0
-    }
-    data.options.size = { w: 500, h: 500 }
-    data.options.offset = { x: 0, y: 0 }
-    data.tools = {
-      pointer: {
-        tip: 'Select',
-        icon: 'pointer'
+    return {
+      mainVp: {
+        left: 0,
+        top: 0,
+        width: 0,
+        height: 0
       },
-      pin: {
-        tip: 'click on node to pin it',
-        icon: 'pin'
-      }
+      tools: {
+        pointer: {
+          tip: 'Select',
+          icon: 'pointer'
+        },
+        pin: {
+          tip: 'click on node to pin it',
+          icon: 'pin'
+        }
+      },
+      tool: 'pointer',
+      nodeSym: nodeIcon,
+      nodeFilter: nodeFilter,
+      showMenu: false,
+      resizeTimeout: null
     }
-    data.tool = 'pointer'
-    data.nodeSym = nodeIcon
-    data.nodeFilter = nodeFilter
-    data.showMenu = false
-    return data
   },
   created () {
-    let savedOptions = storage.get('options')
-    if (savedOptions) this.options = Object.assign({}, savedOptions)
-    let savedSnapshots = storage.get('snapshots')
-    this.$store.dispatch('init', { snapshots: savedSnapshots })
+    let config = storage.get('config')
+    let snapshots = storage.get('snapshots')
+    this.$store.dispatch('init', { snapshots, config })
   },
   mounted () {
     this.onResize()
-    window.addEventListener('resize', this.onResize)
+    window.addEventListener('resize', this.resizeThrottler, false)
   },
   beforeDestroy () {
-    window.removeEventListener('resize', this.onResize)
-  },
-  watch: {
-    options (newValue) {
-      if (newValue) storage.set('options', newValue)
-      this.options = newValue
-    },
-    snapshots (newValue) {
-      storage.set('snapshots', newValue)
-    }
+    window.removeEventListener('resize', this.resizeThrottler)
   },
   computed: {
     ...mapState({
@@ -199,6 +188,7 @@ export default {
       links: 'getLinksArr',
       isLive: 'isLive',
       totalSnapshots: 'totalSnapshots',
+      options: 'getNetOptions',
       snapshotsListOptions: 'getSnapshotsListOptions',
       now: 'getDate'
     }),
@@ -235,6 +225,16 @@ export default {
     }
   },
   methods: {
+    resizeThrottler () {
+      // ignore resize events as long as an actualResizeHandler execution is in the queue
+      if (!this.resizeTimeout) {
+        let vm = this
+        this.resizeTimeout = setTimeout(() => {
+          vm.resizeTimeout = null
+          vm.onResize()
+        }, 66)
+      }
+    },
     menuShow (show) {
       show = (undefined === show) ? !this.showMenu : show
       this.showMenu = show
@@ -298,11 +298,6 @@ export default {
         vm.changeOptions(options)
       })
     },
-    resetOptions () {
-      this.options = Object.assign({}, defaultData.options)
-      this.options.offset = { x: 0, y: 0 }
-      this.options.size = this.size
-    },
     showSelection () {
       return Object.keys(this.selection.nodes).length + Object.keys(this.selection.links).length
     },
@@ -319,7 +314,7 @@ export default {
       this.tool = tool
     },
     changeOptions (options) {
-      this.options = Object.assign({}, options)
+      this.$store.commit('SET_CONFIG_GROUP', ['netOptions', options])
     },
     // -- Selection
     nodeClick (event, node) {

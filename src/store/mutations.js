@@ -56,3 +56,15 @@ export const IMPORT_NAME = (state, name) => {
 export const IMPORT_ERROR = (state, error) => {
   Vue.set(state.snapshotImport, 'error', error)
 }
+
+export const SET_CONFIG = (state, config) => {
+  state.config = config
+}
+
+export const SET_CONFIG_GROUP = (state, payload) => {
+  let group = payload[0]
+  let config = payload[1]
+  for (let c in config) {
+    Vue.set(state.config[group], c, config[c])
+  }
+}
