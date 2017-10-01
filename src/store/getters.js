@@ -77,3 +77,11 @@ export const ifSnapshot = (state) => snapshot => {
 export const getCharts = (state) => {
   return state.backendData.charts
 }
+
+export const getConfig = (state) => {
+  return state.config
+}
+
+export const getNetOptions = (state) => {
+  return Object.assign({}, state.config.netOptions)
+}

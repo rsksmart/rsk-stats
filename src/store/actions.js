@@ -1,10 +1,14 @@
 import { cloneObj, downloadJSON, loadJSON } from './utils.js'
+import defaultConfig from './defaultConfig.js'
+import { locStorage as storage } from '../lib/js/io.js'
 
 export const connectionUpdate = ({ commit }, connected) => {
   commit('SOCKET_CONNECTION', (connected === true))
 }
 
-export const init = ({ dispatch }, data) => {
+export const init = ({ dispatch, commit }, data) => {
+  data = data || {}
+  commit('SET_CONFIG', defaultConfig())
   dispatch('setDateInterval')
   dispatch('initData', data)
   dispatch('app/entity/renderEntities')
@@ -42,6 +46,7 @@ export const takeSnapshot = ({ state, commit }, name) => {
     }
   }
   commit('SAVE_SNAPSHOT', snapshot)
+  storage.set('snapshots', state.snapshots)
 }
 
 export const removeSnapshot = ({ state, commit }, id) => {
@@ -111,6 +116,15 @@ export const loadSnapshotFromFile = ({ dispatch, commit, getters }, files) => {
       }
     )
   }
+}
+
+export const updateConfig = ({ state, commit }, config) => {
+  commit('SET_CONFIG', config)
+  storage.set('config', state.config)
+}
+
+export const resetConfig = ({ state, dispatch }) => {
+  dispatch('updateConfig', defaultConfig())
 }
 
 // Helpers

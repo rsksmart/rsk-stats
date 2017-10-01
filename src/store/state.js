@@ -14,6 +14,7 @@ export default function () {
     },
     appPrevState: null,
     backendData: {},
-    snapshots: {}
+    snapshots: {},
+    config: {}
   }
 }

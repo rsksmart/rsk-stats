@@ -6,72 +6,82 @@
           icon(name='close')
       .panel.tabs
         ul.tabs
-          li(:class='panelClass(config)')
-            button.dark.big(@click='show(config)')
+          li(:class='panelClass(t.config)')
+            button.dark.big(@click='show(t.config)')
               icon(name='settings')
-          li(:class='panelClass(snapshots)')
-            button.dark.big(@click='show(snapshots)')
+          li(:class='panelClass(t.snapshots)')
+            button.dark.big(@click='show(t.snapshots)')
               icon(name='versions')
               span.badge(v-if='totalSnapshots') {{ totalSnapshots }}    
         //-button.btn.dark.big.badge(@click='show(charts)')
           icon(name='graph')
-      .panel.snapshots(v-if='panel(snapshots)' :class='panelClass(snapshots)')
+      .panel.snapshots(v-if='panel(t.snapshots)' :class='panelClass(t.snapshots)')
         h3 Snapshots & Layouts
         snapshots-list(id='snapshots-list')
-      .panel.config(v-if='panel(config)' :class='panelClass(config)')
+      .panel.config(v-if='panel(t.config)' :class='panelClass(t.config)')
         h3 Configuration
         ul.list.dark
           li
             label Nodes spread: {{opts.force}}
-            input(type="range" v-model.number="opts.force" @input='change' min="1" max="7000" step="10") 
+            input(type="range" v-model='opts.force' @input='update' min="1" max="7000" step="10") 
           li
             label Node Size: {{opts.nodeSize}}
-            input(type="range" v-model.number="opts.nodeSize" @input='change' min="5" max="200" step="1")
+            input(type="range" v-model='opts.nodeSize' @input='update'  min="5" max="200" step="1")
           li
-            input(type="checkbox" @change='change' v-model="opts.nodeLabels")
+            input(type="checkbox"  v-model="opts.nodeLabels" @change='update')
             label Node names   
           li(v-if="opts.nodeLabels")
             label Font Size: 
               span {{ opts.fontSize }} 
-            input(type="range" v-model="opts.fontSize" @input='change' min="5" max="30" step="1")
+            input(type="range" v-model="opts.fontSize" @input='update' min="5" max="30" step="1")
           li  
-            button.reset(@click="reset" title="reset options" aria-label="reset options") 
+            button.reset(@click="resetConfig" title="reset options" aria-label="reset options") 
               span Reset to default &nbsp;
               icon(name='reload-alt' scale='1.5')
 
 </template>
 <script>
-import defaultData from '../data.js'
-import { mapGetters } from 'vuex'
-import SnapshotsList from './SnapShotsList.vue'
+import { mapGetters, mapActions } from 'vuex'
+import SnapshotsList from './SnapshotsList.vue'
 import '../icons/graph'
 export default {
   name: 'app-menu',
-  props: ['options'],
   components: {
     SnapshotsList
   },
   data () {
-    let data = Object.assign({}, defaultData)
-    data.options.offset = { x: 0, y: 0 }
     return {
-      snapshots: 'snapshots',
-      config: 'config',
-      charts: 'charts',
-      opts: data.options,
+      t: {
+        snapshots: 'snapshots',
+        config: 'config',
+        charts: 'charts'
+      },
       activePanel: ''
     }
   },
   created () {
-    this.opts = this.options
-    this.activePanel = this.config
+    this.activePanel = this.t.config
   },
   computed: {
     ...mapGetters({
-      totalSnapshots: 'totalSnapshots'
-    })
+      totalSnapshots: 'totalSnapshots',
+      appConfig: 'getConfig'
+    }),
+    config () {
+      return Object.assign({}, this.appConfig)
+    },
+    opts () {
+      return this.config.netOptions
+    }
   },
   methods: {
+    ...mapActions([
+      'resetConfig',
+      'updateConfig'
+    ]),
+    update () {
+      this.updateConfig(this.config)
+    },
     emit (name, args) {
       this.$emit(name, args)
     },
@@ -83,12 +93,6 @@ export default {
     },
     panelClass (panel) {
       return (panel === this.activePanel) ? 'active' : ''
-    },
-    change () {
-      this.$emit('options', this.opts)
-    },
-    reset () {
-      this.$emit('reset', this.options)
     }
   }
 }
