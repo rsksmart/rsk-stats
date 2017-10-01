@@ -18,7 +18,7 @@
           li(@touchstart.passive='minMaxRow(id)') {{ (snapshot.name || id ) }}
         ul.list-item
           li 
-            small {{ key | date-from-ts}}
+            small {{ id | date-from-ts }}
           li.col
             button.circle.delete(@click='removeSnapshot(id)' aria-label="remove")
               tool-tip(:value='"delete"')
