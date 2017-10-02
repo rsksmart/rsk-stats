@@ -120,6 +120,7 @@ export const loadSnapshotFromFile = ({ dispatch, commit, getters }, files) => {
 }
 
 export const updateConfig = ({ state, commit }, config) => {
+  config.netOptions.size = state.size
   commit('SET_CONFIG', config)
   storage.set('config', state.config)
 }
