@@ -10,26 +10,26 @@
       @focus='bringDialogToFront(dialog)'
       )
 
-      template(v-if='!is(types.TOTAL)')
+      template(v-if='!isDialog(types.TOTAL)')
         icon( v-if='buttonClose' name='close' slot='button-close')
         icon( v-if='buttonPin' name='pin' slot='button-pin')
         icon( v-if='buttonPin' name='pinned' slot='button-pinned')
       
       //- Node Dialog
-      template(v-if='is(types.NODE)')
+      template(v-if='isDialog(types.NODE)')
         .node-header(slot='title')
           icon.med(name='rsk')
           h3.node-title.title {{ dialog.name | txt-trim  }}
         node-watcher(:dialog='dialog')
       //- Chart Dialog
-      template(v-if='is(types.CHART)')
+      template(v-if='isDialog(types.CHART)')
         h3.node-title(slot='title') {{ dialog.name }}
         chart(:name='dialog.id' :max='true')  
       
-      template(v-if='is(types.TOTAL)')
+      template(v-if='isDialog(types.TOTAL)')
         big-data(:name='dialog.id')
         icon( v-if='buttonClose' name='close' slot='button-close')
-      template(v-if='is(types.TABLE)')
+      template(v-if='isDialog(types.TABLE)')
         nodes-table  
   
 </template>
@@ -85,7 +85,7 @@ export default {
     ...mapActions('app/charts', [
       'minimizeChart'
     ]),
-    is (type) {
+    isDialog (type) {
       return this.dialog.type === type
     },
     close (dialog) {

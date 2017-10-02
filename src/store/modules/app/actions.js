@@ -44,6 +44,7 @@ const newDialog = (data) => {
   dialog.title = data.title || ''
   dialog.name = data.name || ''
   dialog._show = true
+  dialog.dropEnabled = false
   dialog._persistent = true // <- Hard coded perrsistence for all dialogs
   return dialog
 }

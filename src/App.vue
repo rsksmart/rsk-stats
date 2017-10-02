@@ -83,7 +83,7 @@
       iface-mask(v-if='hasNodes' :size='options.size'  :style='mainStyle' :center='center')  
       //- Dialogs
     .dialogs
-      main-dialog(v-for="(dialog,index) in dialogs" :key='dialog.type + "-" + dialog.id' :dialog='dialog')
+      main-dialog(v-for="(dialog,index) in dialogs" :key='dialog._key' :dialog='dialog')
       
 </template>
 <script>
