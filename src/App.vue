@@ -7,7 +7,6 @@
       button.btn.live(@click='goLive()') go Live
     //- Menu
     app-menu(v-if='showMenu' @close='menuShow(false)')
-    
     .header-wrapper
       header
         .head-1  
@@ -28,7 +27,7 @@
         .col-content
           .node-box.big-data.mini(v-if='hasNodes' @touchstart.passive='showHideTable()')
             .bd-main
-              button.btn.badge(@click.stop='showHideTable()' aria-label="table")
+              button.btn.dark.badge(@click.stop='showHideTable()' aria-label="table")
                 icon(name='table')
                 span.badge {{ activeNodes.length }}
               button.big-txt(@click.stop='showHideTable()'  aria-label="table") tracked nodes {{ nodes.length }} 
@@ -59,9 +58,8 @@
         p rsk
     //- Node data
     transition(name='fade-nodes')
-      #node-data(v-if='hasNodes')
-        template(v-for='node,id in nodes')
-          node-data(:node='node' :size='options.nodeSize' :key='id')        
+      #node-data(v-if='hasNodes && config.showNodeInfo')
+        node-data(v-for='node,id in nodes' :node='node' :size='options.nodeSize' :key='id')        
     transition(name='fade-nodes')
       d3-network#network.net(
       v-if='hasNodes'
@@ -190,14 +188,14 @@ export default {
       totalSnapshots: 'totalSnapshots',
       options: 'getNetOptions',
       snapshotsListOptions: 'getSnapshotsListOptions',
-      now: 'getDate'
+      now: 'getDate',
+      config: 'getConfig'
     }),
     ...mapGetters('app/', {
       selection: 'selection',
       dialogs: 'getDialogs',
       types: 'getTypes',
       charts: 'charts/showCharts',
-      config: 'getConfig',
       bigDataFields: 'bigDataFields'
     }),
     ...mapGetters('app/nodesTable', {
@@ -290,7 +288,6 @@ export default {
         if (vW > 900 && vW < 1200) {
           x = main.offsetLeft / 2
         }
-
         this.mainVp = { width, height, left, top }
         let options = vm.options
         options.size = { w: width, h: height }

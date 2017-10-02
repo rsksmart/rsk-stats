@@ -21,6 +21,9 @@
       .panel.config(v-if='panel(t.config)' :class='panelClass(t.config)')
         h3 Configuration
         ul.list.dark
+          li 
+            input(type="checkbox"  v-model='config.showNodeInfo' @change='update')
+            label Show node info
           li
             label Nodes spread: {{opts.force}}
             input(type="range" v-model='opts.force' @input='update' min="1" max="7000" step="10") 

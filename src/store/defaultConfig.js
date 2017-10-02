@@ -1,5 +1,6 @@
 const defaultConfig = () => {
   return {
+    showNodeInfo: true,
     netOptions: {
       force: 2500,
       nodeSize: 100,
