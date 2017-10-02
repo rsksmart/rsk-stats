@@ -1,8 +1,5 @@
 <template lang="pug">
   .iface-back(:style='styleObj')
-    //-.node-block(v-for='node,id in nodes' :key='id' :style='nodeBlockStyle(node)')
-      transition(name="block-number" type="animation"  appear )
-        span.block-number( :key='node.stats.block.number') {{nodes[id].stats.block.number}}
     svg(:width='size.w' :height='size.h' id="iface-back-svg" )
       radialGradient#bg-gradient(:cx='gCenter.x' :cy='gCenter.y' gradientUnits='userSpaceOnUse' )
         stop.stop-1(stop-color='white' offset='0')
@@ -67,7 +64,6 @@ export default {
     stop-color $bg-color  
   .stop-3
     stop-color $bg-color
-    //stop-color $bg-dark  
 /*   .iface-back
     background-image:
       radial-gradient(circle closest-corner,
