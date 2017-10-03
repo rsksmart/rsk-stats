@@ -1,7 +1,5 @@
 <template lang='pug'>
   .node-info(:style='styleObj')
-    //-svg(:width='size' :height='size')
-      rect(x='0' y='0' :width='size' :height='size')
     .node-info-data
       
       //- NO Syncing
@@ -28,20 +26,27 @@
       svg-cube.block(:x='cx' :y='cubC' :size='cS' :key='node.stats.block.number')
     //-svg-cube.block-cube(:x='block.x' :y='block.y' :size='block.s' :key='node.stats.block.number')
     svg(:width='w' :height='h')
-      defs
-        filter#shadow
-          feDropShadow(dx='0' dy='1' stdDeviation='1')
       //-transition(name='block-cube' appear)
       //-Block Time
-      //-ellipse.over-node.time(v-if='isDelayed' :cx='cx' :cy='cy * .93' :rx='eS / 1.2' :ry='eS/3' :stroke-width='1' fill='none' :stroke='isDelayed.color')
-  
-      //-text.trans-value(v-if='isTrans' :y='h/2' :x='w/2' text-anchor="middle" :font-size='cS/2') {{ isTrans.value }}
-      template(v-if='isLow')
+      ellipse.over-node.time(v-if='isDelayed' :cx='cx' :cy='cy * .95' :rx='eS' :ry='eS/2.3' :stroke-width='1' fill='none' :stroke='isDelayed.color')
+
+      g(v-if='isTrans' transform="skewY(20) rotate(-5)")
+        text.trans-value(  :y='size /2.3' :x='size/5' text-anchor="right" :font-size='cS/1.8') {{ isTrans.value }}
+      //- LOW STACK
+      //--template(v-if='isLow')
         template(v-if='isLow.value < blockCubes')
           svg-cube.diff-cube(v-for='i in isLow.value' :x='cx' :y='bCubes[i-1].y' :color='isLow.color' :size='bCubes[i-1].w' :key='i')
         template(v-else)
           svg-cube.diff-cube(:x='cx' :y='cubC' :color='isLow.color' :size='cS' :shadow='1')
           text(:fill='isLow.color' :font-size='cS / 2' x='50%' :y='cubC * .5' text-anchor="middle") {{isLow.fvalue}}
+      
+      //-Cubes
+      template(v-if='isLow && isLow.value > 0')
+        cube-of-cubes.cubes(:size='cS*2' :mod='cubeMod' :step='cubeStep(isLow.value)' :color='isLow.color' :x='cx' :y='cubC' )
+        text(:fill='isLow.color' :font-size='cS / 2' x='50%' :y='cubC * .5' text-anchor="middle") {{isLow.fvalue}}
+      
+      
+      //- Last Block
       svg-cube.block-cube(:x='block.x' :y='block.y' :size='block.s' :key='node.stats.block.number')
       //-Debug square
     //-svg(:width='w' :height='h' :viewBox='viewBox')
@@ -53,12 +58,14 @@
 import { mapGetters } from 'vuex'
 import EntityMixin from '../mixins/Entity'
 import SvgCube from './SvgCube.vue'
+import CubeOfCubes from './CubeOfCubes.vue'
 import COLORS from '../config/colors.json'
 export default {
   name: 'noode-data',
   props: ['node', 'size'],
   components: {
-    SvgCube
+    SvgCube,
+    CubeOfCubes
   },
   mixins: [
     EntityMixin
@@ -70,7 +77,8 @@ export default {
       padding: 1,
       rotation: 0,
       blockCubes: 4,
-      lineCubes: 8,
+      lineCubes: 27,
+      cubeMod: 3,
       newBlock: {
         color: COLORS.green
       },
@@ -97,6 +105,9 @@ export default {
     },
     nodeEntity () {
       return this.createNodeEntity()(this.node.id)
+    },
+    cubeMax () {
+      return Math.pow(this.cubeMod, 3)
     },
     viewBox () {
       return [0, 0, this.w, this.h].join(' ')
@@ -136,18 +147,19 @@ export default {
       }
       return cubes
     },
-    /*     cubeLine () {
-          let total = this.blockCubes - 1
-          let cubes = []
-          let cS = this.size / 8
-          let h = this.h
-          for (let i = 1; i <= total; i++) {
-            let x = cS * 1.5 + (cS * 0.8) * i
-            let y = (h / 3.1) + (cS / 4) * i
-            cubes.push({ x, y })
-          }
-          return cubes
-        }, */
+    cubeLine () {
+      let total = this.lineCubes - 1
+      let cubes = []
+      let cS = this.size / (this.lineCubes + 1)
+      let h = this.h
+      for (let i = 1; i <= total; i++) {
+        // let x = cS * 1.5 + (cS * 0.8) * i
+        let x = cS * 2 + (cS * 0.8) * i
+        let y = (h / 4) + (cS / 4) * i
+        cubes.push({ x, y, s: cS })
+      }
+      return cubes
+    },
     iconSize () {
       return this.size / 5
     },
@@ -218,6 +230,9 @@ export default {
       let fill = (cf) ? cf(value) : ''
       return { fill }
     },
+    cubeStep (val) {
+      return (val <= this.cubeMax) ? val : this.cubeMax
+    },
     pos (deg) {
       deg = deg || 0
       let r = this.w / 2
@@ -282,14 +297,18 @@ export default {
   svg.cube path 
     stroke black
     // fill-opacity .9
-    stroke-width .5
+    stroke-width 1
     stroke-opacity 0.25
     // stroke-dasharray 3
   
   //ellipse.time
     //stroke-dasharray 1
 
-
+.cubes 
+  .cube
+    stroke $darkness
+    stroke-width .5
+    stroke-opacity 0.85
 
 .node-info-data
   width 100%
@@ -343,27 +362,19 @@ export default {
 @keyframes bcube-anim
   0%
     opacity 0
-    transform translate(50%,20%)
-  10%
+    transform translate(100%,80%) scale(.1,.1)
+  5%
     opacity 1
-      
+     transform translate(50%,100%) scale(1,1) 
+     
   60%
-    opacity 1
+    transform scale(1,1)
   90% 
-    opacity 0  
+    opacity 1 
   100%
-    transform translate(-250%,-100%) 
+    transform translate(-250%,-110%) 
     opacity 0   
 
-@keyframes bcube-anim-xxx
-  0%
-    opacity 0
-    transform translate(90%,90%) scale(.1,.1)
-  50%
-    opacity 1
-    transform scale(2,2)
-  100%
-    opacity 0 
 .block-cube-enter
   opacity 0
 
@@ -374,5 +385,16 @@ export default {
 .trans-value
   fill: $dark
   // transform rotateY(20deg)
+
+.time
+  animation etime 3s infinite  
+
+@keyframes etime
+  0%
+    opacity .1
+  50%
+    opacity .8
+  100%
+    opacity .1
 
 </style>
