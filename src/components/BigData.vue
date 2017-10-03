@@ -172,11 +172,10 @@ $mini-icon-size = ($icon-size / 2)
       position absolute
       z-index 1000
       pointer-events all
-      width 2em
-      height 2em
+      width 1em
+      height @width
       right 0
-      top -1em
-
+      top -2em
   .dialog-body
     padding 0    
 
