@@ -13,7 +13,7 @@
         li.double
           .label {{ entity.bestBlock.title }}
           .data
-            tool-tip(:value='fields.bestBlock' trim='8' :options='{ trimend:true }')
+            tool-tip(:value='fields.bestBlock' trim='8' :options='{ trimAt:"end" }')
         
         //- TOTAL Diff
         //-li.quad 
