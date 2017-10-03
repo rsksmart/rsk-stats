@@ -1,12 +1,14 @@
+
 <template lang="pug">
-  .tooltip(@mouseleave='show=false' @mouseenter='show=true' @touchend.passive='touch')
-    .trim(v-if='trim') {{trimed}}
+  .tooltip(@mouseleave.passive='show=false' @mouseenter.passive='show=true' @touchend.passive='touch')
+    .trim(v-if='trim') {{trimed[0]}}
     slot(v-else)
-    .points(v-if='trim' :class='[(opts.trimend) ? "left": "right", (clicked) ? "clicked" : "" ]')
+    .points(v-if='trim' :class='pointsClass')
         button(v-if='!show') 
           span.icon {{ opts.trimTxt }}
         button(v-if='show  && opts.copy' @click='copyText' @touchend.stop='copyText')
           icon(name='copy')
+    .trim(v-if='trimed[1]') {{trimed[1]}}
     //- Tooltip
     .tip(v-if='show' :class='opts.pos' :style='tipPos')
       //- value
@@ -17,13 +19,23 @@
           textarea(ref='cptxt' rows='1' :cols='value.length') {{ value }}
 </template>
 <script>
+/**
+ *   - value: text to trim
+  - trim: trim position, 0  to not trim
+  - options:
+    - pos: [top | bottom | left | right], tooltip position
+    - copy: [boolean], show copy button
+    - trimAt: 'start' | 'end' | 'center'
+    - copyMsg: [boolean], show message when copy
+    - trimTxt: '...' [string], symbol to replace trimmed text
+ */
 import '../icons/copy'
 export default {
   name: 'tool-tip',
   props: [
-    'value',   // tooltip content
-    'trim',    // trim position: Number | 0 to not trim
-    'options' // copy, pos: top | bottom | left | right
+    'value',
+    'trim',
+    'options'
   ],
   data () {
     return {
@@ -33,8 +45,8 @@ export default {
       closer: null,
       opts: {
         pos: 'top',
+        trimAt: 'start',
         copy: true,
-        trimend: false,
         copyMsg: true,
         trimTxt: '...'
       }
@@ -49,12 +61,21 @@ export default {
   },
   computed: {
     trimed () {
-      let trimed = this.value
+      let trimed = [this.value]
+      let value = this.value
+      let trimAt = this.opts.trimAt
+      let len = this.value.length
       if (this.trim) {
-        if (this.opts.trimend) {
-          trimed = trimed.substring(trimed.length - this.trim, trimed.length)
-        } else {
-          trimed = trimed.substring(0, this.trim)
+        switch (trimAt) {
+          case 'end':
+            trimed = [value.substring(len - this.trim, len)]
+            break
+          case 'center':
+            trimed = [value.slice(0, this.trim), value.slice(-this.trim)]
+            break
+          default:
+            trimed = [value.substring(0, this.trim)]
+            break
         }
       }
       return trimed
@@ -74,6 +95,15 @@ export default {
       let css = []
       if (this.anim) css.push('copying')
       if (this.value.length < 30) css.push('nowrap')
+      return css
+    },
+    pointsClass () {
+      let css = []
+      let trimAt = this.opts.trimAt
+      let pos = 'right'
+      if (this.clicked) css.push('clicked')
+      if (trimAt !== 'start') pos = (trimAt === 'end') ? 'left' : 'center'
+      css.push(pos)
       return css
     }
   },
