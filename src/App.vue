@@ -27,11 +27,11 @@
         .col-content
           .node-box.big-data.mini(v-if='hasNodes' @touchstart.passive='showHideTable()')
             .bd-main
-              button.btn.dark.badge(@click.stop='showHideTable()' aria-label="table")
+              button.btn.dark.badge(@click.prevent='showHideTable()' aria-label="table")
                 icon(name='table')
                 span.badge {{ activeNodes.length }}
-              button.big-txt(@click.stop='showHideTable()'  aria-label="table") tracked nodes {{ nodes.length }} 
-          big-data(v-for='bd,name,index in bigDataFields ' 
+              button.big-txt(@click.prevent='showHideTable()' aria-label="table") tracked nodes {{ nodes.length }} 
+          big-data( v-for='bd,name,index in bigDataFields ' 
           v-if='bd.show && !isVisibleDialog()(types.TOTAL,name)'
           :key='name'
           :name='name'
@@ -50,7 +50,7 @@
       .col-c
         .col-content
           //- charts
-          .box(v-for='show,name,index in charts')
+          .box(v-if='connected' v-for='show,name,index in charts')
             //- v-if fails in firefox
             mini-chart(v-if='show'  :name='name' :key='index+name')
     
@@ -352,7 +352,7 @@ export default {
     z-index 90 
     overflow hidden
   #node-data
-    z-index 91   
+    z-index 91
   .main-menu
     z-index 190
 
