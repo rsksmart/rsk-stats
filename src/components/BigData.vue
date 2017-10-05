@@ -1,5 +1,5 @@
 <template lang="pug">
-  .big-data(@dblclick='toDialog' :class='(options.minimized) ? "mini":""')
+  .big-data(v-if='value' @dblclick='toDialog' :class='(options.minimized) ? "mini":""')
     entity-icon.bd-icon(:entity='entity' :value='value' :options='{ hideTooltip:true }')
     .bd-main
       .bd-title {{entity.title}}
@@ -88,19 +88,15 @@ $icon-size = 3em
 $mini-icon-size = ($icon-size / 2)
 
 .big-data
+  box()
   display flex
   align-items center
-  color $color
   user-select none
   width 100%
   height auto
-  border $frame-border
-  margin-top .5em
   z-index 100
   pointer-events all
-  background $quasi-bg
   overflow visible
-  min-height $min-box-height
   
   .bd-icon
     width  $icon-size
