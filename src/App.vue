@@ -23,21 +23,25 @@
                 icon(name='equalizerh')
     .content
       //- COl-A
-      .col-a
+      .col-a#col-a
         .col-content
           .node-box.big-data.mini(v-if='hasNodes' @touchstart.passive='showHideTable()')
             .bd-main
               button.btn.dark.badge(@click.prevent='showHideTable()' aria-label="table")
                 icon(name='table')
                 span.badge {{ activeNodes.length }}
-              button.big-txt(@click.prevent='showHideTable()' aria-label="table") tracked nodes {{ nodes.length }} 
+              button.big-txt(@click.prevent='showHideTable()' aria-label="table") &nbsp;&nbsp;tracked nodes {{ nodes.length }} 
+          //-Miners
+          .box
+            miners-chart
+          //- Totals
           big-data( v-for='bd,name,index in bigDataFields ' 
           v-if='bd.show && !isVisibleDialog()(types.TOTAL,name)'
           :key='name'
           :name='name'
           :options='{minimized:bd.minimized}'
           )
-          miners-chart
+
           
       //- COl-B Main
       .col-b#main
@@ -47,7 +51,7 @@
           h2.center(v-else) requesting server data...
           
       //- COl-C
-      .col-c
+      .col-c#col-c
         .col-content
           //- charts
           .box(v-if='connected' v-for='show,name,index in charts')
@@ -223,33 +227,12 @@ export default {
     }
   },
   methods: {
-    resizeThrottler () {
-      // ignore resize events as long as an actualResizeHandler execution is in the queue
-      if (!this.resizeTimeout) {
-        let vm = this
-        this.resizeTimeout = setTimeout(() => {
-          vm.resizeTimeout = null
-          vm.onResize()
-        }, 66)
-      }
-    },
-    menuShow (show) {
-      show = (undefined === show) ? !this.showMenu : show
-      this.showMenu = show
-    },
-    keyEsc (event) {
-      if (!this.isLive) this.goLive()
-    },
-    tableLoaded (data) {
-      let dialog = this.$refs.table
-      dialog.center()
-      if (dialog.top < 0) dialog.top = 0
-    },
     ...mapActions([
       'setSize',
       'takeSnapshot',
       'loadSnapshot',
-      'goLive'
+      'goLive',
+      'updateCols'
     ]),
     ...mapActions('app/', [
       'selectNode',
@@ -272,6 +255,28 @@ export default {
       'isVisibleDialog',
       'getDialog'
     ]),
+    resizeThrottler () {
+      // ignore resize events as long as an actualResizeHandler execution is in the queue
+      if (!this.resizeTimeout) {
+        let vm = this
+        this.resizeTimeout = setTimeout(() => {
+          vm.resizeTimeout = null
+          vm.onResize()
+        }, 66)
+      }
+    },
+    menuShow (show) {
+      show = (undefined === show) ? !this.showMenu : show
+      this.showMenu = show
+    },
+    keyEsc (event) {
+      if (!this.isLive) this.goLive()
+    },
+    tableLoaded (data) {
+      let dialog = this.$refs.table
+      dialog.center()
+      if (dialog.top < 0) dialog.top = 0
+    },
     onResize () {
       let size = { w: this.$el.clientWidth, h: this.$el.clientHeight }
       this.setSize(size)
@@ -279,6 +284,7 @@ export default {
       this.$nextTick(() => {
         let main = document.querySelector('#main')
         let vW = window.innerWidth
+        let vH = window.innerHeight
         let width = vm.$el.clientWidth
         let height = main.scrollHeight
         let left = 0
@@ -288,12 +294,24 @@ export default {
         if (vW > 900 && vW < 1200) {
           x = main.offsetLeft / 2
         }
+
+        if (vW > vH) {
+          height = vH
+        }
         this.mainVp = { width, height, left, top }
         let options = vm.options
         options.size = { w: width, h: height }
         options.offset = { x, y }
         vm.changeOptions(options)
+        let cols = { a: this.getCol('col-a'), c: this.getCol('col-c') }
+        this.updateCols(cols)
       })
+    },
+    getCol (id) {
+      let el = document.querySelector('#' + id)
+      if (el) {
+        return { w: el.clientWidth, h: el.clientHeight }
+      }
     },
     showSelection () {
       return Object.keys(this.selection.nodes).length + Object.keys(this.selection.links).length

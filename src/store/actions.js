@@ -135,3 +135,9 @@ export const resetConfig = ({ state, dispatch }) => {
 const cloneSnapshot = (state, id) => {
   return cloneObj(state.snapshots[id])
 }
+
+export const updateCols = ({ commit }, cols) => {
+  for (let col in cols) {
+    commit('SET_COL', [col, cols[col]])
+  }
+}
