@@ -5,7 +5,7 @@
       .chart-title-cont
         h3.chart-title {{ chart.title }}
           small.gray &nbsp;{{chart.subtitle}}
-      .chart-container
+      .chart-container(v-if='chart.data')
         d3-bar-chart(:data='chart.data' :options='chartOptions')
       slot
 </template>
@@ -32,10 +32,15 @@ export default {
     }
   },
   mounted () {
-    this.onResize()
+    let vm = this
+    this.$nextTick(() => {
+      vm.onResize()
+    })
   },
   computed: {
-    ...mapGetters({ appSize: 'getSize' }),
+    ...mapGetters({
+      appSize: 'getSize'
+    }),
     chart () {
       if (this.name) return this.getChart()(this.name)
     },
