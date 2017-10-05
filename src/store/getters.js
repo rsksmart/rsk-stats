@@ -91,3 +91,7 @@ export const getConfig = (state) => {
 export const getNetOptions = (state) => {
   return Object.assign({}, state.config.netOptions)
 }
+
+export const getCols = (state) => {
+  return state.cols
+}

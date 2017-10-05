@@ -7,6 +7,16 @@ export default function () {
       w: 0,
       h: 0
     },
+    cols: {
+      a: {
+        w: 0,
+        h: 0
+      },
+      c: {
+        w: 0,
+        h: 0
+      }
+    },
     socketConnected: false,
     activeSnapshot: null,
     snapshotImport: {

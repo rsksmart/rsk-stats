@@ -9,6 +9,14 @@ export const SET_SIZE = (state, size) => {
   Vue.set(state.size, 'h', size.h)
 }
 
+export const SET_COL = (state, payload) => {
+  let name = payload[0]
+  let col = payload[1]
+  for (let p in col) {
+    Vue.set(state.cols[name], p, col[p])
+  }
+}
+
 export const SET_DATE_INTERVAL = (state, interval) => {
   state.dateInterval = interval
 }
