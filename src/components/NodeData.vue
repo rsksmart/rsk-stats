@@ -4,50 +4,36 @@
       
       //- NO Syncing
       //-template(v-if='!isSync')
-        //-svg(:width='w' :height='h' xmlns="http://www.w3.org/2000/svg")
-          svg-cube.block( v-for='i in 5' :x='cS *1.8+(cS * 0.8) * i' :y='(h/3)+ (cS / 4) * i' :size='cS' :color='"red"' )
-          
-        //-transition(name="block-number"  appear ) 
-          //-block-number(:key='node.stats.block.number') {{node.stats.block.number}}
-          
-          svg-cube.block(:x='cx' :y='cubC' :size='cS / 2' :key='node.stats.block.number')
-      //- IS Sync and low
-      //-template(v-if='isSync && isLow')
-        p syncing    
       
-      //-p(v-if='isTrans') {{ isTrans.value }}
-      
-      //-svg(:width='w' :height='h' :viewBox='viewBox')
-        //-Block Time
-        ellipse.over-node.time(v-if='isDelayed' :cx='cx' :cy='cy * .86' :rx='eS / 1.2' :ry='eS/3' :stroke-width='sW' fill='none' :stroke='isDelayed.color')
-      //- Block Difference
-      
-    //-transition(name="block-number"  appear ) 
-      svg-cube.block(:x='cx' :y='cubC' :size='cS' :key='node.stats.block.number')
-    //-svg-cube.block-cube(:x='block.x' :y='block.y' :size='block.s' :key='node.stats.block.number')
-    svg(:width='w' :height='h')
-      //-transition(name='block-cube' appear)
-      //-Block Time
-      ellipse.over-node.time(v-if='isDelayed' :cx='cx' :cy='cy * .95' :rx='eS' :ry='eS/2.3' :stroke-width='1' fill='none' :stroke='isDelayed.color')
+    svg(:width='w' :height='h' :viewBox='viewBox')
+      defs
+        filter#blur
+          feGaussianBlur(in="SourceGraphic" stdDeviation="3")
 
-      g(v-if='isTrans' transform="skewY(20) rotate(-5)")
-        text.trans-value(  :y='size /2.3' :x='size/5' text-anchor="right" :font-size='cS/1.8') {{ isTrans.value }}
-      //- LOW STACK
-      //--template(v-if='isLow')
-        template(v-if='isLow.value < blockCubes')
-          svg-cube.diff-cube(v-for='i in isLow.value' :x='cx' :y='bCubes[i-1].y' :color='isLow.color' :size='bCubes[i-1].w' :key='i')
-        template(v-else)
-          svg-cube.diff-cube(:x='cx' :y='cubC' :color='isLow.color' :size='cS' :shadow='1')
-          text(:fill='isLow.color' :font-size='cS / 2' x='50%' :y='cubC * .5' text-anchor="middle") {{isLow.fvalue}}
+      //-Block Time
+      template(v-if='isDelayed')
+        ellipse.over-node.time(:cx='cx' :cy='cy * .95' rx='30%' ry='13%' :stroke-width='4' fill='none' stroke='white')
+        ellipse.over-node.time(:cx='cx' :cy='cy * .95' rx='30%' ry='13%' :stroke-width='2' fill='none' :stroke='isDelayed.color')
+        g.delayed(transform="skewY(20) rotate(-5)")
+          text(:fill='isDelayed.color' y='42%' x='21%' text-anchor="right" :font-size='fS') {{isDelayed.fvalue}}
+          //-svg.time(:width='cS' :height='cS' :y='size/1.4 -cS / 2' :x='size') 
+            //-icon(name='ethereum' :color='isDelayed.color')
+
+      g(v-if='isTrans' transform="skewY(-20) rotate(5)")
+        //-svg(:width='w' :height='h' :viewBox='viewBox')
+          icon.icon(:name='isTrans.entity.icon' :scale='0.1')
+        text.trans-value(y='70%' x='98%' text-anchor="right" :font-size='fS') {{ isTrans.value }}
       
       //-Cubes
       template(v-if='isLow && isLow.value > 0')
         cube-of-cubes.cubes(:size='cS*2' :mod='cubeMod' :step='cubeStep(isLow.value)' :color='isLow.color' :x='cx' :y='cubC' )
-        text(:fill='isLow.color' :font-size='cS / 2' x='50%' :y='cubC * .5' text-anchor="middle") {{isLow.fvalue}}
+        text(:fill='isLow.color' :font-size='fS' x='50%' :y='cubC * .5' text-anchor="middle") {{isLow.fvalue}}
       
       
       //- Last Block
+      ellipse.cube-shadow(:cx='block.sh.x' :cy='block.sh.y' :rx='block.sh.w' :ry='block.sh.h' filter="url(#blur)" :key='node.stats.block.number' ) 
       svg-cube.block-cube(:x='block.x' :y='block.y' :size='block.s' :key='node.stats.block.number')
+      
       //-Debug square
     //-svg(:width='w' :height='h' :viewBox='viewBox')
       rect(x='0' y='0' width='100%' height='100%' stroke='red' fill='none')
@@ -97,11 +83,15 @@ export default {
   computed: {
     block () {
       let h = this.h
-      let cS = this.cS / 1.2
-      let x = cS * 4 + cS
-      // let x = this.w / 2
-      let y = (h / 2.2) + (cS / 4)
-      return { x, y, s: cS }
+      let s = this.size / 15
+      let sh = {}
+      let x = this.size / 2
+      let y = (h / 2.2) + (s / 4)
+      sh.x = x - (s * 2)
+      sh.y = y + (s / 2)
+      sh.w = s / 1.25
+      sh.h = s / 3
+      return { x, y, s, sh }
     },
     nodeEntity () {
       return this.createNodeEntity()(this.node.id)
@@ -126,6 +116,9 @@ export default {
     },
     cS () {
       return this.size / 6
+    },
+    fS () {
+      return this.cS / 2
     },
     eS () {
       return this.size / 3
@@ -323,29 +316,6 @@ export default {
 .over-node
   opacity .6
 
-.block-number
-  color: $color
-  font-size .8em
-  opacity 0
-  transform: translate3d(0,0,0)
-  will-change: transform, opacity
-  path  
-    fill none
-    stroke $color !important
-    stroke-width 1 !important
-    stroke-opacity 1 !important
-    stroke-dasharray 5
-  
-
-.block-number-enter-active
-  transition all 1s ease
-  opacity: 0
-  transform: translateY(-5rem) scale(1.5,1.5)
-
-.block-number-enter
-  opacity:1
-  transform: translateY(1rem) scale(0.1, 0.1)
-
 .block-cube
   will-change: opacity transform
   transform: translate3d(0,0,0)
@@ -354,26 +324,49 @@ export default {
   .cube
     transform: translate3d(0,0,0)
     will-change: opacity transform
-    // animation bcube-anim .5s infinite
+    transform-origin center center
     animation bcube-anim .5s ease
     opacity 0
 
+.cube-shadow
+  opacity 0
+  fill alpha(black, .1)
+  transform: translate3d(0,0,0)
+  will-chage transform opacity
+  transform-origin center center
+  animation cube-shadow-anim .5s ease
 
+@keyframes cube-shadow-anim
+  0%
+    opacity 0
+    transform scale(.1,.1)
+  20%
+    transform scale(.1,.1)
+    opacity 1
+  90%  
+    opacity 1
+    transform scale(1,1)
+  100%
+    transform scale(.1,.1)
+    opacity 0
+   
+
+$start = translate(-120%,-300%) scale(2,2)
+$mid = translate(-120%,-200%) scale(1,1)
+$end = translate(-120%,0%) scale(1,1)
 @keyframes bcube-anim
   0%
     opacity 0
-    transform translate(100%,80%) scale(.1,.1)
-  5%
+    transform $start
+  20%
     opacity 1
-     transform translate(50%,100%) scale(1,1) 
-     
-  60%
-    transform scale(1,1)
-  90% 
-    opacity 1 
+    transform $mid   
+  90%
+    opacity .9
+    transform $end   
   100%
-    transform translate(-250%,-110%) 
-    opacity 0   
+    transform $end 
+    opacity 0
 
 .block-cube-enter
   opacity 0
@@ -383,10 +376,12 @@ export default {
   opacity 1
 
 .trans-value
-  fill: $dark
+  fill: $color
   // transform rotateY(20deg)
 
+
 .time
+  will-change opacity
   animation etime 3s infinite  
 
 @keyframes etime
