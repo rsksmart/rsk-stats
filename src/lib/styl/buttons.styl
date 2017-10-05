@@ -1,4 +1,5 @@
 @import './colors.styl'
+@import './mixins.styl'
 button
   cursor pointer
   color: $color
@@ -70,18 +71,10 @@ button.circle
   margin .75em .5em .75em .25em
   display: inline-block
   .badge
+    badge(1.5em)
     position: absolute
     bottom: -.75em
     right: @bottom
-    border-radius: 50%
-    padding: .125em
-    line-height: 1.5em
-    font-size: .7em
-    background-color: $color
-    color: $white
-    width: 1.5em
-    height: 1.5em
-    display: inline-block
     .arrow
       border-color $white
   &:hover
