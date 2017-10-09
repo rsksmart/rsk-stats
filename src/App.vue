@@ -32,8 +32,7 @@
                 span.badge {{ activeNodes.length }}
               button.big-txt(@click.prevent='showHideTable()' aria-label="table") &nbsp;&nbsp;tracked nodes {{ nodes.length }} 
           //-Miners
-          .box
-            miners-chart
+          miners-chart
           //- Totals
           big-data( v-for='bd,name,index in bigDataFields ' 
           v-if='bd.show && !isVisibleDialog()(types.TOTAL,name)'

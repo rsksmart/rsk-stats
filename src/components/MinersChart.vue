@@ -7,7 +7,7 @@
           span {{miner.blocks}}
         cube-of-cubes.cubes(:mod='mod' :step='miner.blocks' :size='size') 
         .name
-          temlpate(v-if='miner.name')
+          template(v-if='miner.name')
             span {{miner.name}} &nbsp;
             tool-tip(:value='miner.miner' trim='4' :options='{trimAt:"end"}')
           template(v-else)
