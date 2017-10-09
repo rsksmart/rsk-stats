@@ -284,7 +284,6 @@ export default {
       this.$nextTick(() => {
         let main = document.querySelector('#main')
         let vW = window.innerWidth
-        let vH = window.innerHeight
         let width = vm.$el.clientWidth
         let height = main.scrollHeight
         let left = 0
@@ -295,9 +294,6 @@ export default {
           x = main.offsetLeft / 2
         }
 
-        if (vW > vH) {
-          height = vH
-        }
         this.mainVp = { width, height, left, top }
         let options = vm.options
         options.size = { w: width, h: height }
