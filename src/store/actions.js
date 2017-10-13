@@ -120,14 +120,15 @@ export const loadSnapshotFromFile = ({ dispatch, commit, getters }, files) => {
 }
 
 export const updateConfig = ({ state, commit }, config) => {
-  // config.netOptions.size = state.size
-  // config.netOptions.offset = { x: 0, y: 0 }
   commit('SET_CONFIG', config)
   storage.set('config', state.config)
 }
 
 export const resetConfig = ({ state, dispatch }) => {
-  dispatch('updateConfig', defaultConfig())
+  let config = defaultConfig()
+  config.netOptions.size = state.size
+  config.netOptions.offset = { x: 0, y: 0 }
+  dispatch('updateConfig', config)
 }
 
 // Helpers
