@@ -115,9 +115,7 @@ export const definitions = {
     title: 'block propagation',
     options: {
       colors: [COLORS.green, COLORS.red],
-      axis: {
-        linesY: false
-      },
+      axis: false,
       curve: {
         type: 'Cardinal',
         style: {

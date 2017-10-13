@@ -57,7 +57,8 @@ export default {
         options.size = { w, h: w / 4 }
         options.fontSize = 12
         options.margin = 20
-        if (!options.axis) {
+        // axis defaults
+        if (undefined === options.axis) {
           options.axis = {
             valuesY: true,
             linesY: true
