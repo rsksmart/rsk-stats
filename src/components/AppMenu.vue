@@ -102,7 +102,6 @@ export default {
 </script>
 <style lang="stylus">
 @import '../lib/styl/vars.styl'
-@import '../lib/styl/media_queries.styl'
   
 .app-menu  
   .panel.tools

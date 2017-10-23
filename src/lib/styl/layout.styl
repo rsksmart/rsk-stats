@@ -72,7 +72,7 @@ footer
 
 .col-a
   order 2
-  flex 5 
+  flex 1 0 100%
   padding-left $margin
   z-index 100
 
@@ -82,7 +82,7 @@ footer
   min-height 100vw
 .col-c
   order 3
-  flex  7
+  flex  1 0 100%
   padding-right $margin
   z-index 100
 
@@ -90,8 +90,17 @@ footer
    box-sizing border-box
    padding-left $margin
 
-// Tablet
-+media_breakpoint(tablet)
+// Small
+@media $media_small
+  .col-a
+    flex 5
+  .col-b
+    background none
+  .col-c  
+    flex  7
+
+// Medium
+@media $media_medium
   #logo-head
     display none
    #logo-col
@@ -110,8 +119,8 @@ footer
       .box
         flex 0 1 50%
 
-// Desktop
-+media_breakpoint(desktop)
+// Large
+@media $media_large
 
   .col-a
     order 1

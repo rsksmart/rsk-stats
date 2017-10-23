@@ -1,3 +1,4 @@
+import breakpoints from '../config/media_breakpoints.json'
 export default function () {
   return {
     APP: process.env.APP,
@@ -12,11 +13,16 @@ export default function () {
         w: 0,
         h: 0
       },
+      b: {
+        w: 0,
+        h: 0
+      },
       c: {
         w: 0,
         h: 0
       }
     },
+    mediaBreakpoints: breakpoints,
     socketConnected: false,
     activeSnapshot: null,
     snapshotImport: {
