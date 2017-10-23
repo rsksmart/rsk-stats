@@ -1,13 +1,4 @@
-media_queries = {
-  mobile  : "screen and (max-width: 600px)",
-  tablet  : "screen and (min-width: 900px)",
-  desktop : "screen and (min-width: 1200px)"
-}
-
-media_breakpoint(breakpoints)
-  conditions = ()
-  for breakpoint in breakpoints
-    push(conditions, media_queries[breakpoint])
-  conditions = join(", ", conditions)
-  @media conditions
-    {block}
+json('../../config/media_breakpoints.json')
+$media_small = "screen and (min-width: "+ small +"px)",
+$media_medium = "screen and (min-width: "+ medium +"px)",
+$media_large = "screen and (min-width: "+ large +"px)",

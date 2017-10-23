@@ -11,7 +11,7 @@
 </template>
 <script>
 import D3BarChart from 'vue-d3-barchart'
-import { mapGetters } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 export default {
   name: 'chart',
   components: {
@@ -38,6 +38,9 @@ export default {
     })
   },
   computed: {
+    ...mapState({
+      breakpoints: state => state.mediaBreakpoints
+    }),
     ...mapGetters({
       appSize: 'getSize'
     }),
@@ -53,7 +56,8 @@ export default {
       options.margin = 10
       if (!options.formatLabel) options.formatLabel = this.formatLabel
       if (this.max) {
-        let w = this.appSize.w / 2.2
+        let w = this.appSize.w / 1.2
+        if (this.appSize.w > this.breakpoints.medium) w = this.appSize.w / 2.2
         options.size = { w, h: w / 4 }
         options.fontSize = 12
         options.margin = 20
@@ -86,20 +90,23 @@ export default {
 </script>
 <style src="vue-d3-barchart/dist/vue-d3-barchart.css"></style>
 <style lang="stylus">
-@import '../lib/styl/vars.styl'
-@import '../lib/styl/mixins.styl'
-  .chart-container
-    display flex
-    justify-content space-around
-  .chart .header button
-    position absolute
-    right: 0
-    z-index 10
-  .chart-title
-    small-titles()
-    margin-left 2em
-    margin-bottom .5em
+  @import '../lib/styl/vars.styl';
+  @import '../lib/styl/mixins.styl';
 
-  // .chart.max-chart 
+  .chart-container {
+    display: flex;
+    justify-content: space-around;
+  }
 
+  .chart .header button {
+    position: absolute;
+    right: 0;
+    z-index: 10;
+  }
+
+  .chart-title {
+    small-titles();
+    margin-left: 2em;
+    margin-bottom: 0.5em;
+  }
 </style>
