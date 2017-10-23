@@ -37,10 +37,10 @@ export const abbreviatedTimeObj = (time) => {
   if (time < 1) return { time, suffix }
   let ts = {
     s: 60,
-    m: 60 * 60,
-    h: 60 * 60 * 24,
-    d: 60 * 60 * 24 * 30,
-    M: 60 * 60 * 24 * 30 * 300
+    m: 3600,
+    h: 86400, // 60*60*24
+    d: 2592000, // 60*60*60*24*30
+    M: 777600000 // 60*60*60*24*30*300
   }
   suffix = 's'
   let ant = 1

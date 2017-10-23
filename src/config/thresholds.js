@@ -21,7 +21,7 @@
 */
 import COLORS from './colors.json'
 import { SI } from '../lib/js/units.js'
-import { valueToColor } from '../lib/js/colors.js'
+import { valueToColor, thMap } from '../lib/js/colors.js'
 
 const definitions = {
   time: {
@@ -108,34 +108,6 @@ const definitions = {
   }
 }
 
-const thMap = (thresholds) => {
-  for (let t in thresholds) {
-    let lastColor = thresholds[t].lastColor
-    if (lastColor) thresholds[t].lastColor = COLORS[lastColor]
-
-    let firstColor = thresholds[t].firstColor
-    if (firstColor) thresholds[t].firstColor = COLORS[firstColor]
-
-    let colors = thresholds[t].colors
-    thresholds[t].status = colors
-    if (Array.isArray(colors)) {
-      thresholds[t].status = []
-      let len = colors.length
-      for (let i = 0; i < len; i++) {
-        thresholds[t].status.push(Object.assign({}, colors[i]))
-        colors[i].color = COLORS[colors[i].color]
-      }
-    } else {
-      thresholds[t].status = Object.assign({}, colors)
-      for (let c in colors) {
-        let name = thresholds[t].colors[c]
-        thresholds[t].colors[c] = COLORS[name]
-      }
-    }
-  }
-  return thresholds
-}
-
 export const status = {
   gray: 0,
   green: 1,
@@ -145,4 +117,4 @@ export const status = {
   red: 5
 }
 
-export const thresholds = thMap(definitions)
+export const thresholds = thMap(definitions, COLORS)
