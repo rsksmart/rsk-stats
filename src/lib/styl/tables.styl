@@ -28,9 +28,12 @@ $border-color = alpha($color,.2)
 $pinned-border = $color2 solid 1px
 
   table.dark
-    color: $color
+    color: $txt-color
     tr
       border: $color solid 1px
+    tr, th
+      .svg-icon
+        color $color
     th
       border-bottom: $border-color dashed 1px
       background-color $head-bg
