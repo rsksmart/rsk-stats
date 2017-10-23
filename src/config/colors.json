@@ -6,5 +6,6 @@
   "yellow": "#f2c755",
   "violet": "#6e5fc4",
   "gray": "#55726c",
-  "white": "#fff"
+  "white": "#fff",
+  "txt-color": "#9fdfd1"
 }
