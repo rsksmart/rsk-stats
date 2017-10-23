@@ -101,7 +101,6 @@ $mini-icon-size = ($icon-size / 2)
   .bd-icon
     width  $icon-size
     height  @width
-    color  $color
     opacity .6
     box-sizing border-box
     margin-right  .125rem
