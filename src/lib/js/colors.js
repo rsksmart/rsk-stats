@@ -77,3 +77,32 @@ export const thColors = (threshold) => {
     return mapColor(domain, range, type)
   }
 }
+
+export const thMap = (thresholds, COLORS) => {
+  for (let t in thresholds) {
+    let lastColor = thresholds[t].lastColor
+    if (lastColor) thresholds[t].lastColor = COLORS[lastColor]
+
+    let firstColor = thresholds[t].firstColor
+    if (firstColor) thresholds[t].firstColor = COLORS[firstColor]
+
+    let colors = thresholds[t].colors
+    thresholds[t].status = colors
+    if (Array.isArray(colors)) {
+      thresholds[t].status = []
+      let len = colors.length
+      for (let i = 0; i < len; i++) {
+        thresholds[t].status.push(Object.assign({}, colors[i]))
+        colors[i].color = COLORS[colors[i].color]
+      }
+    } else {
+      thresholds[t].status = Object.assign({}, colors)
+      for (let c in colors) {
+        let name = thresholds[t].colors[c]
+        thresholds[t].colors[c] = COLORS[name]
+      }
+    }
+  }
+  return thresholds
+}
+
