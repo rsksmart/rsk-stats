@@ -34,5 +34,15 @@ npm install vsvg -g
  
  ```
   
+## Configuration
 
-For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+  scr/config
+
+  - **charts.js**
+  - **colors.json**
+  - **entitities.js**
+  - **entityValues.js**
+  - **media_breakpoints.json**: media queries
+  - **miners.json**: miners names list.
+  - **table.js**: nodes table configuration.
+  - **thesholds.js**
