@@ -27,10 +27,10 @@
         .col-content
           .node-box.big-data.mini(v-if='hasNodes' @touchstart.passive='showHideTable()')
             .bd-main
-              button.btn.dark.badge(@click.prevent='showHideTable()' aria-label="table")
+              button.btn.dark.badge(@click.prevent='showHideTable()' @touchstart.passive='showHideTable()' aria-label="table")
                 icon(name='table')
                 span.badge {{ activeNodes.length }}
-              button.big-txt(@click.prevent='showHideTable()' aria-label="table") &nbsp;&nbsp;tracked nodes {{ nodes.length }} 
+              button.big-txt(@click.prevent='showHideTable()' @touchstart.passive='showHideTable()' aria-label="table") &nbsp&nbsptracked nodes {{ nodes.length }} 
           //-Miners
           miners-chart
           //- Totals
@@ -359,112 +359,112 @@ export default {
 </script>
 
 <style lang="stylus">
-  @import './lib/styl/vars.styl';
-  @import './lib/styl/app.styl';
-  @import './lib/styl/nodes.styl';
+  @import './lib/styl/vars.styl'
+  @import './lib/styl/app.styl'
+  @import './lib/styl/nodes.styl'
 
   #network {
-    z-index: 90;
-    overflow: hidden;
+    z-index 90
+    overflow hidden
   }
 
-  #node-data {
-    z-index: 91;
+  s, #node-data {
+    z-index 91
   }
 
   .main-menu {
-    z-index: 190;
+    z-index 190
   }
 
   .app-menu {
-    z-index: 200;
+    z-index 200
   }
 
   .iface-back, .iface-mask {
-    position: absolute;
-    top: 0;
-    left: 0;
-    border: 0;
-    margin: 0;
-    z-index: 1;
+    position absolute
+    top 0
+    left 0
+    border 0
+    margin 0
+    z-index 1
   }
 
   // -pointer-events: none
   .iface-mask {
-    z-index: 91;
-    mix-blend-mode: multiply;
-    opacity: 1;
-    will-change: opacity;
+    z-index 91
+    mix-blend-mode multiply
+    opacity 1
+    will-change opacity
   }
 
   .apply-mask-enter-active {
-    transition: opacity 0.5s ease-out;
+    transition opacity 0.5s ease-out
   }
 
   .apply-mask-enter, .apply-mask-leave-to {
-    will-change: opacity;
-    opacity: 0;
+    will-change opacity
+    opacity 0
   }
 
   .fade-nodes {
-    will-change: opacity;
+    will-change opacity
   }
 
   .fade-nodes-enter-active {
-    transition: opacity 3s ease-out;
-    opacity: 1;
+    transition opacity 3s ease-out
+    opacity 1
   }
 
   .fade-nodes-enter, .fade-nodes-leave-to {
-    opacity: 0;
+    opacity 0
   }
 
   .menu-buttons-enter-active {
-    transition: opacity 0.5s ease;
-    opacity: 1;
+    transition opacity 0.5s ease
+    opacity 1
   }
 
   .menu-buttons-enter, .menu-buttons-leave-to {
-    opacity: 0;
+    opacity 0
   }
 
   .snapshot-hint {
-    position: absolute;
-    min-height: 99.5%;
-    min-width: 99.5%;
-    display: inline-block;
-    text-align: center;
-    box-sizing: border-box;
-    top: 0;
-    left: 0;
-    border: $warn dashed 1px;
-    z-index: 900;
-    pointer-events: none;
+    position absolute
+    min-height 99.5%
+    min-width 99.5%
+    display inline-block
+    text-align center
+    box-sizing border-box
+    top 0
+    left 0
+    border $warn dashed 1px
+    z-index 900
+    pointer-events none
   }
 
   .live {
-    position: absolute;
-    pointer-events: all;
-    z-index: 1000 !important;
+    position absolute
+    pointer-events all
+    z-index 1000 !important
 
     .hint {
-      color: $color2;
+      color $color2
     }
   }
 
   .loading {
-    position: relative;
-    z-index: 1000;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-width: 100%;
-    min-height: 100%;
+    position relative
+    z-index 1000
+    display flex
+    justify-content center
+    align-items center
+    min-width 100%
+    min-height 100%
   }
 
   .mini-chart, .big-data {
-    z-index: 50;
-    position: relative;
-    pointer-events: all;
+    z-index 50
+    position relative
+    pointer-events all
   }
 </style>
