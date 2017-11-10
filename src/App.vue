@@ -12,7 +12,10 @@
         .head-1  
           logo 
         .head-2
-       
+          .hint(v-if='showHint')
+            small This page does not represent the entire state of the RSK Network.
+            button(@click='showHint=false')
+              icon.color2(name='close')
         .head-3
           //- Menu Button & tools
           transition(name='menu-buttons')
@@ -161,7 +164,8 @@ export default {
       nodeSym: nodeIcon,
       nodeFilter: nodeFilter,
       showMenu: false,
-      resizeTimeout: null
+      resizeTimeout: null,
+      showHint: true
     }
   },
   created () {
@@ -369,25 +373,22 @@ export default {
   @import './lib/styl/vars.styl'
   @import './lib/styl/app.styl'
   @import './lib/styl/nodes.styl'
-
-  #network 
+  #network
     z-index 90
     overflow hidden
 
-  #node-data 
+  #node-data
     position absolute
     pointer-events none
     z-index 91
 
-  .main-menu 
+  .main-menu
     z-index 190
 
-
-  .app-menu 
+  .app-menu
     z-index 200
 
-
-  .iface-back, .iface-mask 
+  .iface-back, .iface-mask
     position absolute
     top 0
     left 0
@@ -395,49 +396,47 @@ export default {
     margin 0
     z-index 1
 
-
   // -pointer-events: none
-  .iface-mask 
+  .iface-mask
     z-index 91
     mix-blend-mode multiply
     opacity 1
     will-change opacity
 
-
-  .apply-mask-enter-active 
+  .apply-mask-enter-active
     transition opacity 0.5s ease-out
 
-
-  .apply-mask-enter, .apply-mask-leave-to 
+  .apply-mask-enter, .apply-mask-leave-to
     will-change opacity
     opacity 0
 
-
-  .fade-nodes 
+  .fade-nodes
     will-change opacity
-  
 
-  .fade-nodes-enter-active 
+  .fade-nodes-enter-active
     transition opacity 3s ease-out
     opacity 1
-  
 
-  .fade-nodes-enter, .fade-nodes-leave-to 
+  .fade-nodes-enter, .fade-nodes-leave-to
     opacity 0
-  
 
-  .menu-buttons-enter-active 
+  .menu-buttons-enter-active
     transition opacity 0.5s ease
     opacity 1
-  
 
-  .menu-buttons-enter, .menu-buttons-leave-to 
+  .menu-buttons-enter, .menu-buttons-leave-to
     opacity 0
-  
 
+  .hint
+    display flex
+    align-items center
+    justify-content center
+    color $color2
 
+    button
+      margin 0.25em 0.5em
 
-  .snapshot-hint 
+  .snapshot-hint
     position absolute
     min-height 99.5%
     min-width 99.5%
@@ -449,19 +448,13 @@ export default {
     border $warn dashed 1px
     z-index 900
     pointer-events none
-  
 
-  .live 
+  .live
     position absolute
     pointer-events all
     z-index 1000 !important
 
-    .hint 
-      color $color2
-
-  
-
-  .loading 
+  .loading
     position relative
     z-index 1000
     display flex
@@ -469,11 +462,9 @@ export default {
     align-items center
     min-width 100%
     min-height 100%
-  
 
-  .mini-chart, .big-data 
+  .mini-chart, .big-data
     z-index 50
     position relative
     pointer-events all
-  
 </style>
