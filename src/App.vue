@@ -8,7 +8,7 @@
     //- Menu
     app-menu(v-if='showMenu' @close='menuShow(false)')
     .header-wrapper
-      header
+      header#header
         .head-1  
           logo 
         .head-2
@@ -61,7 +61,7 @@
         p rsk
     //- Node data
     transition(name='fade-nodes')
-      #node-data(v-if='hasNodes && config.showNodeInfo')
+      #node-data(v-if='hasNodes && config.showNodeInfo' :style='mainStyle')
         node-data(v-for='node,id in nodes' :node='node' :size='options.nodeSize' :key='id')        
     transition(name='fade-nodes')
       d3-network#network.net(
@@ -278,11 +278,15 @@ export default {
       if (dialog.top < 0) dialog.top = 0
     },
     onResize () {
-      let size = { w: this.$el.clientWidth, h: this.$el.clientHeight }
+      let size = {
+        w: this.$el.clientWidth,
+        h: this.$el.clientHeight
+      }
       this.setSize(size)
       let vm = this
       this.$nextTick(() => {
         let main = document.querySelector('#main')
+        let header = document.querySelector('#header')
         let vW = window.innerWidth
         let width = vm.$el.clientWidth
         let height = main.scrollHeight
@@ -293,7 +297,10 @@ export default {
         if (vW > vm.breakpoints.medium && vW < vm.breakpoints.large) {
           x = main.offsetLeft / 2
         }
-
+        // set top for small
+        if (vW < vm.breakpoints.medium) {
+          top = header.clientHeight
+        }
         this.mainVp = { width, height, left, top }
         let options = vm.options
         options.size = { w: width, h: height }
@@ -367,10 +374,10 @@ export default {
     z-index 90
     overflow hidden
 
-
   #node-data 
+    position absolute
+    pointer-events none
     z-index 91
-
 
   .main-menu 
     z-index 190
