@@ -3,5 +3,5 @@ var prodEnv = require('./prod.env')
 
 module.exports = merge(prodEnv, {
   NODE_ENV: '"development"',
-  WS_URL: '"ws://stats.rsk.co"'
+  WS_URL: '"wss://backend.stats.rsk.co"'
 })
