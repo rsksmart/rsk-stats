@@ -1,8 +1,6 @@
 # rsk-stats
 
-> A Vue.js project
-
-## Build Setup
+## Tasks
 
 ``` bash
 # install dependencies
@@ -14,35 +12,38 @@ npm run dev
 # build for production with minification
 npm run build
 
-# build for production and view the bundle analyzer report
-npm run build --report
+```
 
+## Build settings
+
+Backed url:
+
+``` bash
+
+  export WS_URL=ws://backend.url
+  npm run build
 ```
 
 ## Icons
 
-
-- Install vsvg : 
-```
-npm install vsvg -g
-```
-
 - Copy svgs on : static/svg/icons
 - Compile svgs
- ```
+
+ ``` bash
+
   npm run svg
- 
- ```
-  
+
+```
+
 ## Configuration
 
-  scr/config
+scr/config:
 
-  - **charts.js**
-  - **colors.json**
-  - **entitities.js**
-  - **entityValues.js**
-  - **media_breakpoints.json**: media queries
-  - **miners.json**: miners names list.
-  - **table.js**: nodes table configuration.
-  - **thesholds.js**
+- **charts.js**
+- **colors.json**
+- **entitities.js**
+- **entityValues.js**
+- **media_breakpoints.json**: media queries
+- **miners.json**: miners names list.
+- **table.js**: nodes table configuration.
+- **thesholds.js**

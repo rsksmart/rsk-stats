@@ -4,10 +4,10 @@
       icon(:name='entity.icon' :style='iconStyle || ""')
     .icon.tooltip(v-else)
       icon(:name='entity.icon' :style='iconStyle || ""')
-    slot  
+    slot
     .badge(v-if='$slots.badge')
       slot(name="badge")
-    
+
 </template>
 <script>
 import ToolTip from './ToolTip.vue'
@@ -46,4 +46,3 @@ export default {
 <style lang="stylus">
 
 </style>
-

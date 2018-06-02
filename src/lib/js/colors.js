@@ -105,4 +105,3 @@ export const thMap = (thresholds, COLORS) => {
   }
   return thresholds
 }
-

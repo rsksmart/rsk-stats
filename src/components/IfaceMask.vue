@@ -33,4 +33,3 @@ export default {
   .stop-black
     stop-color $bg-color
 </style>
-

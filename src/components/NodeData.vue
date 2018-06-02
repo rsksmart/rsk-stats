@@ -1,10 +1,10 @@
 <template lang='pug'>
   .node-info(:style='styleObj')
     .node-info-data
-      
+
       //- NO Syncing
       //-template(v-if='!isSync')
-      
+
     svg(:width='w' :height='h' :viewBox='viewBox')
       defs
         filter#blur
@@ -16,25 +16,24 @@
         ellipse.over-node.time(:cx='cx' :cy='cy * .95' rx='30%' ry='13%' :stroke-width='2' fill='none' :stroke='isDelayed.color')
         g.delayed(transform="skewY(20) rotate(-5)")
           text(:fill='isDelayed.color' y='42%' x='21%' text-anchor="right" :font-size='fS') {{isDelayed.fvalue}}
-          //-svg.time(:width='cS' :height='cS' :y='size/1.4 -cS / 2' :x='size') 
+          //-svg.time(:width='cS' :height='cS' :y='size/1.4 -cS / 2' :x='size')
             //-icon(name='ethereum' :color='isDelayed.color')
 
       g(v-if='isTrans' transform="skewY(-20) rotate(5)")
         //-svg(:width='w' :height='h' :viewBox='viewBox')
           icon.icon(:name='isTrans.entity.icon' :scale='0.1')
         text.trans-value(y='70%' x='98%' text-anchor="right" :font-size='fS') {{ isTrans.value }}
-      
+
       //-Cubes
       template(v-if='isLow && isLow.value > 0')
         cube-of-cubes.cubes(:size='cS*2' :mod='cubeMod' :step='cubeStep(isLow.value)' :color='isLow.color' :x='cx' :y='cubC' )
         text(:fill='isLow.color' :font-size='fS' x='50%' :y='cubC * .5' text-anchor="middle") {{isLow.fvalue}}
-      
-      
+
       //- Last Block
-      ellipse.cube-shadow(:cx='block.sh.x' :cy='block.sh.y' :rx='block.sh.w' :ry='block.sh.h' filter="url(#blur)" :key='node.stats.block.number' ) 
-      svg-cube.block-cube(:x='block.x' :y='block.y' :size='block.s' :key='node.stats.block.number')
-      
-      //-Debug square
+      ellipse.cube-shadow(:cx='block.sh.x' :cy='block.sh.y' :rx='block.sh.w' :ry='block.sh.h' filter="url(#blur)" :key='"ELLIPSE_" + node.stats.block.number' )
+      svg-cube.block-cube(:x='block.x' :y='block.y' :size='block.s' :key='"CUBE_" + node.stats.block.number')
+
+      //-Debug squareF
     //-svg(:width='w' :height='h' :viewBox='viewBox')
       rect(x='0' y='0' width='100%' height='100%' stroke='red' fill='none')
       //-circle(r='2' :cx='cx' :cy='cy' fill='red')
@@ -286,18 +285,18 @@ export default {
   svg
     overflow visible
     position absolute
-    
-  svg.cube path 
+
+  svg.cube path
     stroke black
     // fill-opacity .9
     stroke-width 1
     stroke-opacity 0.25
     // stroke-dasharray 3
-  
+
   //ellipse.time
     //stroke-dasharray 1
 
-.cubes 
+.cubes
   .cube
     stroke $darkness
     stroke-width .5
@@ -308,8 +307,8 @@ export default {
   height @width
   display flex
   position absolute
-  top 0 
-  left 0 
+  top 0
+  left 0
   justify-content center
   align-items center
 
@@ -343,13 +342,12 @@ export default {
   20%
     transform scale(.1,.1)
     opacity 1
-  90%  
+  90%
     opacity 1
     transform scale(1,1)
   100%
     transform scale(.1,.1)
     opacity 0
-   
 
 $start = translate(-120%,-300%) scale(2,2)
 $mid = translate(-120%,-200%) scale(1,1)
@@ -360,12 +358,12 @@ $end = translate(-120%,0%) scale(1,1)
     transform $start
   20%
     opacity 1
-    transform $mid   
+    transform $mid
   90%
     opacity .9
-    transform $end   
+    transform $end
   100%
-    transform $end 
+    transform $end
     opacity 0
 
 .block-cube-enter
@@ -379,10 +377,9 @@ $end = translate(-120%,0%) scale(1,1)
   fill: $color
   // transform rotateY(20deg)
 
-
 .time
   will-change opacity
-  animation etime 3s infinite  
+  animation etime 3s infinite
 
 @keyframes etime
   0%

@@ -4,7 +4,7 @@
     .trim(v-if='trim') {{trimed[0]}}
     slot(v-else)
     .points(v-if='trim' :class='pointsClass')
-        button(v-if='!show') 
+        button(v-if='!show')
           span.icon {{ opts.trimTxt }}
         button(v-if='show  && opts.copy' @click='copyText' @touchend.stop='copyText')
           icon(name='copy')
@@ -146,11 +146,10 @@ export default {
 <style lang="stylus">
 @import '../lib/styl/vars.styl'
   $tip-arrow-size = 5px
-  $tip-bg = white 
+  $tip-bg = white
   $tip-bc = $color
   $tip-border = 1px
-  
-  
+
   .tooltip, .trim
     position: relative
     display: inline-block
@@ -161,7 +160,7 @@ export default {
     white-space nowrap
   // Arrow mixin
   arrow(pos)
-    if pos == 'top' || pos == 'bottom'  
+    if pos == 'top' || pos == 'bottom'
       v = 'left'
       vv = 50%
     else
@@ -170,7 +169,7 @@ export default {
     &:after, &:before
       {pos}: 100%
       {v}: vv
-    &:after 
+    &:after
       border-{pos}-color: $tip-bg
       margin-{v}: $tip-arrow-size * -1
     &:before
@@ -185,7 +184,7 @@ export default {
       color: $dark
       display: flex
       justify-content flex-start // arrow on start
-      .value 
+      .value
         border-radius: 3px
         padding .125em .25em
         background-color: $tip-bg
@@ -199,8 +198,8 @@ export default {
         display inline
         margin: 0
         font-size: .9rem
-        
-  .tip:after 
+
+  .tip:after
   .tip:before
     border: solid transparent
     content: " "
@@ -209,13 +208,13 @@ export default {
     position: absolute
     z-index 100
 
-  .tip:after 
+  .tip:after
     border-width: $tip-arrow-size
 
   .tip:before
     border-width: $tip-arrow-size + $tip-border
 
-  // generates tip classes  
+  // generates tip classes
   for pos in top bottom left right
     .tip.{pos}
       arrow(pos)
@@ -228,7 +227,7 @@ export default {
     margin-top: .25em
     button
       height: 1em
-      line-height: 1em 
+      line-height: 1em
 
   .points.left
     float: left
@@ -258,7 +257,7 @@ export default {
       width: 1px
       heigth: 1px
 
-  button.close 
+  button.close
     line-height: 1em
     height: 1em
     &:after
@@ -281,7 +280,7 @@ export default {
   opacity: 0
 
 // Copy Animations
-.anim  
+.anim
   animation-duration: 0.5s
   animation-name: copya
   animation-timing-function: ease-in-out
@@ -291,21 +290,20 @@ export default {
     0%
       opacity: 0
     75%
-      transform: translateY(-1em) 
+      transform: translateY(-1em)
     80%
        opacity: 1
     100%
-      opacity: 0  
+      opacity: 0
       transform: translateY(-5em)
-  
+
 .copying
     animation-duration: 1s
     animation-name: copyb
 
-  @keyframes copyb 
+  @keyframes copyb
     0%
       color: $color
-    100%     
-      color: inherit  
-</style>  
-
+    100%
+      color: inherit
+</style>

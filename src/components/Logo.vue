@@ -19,10 +19,10 @@ export default {
     padding:  0
     min-height $min-box-height
     .logo
-      
+
       color $color
       margin:0 .5em
       white-space:nowrap
       font-size: 1.75em
-    
+
 </style>

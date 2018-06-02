@@ -3,9 +3,9 @@
     h3.chart-title last blocks miners
     .miners
       .miner(v-for='miner in miners')
-        .blocks 
+        .blocks
           span {{miner.blocks}}
-        cube-of-cubes.cubes(:mod='mod' :step='miner.blocks' :size='size') 
+        cube-of-cubes.cubes(:mod='mod' :step='miner.blocks' :size='size')
         .name
           template(v-if='miner.name')
             span {{miner.name}} &nbsp;
@@ -65,21 +65,21 @@ export default {
     display flex
     flex-flow row nowrap
     justify-content space-around
-  
+
   .miner
     flex 1
     position relative
     display flex
     align-items center
     flex-flow column nowrap
-    svg 
+    svg
       overflow visible
       .cube
         fill $color
         stroke $dark
-    .name 
+    .name
       font-size .8em
-      
+
     .cubes
       display inline-block
     .blocks
@@ -91,6 +91,4 @@ export default {
         border $border
         background none
 
-    
 </style>
-

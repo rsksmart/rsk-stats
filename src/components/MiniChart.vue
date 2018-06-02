@@ -38,4 +38,3 @@ export default {
     .curve
       stroke-width 2px
  </style>
- 

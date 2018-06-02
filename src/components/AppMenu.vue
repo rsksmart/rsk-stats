@@ -12,7 +12,7 @@
           li(:class='panelClass(t.snapshots)')
             button.dark.big(@click='show(t.snapshots)')
               icon(name='versions')
-              span.badge(v-if='totalSnapshots') {{ totalSnapshots }}    
+              span.badge(v-if='totalSnapshots') {{ totalSnapshots }}
         //-button.btn.dark.big.badge(@click='show(charts)')
           icon(name='graph')
       .panel.snapshots(v-if='panel(t.snapshots)' :class='panelClass(t.snapshots)')
@@ -21,24 +21,24 @@
       .panel.config(v-if='panel(t.config)' :class='panelClass(t.config)')
         h3 Configuration
         ul.list.dark
-          li 
+          li
             input(type="checkbox"  v-model='config.showNodeInfo' @change='update')
             label Show node info
           li
             label Nodes spread: {{opts.force}}
-            input(type="range" v-model='opts.force' @input='update' min="1" max="7000" step="10") 
+            input(type="range" v-model='opts.force' @input='update' min="1" max="7000" step="10")
           li
             label Node Size: {{opts.nodeSize}}
             input(type="range" v-model='opts.nodeSize' @input='update'  min="5" max="200" step="1")
           li
             input(type="checkbox"  v-model="opts.nodeLabels" @change='update')
-            label Node names   
+            label Node names
           li(v-if="opts.nodeLabels")
-            label Font Size: 
-              span {{ opts.fontSize }} 
+            label Font Size:
+              span {{ opts.fontSize }}
             input(type="range" v-model="opts.fontSize" @input='update' min="5" max="30" step="1")
-          li  
-            button.reset(@click="resetConfig" title="reset options" aria-label="reset options") 
+          li
+            button.reset(@click="resetConfig" title="reset options" aria-label="reset options")
               span Reset to default &nbsp;
               icon(name='reload-alt' scale='1.5')
 
@@ -102,22 +102,21 @@ export default {
 </script>
 <style lang="stylus">
 @import '../lib/styl/vars.styl'
-  
-.app-menu  
+
+.app-menu
   .panel.tools
     padding-bottom 1em
     button.badge
       margin-top 0
 
-.slide-r 
+.slide-r
   border red solid 2px
 .slide-r-enter-active, .slide-r-leave-active
   will-change transform
   transition all .5s ease
   position fixed
-  
+
 .slide-r-enter, .slide-r-leave-to
   transform translateX(100%)
 
 </style>
-

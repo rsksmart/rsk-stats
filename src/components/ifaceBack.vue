@@ -61,15 +61,13 @@ export default {
   .stop-1
     stop-color lightness($bg-color,14%)
   .stop-2
-    stop-color $bg-color  
+    stop-color $bg-color
   .stop-3
     stop-color $bg-color
 /*   .iface-back
     background-image:
       radial-gradient(circle closest-corner,
-        lightness($bg-color,14%) 0, $bg-dark 60vw  
+        lightness($bg-color,14%) 0, $bg-dark 60vw
       )  */
 
-
 </style>
-

@@ -19,7 +19,6 @@ export const bestBlockNode = (state, getters) => {
 export const bestBlock = (state, getters) => {
   let node = getters.bestBlockNode
   if (node) return node.stats.block.number
-  return
 }
 
 export const getMinerName = (state) => addr => {

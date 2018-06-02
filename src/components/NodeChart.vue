@@ -39,6 +39,5 @@ export default {
   max-width 100%
   svg
     width 100%
-    overflow: visible 
+    overflow: visible
 </style>
-

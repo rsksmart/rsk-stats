@@ -3,22 +3,22 @@
     .search
       icon(name='search')
       input(name="search" type='search' v-model='filterRows' id="search" placeholder="type to filter")
-      
+
       .hidden-fields(v-if='hiddenFields.length')
         small Hidden fields:
         button(v-for='field in hiddenFields' @click='showField(field)' @touchstart.passive='showField(field)' )
-          entity-icon(:entity='entity[field]')   
-    
+          entity-icon(:entity='entity[field]')
+
     table.nodes.dark(v-if='fields')
       thead
         tr.field-actions
-          //- fields 
+          //- fields
           th(v-for='field,key in fields' v-if='!isHidden(field)' @touchstart.passive='hideField(field)')
             button(@click='hideField(field)')
               icon(name='close')
-          th      
+          th
         tr
-          //- fields 
+          //- fields
           th(v-for='field,key in fields' v-if='!isHidden(field)')
             button(@click='sortBy(field)' @touchstart.passive='sortBy(field)')
               entity-icon(:entity='entity[field]')
@@ -28,18 +28,18 @@
           th
             icon(name='pin')
       tbody
-        
-        //- no content 
+
+        //- no content
         tr.full(v-if='rows.length === 0')
           td(:colspan='fields.length + 2') There are no results that match your search
-        
+
         //- rows
         tr(v-for='node,index in rows' :class='rowClass(index,node.id)')
           //- fields
-          td(v-for='field,key in fields' v-if='!isHidden(field)' :class='toKebab(field)') 
+          td(v-for='field,key in fields' v-if='!isHidden(field)' :class='toKebab(field)')
             node-chart.node-history(v-if='field === "nodeHistory"' :data='nodeChart(node.id)' name='nodeChart2')
             entity-value(v-else :value='node[field]' :entity='entity[field]' :fields='node')
-            
+
           //- Pin button
           td
             .pin(@click='pinRow(node.id)' @touchstart.passive='pinRow(node.id)')
@@ -133,22 +133,22 @@ export default {
     tbody
       overflow-y: auto
       overflow-x: visible
-    tr.full 
-      min-width: 100%  
+    tr.full
+      min-width: 100%
     td, th
      will-change trasform
      animation-name: row-anim
      animation-duration: .5s
-     animation-timing-function: ease-out 
+     animation-timing-function: ease-out
     @keyframes row-anim
       0%
-        transform: rotateX(-90deg) 
+        transform: rotateX(-90deg)
       40%
-        rotateZ(10deg)   
+        rotateZ(10deg)
       50%
-        transform: rotateX(45deg) rotateZ(0)  
-      100% 
-        transform: rotateX(0) 
+        transform: rotateX(45deg) rotateZ(0)
+      100%
+        transform: rotateX(0)
     .node-history
     .node-chart
       height: 50px
@@ -159,9 +159,9 @@ export default {
       margin 0
       svg
         path
-          stroke-width: 1px    
+          stroke-width: 1px
 
-  .search  
+  .search
     display flex
     input
       margin-right .5em
@@ -185,4 +185,3 @@ export default {
         height @width
 
 </style>
-

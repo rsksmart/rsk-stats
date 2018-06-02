@@ -66,4 +66,3 @@ export const tableFields = (state) => {
 export const bigDataFields = (state) => {
   return state.bigDataFields
 }
-

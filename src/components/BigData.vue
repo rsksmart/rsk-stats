@@ -5,7 +5,7 @@
       .bd-title(:style='titleStyle') {{entity.title}}
         small.subtitle.gray(v-if='entity.subtitle') {{entity.subtitle}}
       entity-value.bd-data(:entity='entity' :value='value')
-      
+
 </template>
 <script>
 import { mapGetters, mapActions } from 'vuex'
@@ -183,8 +183,8 @@ export default {
 
   // as dialog
   .totals-dialog {
-    background none
-    box-shadow none
+    background none !important
+    box-shadow none !important
 
     .big-data {
       margin-top 0

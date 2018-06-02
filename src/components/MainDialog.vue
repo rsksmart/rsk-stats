@@ -14,7 +14,7 @@
         icon( v-if='buttonClose' name='close' slot='button-close')
         icon( v-if='buttonPin' name='pin' slot='button-pin')
         icon( v-if='buttonPin' name='pinned' slot='button-pinned')
-      
+
       //- Node Dialog
       template(v-if='isDialog(types.NODE)')
         .node-header(slot='title')
@@ -24,14 +24,14 @@
       //- Chart Dialog
       template(v-if='isDialog(types.CHART)')
         h3.node-title(slot='title') {{ dialog.name }}
-        chart(:name='dialog.id' :max='true')  
-      
+        chart(:name='dialog.id' :max='true')
+
       template(v-if='isDialog(types.TOTAL)')
         big-data(:name='dialog.id')
         icon( v-if='buttonClose' name='close' slot='button-close')
       template(v-if='isDialog(types.TABLE)')
-        nodes-table  
-  
+        nodes-table
+
 </template>
 <script>
 import { mapActions, mapGetters } from 'vuex'

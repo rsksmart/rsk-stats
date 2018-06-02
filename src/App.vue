@@ -9,8 +9,8 @@
     app-menu(v-if='showMenu' @close='menuShow(false)')
     .header-wrapper
       header#header
-        .head-1  
-          logo 
+        .head-1
+          logo
         .head-2
           .hint(v-if='showHint')
             small This page does not represent the entire state of the RSK Network.
@@ -33,25 +33,24 @@
               button.btn.dark.badge(@click.prevent='showHideTable()' @touchstart.passive='showHideTable()' aria-label="table")
                 icon(name='table')
                 span.badge {{ activeNodes.length }}
-              button.big-txt(@click.prevent='showHideTable()' @touchstart.passive='showHideTable()' aria-label="table") &nbsp&nbsptracked nodes {{ nodes.length }} 
+              button.big-txt(@click.prevent='showHideTable()' @touchstart.passive='showHideTable()' aria-label="table") &nbsp&nbsptracked nodes {{ nodes.length }}
           //-Miners
           miners-chart
           //- Totals
-          big-data( v-for='bd,name,index in bigDataFields ' 
+          big-data( v-for='bd,name,index in bigDataFields '
           v-if='bd.show && !isVisibleDialog()(types.TOTAL,name)'
           :key='name'
           :name='name'
           :options='{minimized:bd.minimized}'
           )
 
-          
       //- COl-B Main
       .col-b#main
-        //- Not connected 
+        //- Not connected
         .loading(v-if='!hasNodes')
           h2.center(v-if='!connected') connecting to server...
           h2.center(v-else) requesting server data...
-          
+
       //- COl-C
       .col-c#col-c
         .col-content
@@ -59,13 +58,13 @@
           .box(v-if='connected' v-for='show,name,index in charts')
             //- v-if fails in firefox
             mini-chart(v-if='show'  :name='name' :key='index+name')
-    
+
     //-  footer
         p rsk
     //- Node data
     transition(name='fade-nodes')
       #node-data(v-if='hasNodes && config.showNodeInfo' :style='mainStyle')
-        node-data(v-for='node,id in nodes' :node='node' :size='options.nodeSize' :key='id')        
+        node-data(v-for='node,id in nodes' :node='node' :size='options.nodeSize' :key='id')
     transition(name='fade-nodes')
       d3-network#network.net(
       v-if='hasNodes'
@@ -79,16 +78,16 @@
       @link-click="linkClick"
       :class='netClass'
       :style='mainStyle'
-      )    
+      )
 
-      //- interface background 
+      //- interface background
     iface-back(:size='options.size'  :style='mainStyle' :center='center')
     //-transition(name='apply-mask')
-      iface-mask(v-if='hasNodes' :size='options.size'  :style='mainStyle' :center='center')  
+      iface-mask(v-if='hasNodes' :size='options.size'  :style='mainStyle' :center='center')
       //- Dialogs
     .dialogs
       main-dialog(v-for="(dialog,index) in dialogs" :key='dialog._key' :dialog='dialog')
-      
+
 </template>
 <script>
 import { mapState, mapActions, mapGetters } from 'vuex'
@@ -112,7 +111,7 @@ import { tSecondsAgo, mSecondsAgo, sSeconds } from './filters/TimeFilters.js'
 import { nodeType, yesNo } from './filters/TextFilters.js'
 import { percent, numerals, toInt, numeralsSuffix } from './filters/NumberFilters.js'
 
-import nodeIcon from '!!raw-loader!./assets/node.svg'
+import nodeIcon from './assets/node.svg?raw'
 import './icons'
 export default {
   name: 'rsk-stats',
@@ -373,6 +372,7 @@ export default {
   @import './lib/styl/vars.styl'
   @import './lib/styl/app.styl'
   @import './lib/styl/nodes.styl'
+
   #network
     z-index 90
     overflow hidden

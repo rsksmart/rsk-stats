@@ -17,28 +17,28 @@
         ul.list-head
           li(@touchstart.passive='minMaxRow(id)' :class='nameClass(snapshot.version)') {{ (snapshot.name || id ) }}
         ul.list-item
-          li 
+          li
             small {{ id | date-from-ts }}
           li(v-if='snapshot.version')
-            small version: {{snapshot.version}}  
+            small version: {{snapshot.version}}
           li
-            small.warn {{versionWarning(snapshot.version)}}  
+            small.warn {{versionWarning(snapshot.version)}}
           li.col
             button.circle.delete(@click='removeSnapshot(id)' aria-label="remove")
               tool-tip(:value='"delete"')
-                icon(name='delete-forever') 
+                icon(name='delete-forever')
           li.col
             button.circle(@click='downloadSnapshot(id)' aria-label="download")
               tool-tip(:value='"download"')
-                icon(name='clowd-down') 
+                icon(name='clowd-down')
           li.col.action
             button.circle(@click='loadSnapshot(id)' aria-label="load snapshot" )
               tool-tip(:value='"load snapshot"')
-                icon(name='load')  
+                icon(name='load')
           li.col.action
             button.circle(@click='loadLayout(id)' aria-label="load layout")
               tool-tip(:value='"load Layout"')
-                icon(name='link-external')  
+                icon(name='link-external')
         ul.list-buttons
           li
             button(@click='minMaxRow(id)')
@@ -123,5 +123,5 @@ export default {
     .controls
       padding .5em
       margin-bottom 1em
-        
+
 </style>
