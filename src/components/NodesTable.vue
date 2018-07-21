@@ -2,7 +2,7 @@
   .nodes-table
     .search
       icon(name='search')
-      input(name="search" type='search' v-model='filterRows' id="search" placeholder="type to filter")
+      input(name="search" type='search' v-model='filterRows' @mousedown.stop='' @touchstart.stop='' id="search" placeholder="type to filter")
 
       .hidden-fields(v-if='hiddenFields.length')
         small Hidden fields:
@@ -121,67 +121,82 @@ export default {
 }
 </script>
 <style lang="stylus">
-@import '../lib/styl/vars.styl'
+  @import '../lib/styl/vars.styl'
+
   .nodes-table
     overflow visible
     flex-direction column
+
   table.nodes
     min-width 100%
+
     thead
       tr
         min-width 100%
+
     tbody
-      overflow-y: auto
-      overflow-x: visible
+      overflow-y auto
+      overflow-x visible
+
     tr.full
-      min-width: 100%
+      min-width 100%
+
     td, th
-     will-change trasform
-     animation-name: row-anim
-     animation-duration: .5s
-     animation-timing-function: ease-out
+      will-change trasform
+      animation-name row-anim
+      animation-duration 0.5s
+      animation-timing-function ease-out
+
     @keyframes row-anim
       0%
-        transform: rotateX(-90deg)
+        transform rotateX(-90deg)
+
       40%
         rotateZ(10deg)
+
       50%
-        transform: rotateX(45deg) rotateZ(0)
+        transform rotateX(45deg) rotateZ(0)
+
       100%
-        transform: rotateX(0)
-    .node-history
-    .node-chart
-      height: 50px
+        transform rotateX(0)
+
+    .node-history, .node-chart
+      height 50px
       padding 0
       max-width 10em
       min-width 5em
       max-height 2em
       margin 0
+
       svg
         path
-          stroke-width: 1px
+          stroke-width 1px
 
   .search
     display flex
+
     input
-      margin-right .5em
+      margin-right 0.5em
 
   .hidden-fields
     z-index 500
     display flex
     flex 1
     order 2
+
     button
-      margin-left .5em
+      margin-left 0.5em
+
   tr.field-actions
     padding 0
-    line-height: 1em
+    line-height 1em
+
     td, th
       background none
       margin 0
       padding 0
-      .svg-icon, button
-        width .8em
-        height @width
 
+      .svg-icon, button
+        width 0.8em
+        height @width
 </style>
