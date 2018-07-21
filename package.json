@@ -1,6 +1,6 @@
 {
   "name": "rsk-stats",
-  "version": "0.0.12",
+  "version": "0.1.0",
   "description": "RSK network interactive visualization",
   "author": "Emilio Rizzo",
   "private": true,
