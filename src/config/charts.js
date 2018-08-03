@@ -53,6 +53,9 @@ export const definitions = {
   lastGasLimit: {
     entity: 'gasLimit'
   },
+  minGasPrice: {
+    entity: 'minGasPrice'
+  },
   gasSpending: {
     title: 'gas spending',
     options: {
