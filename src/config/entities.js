@@ -143,6 +143,6 @@ export default {
     title: 'minimum gas price',
     icon: 'cube',
     cssClass: 'big-number',
-    filters: 'wei'
+    filters: 'mwei'
   }
 }
