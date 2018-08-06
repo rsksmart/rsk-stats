@@ -39,6 +39,10 @@ export default function (types) {
         gasLimit: {
           show: true,
           minimized: true
+        },
+        minGasPrice: {
+          show: true,
+          minimized: true
         }
       },
       showTable: false

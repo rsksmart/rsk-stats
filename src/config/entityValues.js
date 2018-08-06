@@ -36,6 +36,7 @@ export const TOTAL = (totals, date) => {
     avgHashrate: totals.avgHashrate,
     uncles: totals.bestStats.block.uncles.length + '/' + totals.uncleCount,
     gasPrice: totals.bestStats.gasPrice,
-    gasLimit: totals.bestStats.block.gasLimit
+    gasLimit: totals.bestStats.block.gasLimit,
+    minGasPrice: totals.bestStats.block.minimumGasPrice
   }
 }

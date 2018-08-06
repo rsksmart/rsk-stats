@@ -47,6 +47,10 @@ export const wei = Vue.filter('wei', (value) => {
   return locale(value) + 'wei'
 })
 
+export const mwei = Vue.filter('mwei', (value) => {
+  return locale(value / 1000000) + 'mwei'
+})
+
 export const isDigits = Vue.filter('is-digits', (value) => {
   return /^-?\d+\.?\d*$/.test(value) // true for digits and '.'
 })

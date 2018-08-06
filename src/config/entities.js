@@ -138,5 +138,11 @@ export default {
   blocksChart: {
     threshold: 'blockTime',
     suffix: 's'
+  },
+  minGasPrice: {
+    title: 'minimum gas price',
+    icon: 'cube',
+    cssClass: 'big-number',
+    filters: 'mwei'
   }
 }
