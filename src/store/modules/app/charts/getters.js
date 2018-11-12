@@ -17,7 +17,7 @@ export const getChart = (state, getters, rootState, rootGetters) => (name, data)
         chart.icon = chart.icon || entity.icon
         let thresholdObj = entity.thresholdObj || {}
         let options = {
-          colorFunc: thresholdObj.colorFunc,
+          colorCb: thresholdObj.colorFunc,
           formatY: (y) => {
             return applyFilters(entity.filters, y)
           }
