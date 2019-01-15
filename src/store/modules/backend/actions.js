@@ -42,6 +42,8 @@ export const socket_charts = ({ state, dispatch, commit }, data) => {
 
   commit('SET_TOTALS', { avgHashrate: data.avgHashrate })
 
+  commit('SET_TOTALS', { hashrateComparedToBtcNetwork: data.hashrateComparedToBtcNetwork })
+
   dispatch('commitTotalsCheckBins', ['lastGasLimit', data.gasLimit, 'SET_CHARTS'])
   dispatch('commitTotalsCheckBins', ['lastBlocksTime', data.blocktime, 'SET_CHARTS'])
 

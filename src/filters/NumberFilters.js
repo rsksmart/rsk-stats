@@ -16,7 +16,7 @@ export const numeralsSuffix = Vue.filter('numerals-suffix', (num) => {
 })
 
 export const percent = Vue.filter('percent', (value) => {
-  return parseInt(value) + '%'
+  return numerals(value) + '%'
 })
 
 export const toInt = Vue.filter('to-int', (value) => {

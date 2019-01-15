@@ -34,6 +34,7 @@ export const TOTAL = (totals, date) => {
     avgBlockTime: totals.avgBlockTime,
     lastDifficulty: totals.lastDifficulty,
     avgHashrate: totals.avgHashrate,
+    hashrateComparedToBtcNetwork: totals.hashrateComparedToBtcNetwork,
     uncles: totals.bestStats.block.uncles.length + '/' + totals.uncleCount,
     gasPrice: totals.bestStats.gasPrice,
     gasLimit: totals.bestStats.block.gasLimit,

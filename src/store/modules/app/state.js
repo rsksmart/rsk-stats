@@ -28,6 +28,10 @@ export default function (types) {
           show: true,
           minimized: false
         },
+        hashrateComparedToBtcNetwork: {
+          show: true,
+          minimized: false
+        },
         uncles: {
           show: true,
           minimized: true

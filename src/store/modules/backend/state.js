@@ -23,6 +23,7 @@ export default function () {
       avgBlockTime: 0,
       blockPropagationAvg: 0,
       avgHashrate: 0,
+      hashrateComparedToBtcNetwork: 0,
       uncleCount: [],
       upTimeTotal: 0 // <---
     },

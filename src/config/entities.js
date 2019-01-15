@@ -113,6 +113,12 @@ export default {
     filters: 'Hs',
     threshold: 'hashes'
   },
+  hashrateComparedToBtcNetwork: {
+    title: 'btc hash rate mining rsk',
+    icon: 'rocket',
+    filters: 'percent',
+    threshold: 'hashrateBtc'
+  },
   lastDifficulty: {
     title: 'difficulty',
     icon: 'puzzle',

@@ -90,6 +90,13 @@ const definitions = {
       { value: SI.P, color: 'green' }
     ]
   },
+  hashrateBtc: {
+    colors: {
+      0: 'red',
+      1: 'green',
+      100: 'green'
+    }
+  },
   yesNo: {
     filters: 'to-int',
     type: valueToColor,
