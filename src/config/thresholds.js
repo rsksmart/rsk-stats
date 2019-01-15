@@ -14,7 +14,7 @@
     Default: Linear
     NOTE: Linear Scale requires 3 values
   
-    - filters: String| Array:  Filter/s to apply before select color
+  - filters: String| Array:  Filter/s to apply before select color
   
   - interpolator: interpolator name, see colorsInterpolators.js, 
       this prop overrides type to 'interpolated'
