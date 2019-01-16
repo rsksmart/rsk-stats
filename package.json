@@ -16,7 +16,7 @@
     "d3-scale-chromatic": "^1.1.1",
     "lodash": "^4.17.10",
     "moment": "^2.22.2",
-    "vue": "^2.5.16",
+    "vue": "^2.5.21",
     "vue-d3-barchart": "latest",
     "vue-d3-network": "latest",
     "vue-dialog-drag": "latest",
