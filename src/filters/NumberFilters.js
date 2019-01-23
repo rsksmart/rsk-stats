@@ -15,8 +15,8 @@ export const numeralsSuffix = Vue.filter('numerals-suffix', (num) => {
   return value.replace(/\d/g, '').replace(/\./g, '')
 })
 
-export const percent = Vue.filter('percent', (value) => {
-  return numerals(value) + '%'
+export const percent = Vue.filter('percent', (value, fixed) => {
+  return numerals(value, fixed) + '%'
 })
 
 export const toInt = Vue.filter('to-int', (value) => {
@@ -31,8 +31,8 @@ export const locale = Vue.filter('locale', (value) => {
 })
 
 // Format with suffix
-export const Hs = Vue.filter('Hs', (value) => {
-  return numerals(value) + 'Hs'
+export const Hs = Vue.filter('Hs', (value, fixed) => {
+  return numerals(value, fixed) + 'Hs'
 })
 
 export const H = Vue.filter('H', (value, fixed) => {

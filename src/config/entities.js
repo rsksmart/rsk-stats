@@ -110,19 +110,19 @@ export default {
   avgHashrate: {
     title: 'avg hash rate',
     icon: 'zap',
-    filters: 'Hs',
+    filters: { name: 'Hs', args: [2] },
     threshold: 'hashes'
   },
   hashrateComparedToBtcNetwork: {
     title: 'btc hash rate mining rsk',
     icon: 'rocket',
-    filters: 'percent',
+    filters: { name: 'percent', args: [2] },
     threshold: 'hashrateBtc'
   },
   lastDifficulty: {
     title: 'difficulty',
     icon: 'puzzle',
-    filters: 'H',
+    filters: { name: 'H', args: [2] },
     threshold: 'hashes'
   },
   gasPrice: {
