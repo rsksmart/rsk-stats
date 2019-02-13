@@ -1,4 +1,4 @@
-import * as miners from '../../../config/miners.json'
+import {default as miners} from '../../../config/miners.json'
 export default function () {
   return {
     config: {
