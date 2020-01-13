@@ -28,6 +28,10 @@ export default function (types) {
           show: true,
           minimized: false
         },
+        btcAvgHashrate: {
+          show: false,
+          minimized: false
+        },
         hashrateComparedToBtcNetwork: {
           show: true,
           minimized: false

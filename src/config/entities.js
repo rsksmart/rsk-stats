@@ -113,6 +113,12 @@ export default {
     filters: { name: 'Hs', args: [2] },
     threshold: 'hashes'
   },
+  btcAvgHashrate: {
+    title: 'btc avg hash rate',
+    icon: 'zap',
+    filters: { name: 'Hs', args: [3] },
+    threshold: 'hashes'
+  },
   hashrateComparedToBtcNetwork: {
     title: 'btc hash rate mining rsk',
     icon: 'rocket',
