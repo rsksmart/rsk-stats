@@ -1,5 +1,8 @@
-RSK Network Stats | Frontend
-============================
+# RSK Stats
+
+> Rsk network stats web client
+
+![rsk-stats](stats.png)
 
 ## Tasks
 
@@ -7,10 +10,10 @@ RSK Network Stats | Frontend
 # install dependencies
 npm install
 
-# serve with hot reload 
+# serve with hot reload
 npm run dev
 
-# build for production with minification
+# build for production
 npm run build
 
 ```
@@ -21,14 +24,14 @@ Backed url:
 
 ``` bash
 
-  export WS_URL=ws://backend.url
+  export WS_URL=ws://[backend-url]
   npm run build
 ```
 
 ## Icons
 
-- Copy svgs on : static/svg/icons
-- Compile svgs
+- Copy SVG files on : static/svg/icons
+- Compile SVG
 
  ``` bash
 
@@ -42,9 +45,9 @@ scr/config:
 
 - **charts.js**
 - **colors.json**
-- **entitities.js**
+- **entities.js**
 - **entityValues.js**
 - **media_breakpoints.json**: media queries
 - **miners.json**: miners names list.
 - **table.js**: nodes table configuration.
-- **thesholds.js**
+- **thresholds.js**
