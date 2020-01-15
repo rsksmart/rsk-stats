@@ -25,10 +25,12 @@ export default {
       return this.size / 2
     },
     yy () {
-      if (this.y) return (this.y - this.cx) + 'px'
+      let { y, cx } = this
+      return (y) ? (y - cx) + 'px' : undefined
     },
     xx () {
-      if (this.x) return (this.x - this.cx) + 'px'
+      let { x, cx } = this
+      return (x) ? (x - cx) + 'px' : undefined
     },
     viewBox () {
       return [0, 0, this.size, this.size].join(' ')

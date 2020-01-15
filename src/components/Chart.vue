@@ -45,7 +45,8 @@ export default {
       appSize: 'getSize'
     }),
     chart () {
-      if (this.name) return this.getChart()(this.name)
+      let { name, getChart } = this
+      return (name) ? getChart()(name) : undefined
     },
     chartStyle () {
       return { width: this.w + 'px', height: this.h + 'px' }
@@ -90,23 +91,20 @@ export default {
 </script>
 <style src="vue-d3-barchart/dist/vue-d3-barchart.css"></style>
 <style lang="stylus">
-  @import '../lib/styl/vars.styl';
-  @import '../lib/styl/mixins.styl';
+  @import '../lib/styl/vars.styl'
+  @import '../lib/styl/mixins.styl'
 
-  .chart-container {
-    display: flex;
-    justify-content: space-around;
-  }
+  .chart-container
+    display flex
+    justify-content space-around
 
-  .chart .header button {
-    position: absolute;
-    right: 0;
-    z-index: 10;
-  }
+  .chart .header button
+    position absolute
+    right 0
+    z-index 10
 
-  .chart-title {
-    small-titles();
-    margin-left: 2em;
-    margin-bottom: 0.5em;
-  }
+  .chart-title
+    small-titles()
+    margin-left 2em
+    margin-bottom 0.5em
 </style>
