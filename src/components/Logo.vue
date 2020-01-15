@@ -2,7 +2,7 @@
   .logo-cont(v-once)
     .logo
       icon.iso(name='rsk' scale='1')
-      span rsk network
+      h1 rsk network
 </template>
 <script>
 import '../icons/rsk'
@@ -22,16 +22,24 @@ export default {
     .logo
       display flex
       align-items center
+      flex-flow row nowrap
       color $color
       margin 0 .5em
+      padding 0
       white-space nowrap
       font-size: 1.75em
+      position relative
       .iso
-        margin 0 .25em 0 0
-        display flex
-      .svg-icon
         fill @color
-      span
+        display flex
+        margin 0
+        position relative
+        top .125em
+      h1
+        font-size 1em
+        font-weight normal
+        margin 0 0 0 .25em
+        padding 0
         display flex
 
 </style>

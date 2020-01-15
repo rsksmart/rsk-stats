@@ -45,10 +45,14 @@
 delete()
   color $warn-light
   fill $warn-light
+  svg
+    fill $warn-light
   &:hover
     color $warn
     fill @color
     border-color @color
+    svg 
+      fill @color
 
 .active
   color $color

@@ -59,14 +59,20 @@ button.menu
   .svg-icon
     width 2em
     height 2em
+
 button.circle
   border-radius 50%
   border $border
   padding .4em
-  .svg-icon
+  height 3em
+  width @height
+  display flex
+  justify-content center
+  align-items center
+  .tooltip,.svg-icon
     width 1.5em
-    height 1.5em
-   &:hover
+    height @width
+  &:hover
     border-color $color2 
 
 
