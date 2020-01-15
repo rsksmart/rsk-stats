@@ -126,9 +126,6 @@ export const definitions = {
           'stroke-width': '2px'
         }
       },
-      getX: (d) => {
-        return d.x
-      },
       getY: (d) => {
         return d.y
       },
