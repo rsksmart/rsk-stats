@@ -46,20 +46,23 @@ export default {
       }
     },
     mod () {
-      let max = this.max
-      if (max) return Math.ceil(Math.cbrt(max))
+      let { max } = this
+      return (max) ? Math.ceil(Math.cbrt(max)) : undefined
     }
   }
 }
 </script>
 <style lang="stylus">
-@import '../lib/styl/vars.styl'
-@import '../lib/styl/mixins.styl'
+  @import '../lib/styl/vars.styl'
+  @import '../lib/styl/mixins.styl'
+
   .miners-chart
     box()
-    padding-bottom .5rem
+    padding-bottom 0.5rem
+
     .chart-title
       margin-bottom 1em
+
   .miners
     min-width 100%
     display flex
@@ -72,23 +75,27 @@ export default {
     display flex
     align-items center
     flex-flow column nowrap
+
     svg
       overflow visible
+
       .cube
         fill $color
         stroke $dark
+
     .name
-      font-size .8em
+      font-size 0.8em
 
     .cubes
       display inline-block
+
     .blocks
       position absolute
       right 1.5em
       text-align center
+
       span
         badge(1.6em)
         border $border
         background none
-
 </style>

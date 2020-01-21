@@ -2,79 +2,90 @@
 @import './mixins.styl'
 button
   cursor pointer
-  color: $color
-  background-color: transparent
-  border: none
+  color $color
+  background-color transparent
+  border none
   cursor hand
   .arrow
     border-color $color
+  
   .svg-icon
-    fill: $color
+    color $color
+    fill $color
     width  1em
     height  @width
+  
   &:hover
-      color $color2
-      .arrow
-        border-color $color2
+    color $color2
+    .arrow
+      border-color $color2
     .svg-icon
-      fill $color2
+      color $color2
+      fill @color
 
 button.icon
   width 1.5em
   height @width
   padding .25em
+  
   &.svg-icon, .icon
     width 1em
     height 1em
 
 button.btn  
-   background-color: $white
+   background-color $white
    padding .25em .5em
-   border-radius: .1em
-   box-shadow: 1px 1px 1px rgba(0,0,0,.5)
-   margin-left: .25em
+   border-radius .1em
+   box-shadow 1px 1px 1px rgba(0,0,0,.5)
+   margin-left .25em
    font-weight bold
 
 button.big
-  font-size: 1em
+  font-size 1em
   width 2.5em
   height @width
   .svg-icon
-    width: 1.75em 
-    height: @width
+    width 1.75em 
+    height @width
   .badge
     font-size .8em !important 
 button.big-txt
   font-size 1.25em
 
 button.menu
-  width: 2.5em
-  height: 2.5em
-  padding: 0
+  width 2.5em
+  height 2.5em
+  padding 0
   .svg-icon
-    width: 2em
-    height: 2em
+    width 2em
+    height 2em
+
 button.circle
-  border-radius: 50%
-  border:$border
+  border-radius 50%
+  border $border
   padding .4em
-  .svg-icon
-    width: 1.5em
-    height: 1.5em
-   &:hover
+  height 3em
+  width @height
+  display flex
+  justify-content center
+  align-items center
+  .tooltip,.svg-icon
+    width 1.5em
+    height @width
+  &:hover
     border-color $color2 
 
 
 
 .btn.badge, .w-badge
-  position: relative
+  position relative
   margin .75em .5em .75em .25em
-  display: inline-block
+  display inline-block
   .badge
     badge(1.5em)
-    position: absolute
-    bottom: -.75em
-    right: @bottom
+    position absolute
+    bottom -.75em
+    right @bottom
     .arrow
       border-color $white
   &:hover
@@ -82,16 +93,19 @@ button.circle
       background $color2  
 
 button.close 
-  min-height: $button-close-size
-  min-width: @min-height
+  min-height $button-close-size
+  min-width @min-height
   svg
-    display: inline-block
-    min-height: $button-close-size
-    min-width: @min-height
+    display inline-block
+    min-height $button-close-size
+    min-width @min-height
 
 button.btn.selected, button.btn.dark.selected
   color $selected
   fill @color
+  .svg-icon
+    color $selected
+    fill @color
 
 button.delete
   delete()

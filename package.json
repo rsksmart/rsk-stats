@@ -1,38 +1,42 @@
 {
   "name": "rsk-stats",
   "version": "0.1.0",
-  "description": "RSK network interactive visualization",
-  "author": "Emilio Rizzo",
   "private": true,
-  "main": "index.js",
+  "description": "RSK network interactive visualization",
+  "author": "emi",
   "scripts": {
-    "dev": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint",
-    "svg": "./node_modules/.bin/vsvg -s ./public/svg/icons -t ./src/icons --es6"
+    "build": "npx vue-cli-service build",
+    "lint": "npx vue-cli-service lint",
+    "dev": "npx vue-cli-service serve",
+    "svg": "npx vsvg -s ./public/svg/icons -t ./src/icons --es6"
   },
+  "main": "index.js",
   "dependencies": {
-    "d3-scale": "^1.0.6",
-    "d3-scale-chromatic": "^1.1.1",
-    "lodash": "^4.17.10",
+    "core-js": "^3.6.4",
+    "d3-scale": "^1.0.7",
+    "d3-scale-chromatic": "^1.5.0",
+    "lodash": "^4.17.15",
     "moment": "^2.22.2",
-    "vue": "^2.5.21",
-    "vue-d3-barchart": "latest",
-    "vue-d3-network": "latest",
-    "vue-dialog-drag": "latest",
-    "vue-svgicon": "^1.2.6",
-    "vuex": "^2.3.1"
+    "vue": "^2.6.10",
+    "vue-d3-barchart": "^0.0.27",
+    "vue-d3-network": "^0.1.28",
+    "vue-dialog-drag": "^0.1.29",
+    "vue-svgicon": "^3.2.6",
+    "vuex": "^3.0.1"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^3.0.0-rc.5",
-    "@vue/cli-plugin-eslint": "^3.0.0-rc.5",
-    "@vue/cli-service": "^3.0.0-rc.5",
-    "@vue/eslint-config-standard": "^3.0.0-rc.5",
+    "@vue/cli-plugin-babel": "^4.1.2",
+    "@vue/cli-plugin-eslint": "^4.1.2",
+    "@vue/cli-service": "^4.1.2",
+    "@vue/eslint-config-standard": "^4.0.0",
+    "babel-eslint": "^10.0.3",
+    "eslint": "^6.8.0",
+    "eslint-plugin-vue": "^6.1.2",
+    "stylus": "^0.54.7",
+    "stylus-loader": "^3.0.2",
     "pug": "^2.0.3",
     "pug-plain-loader": "^1.0.0",
     "raw-loader": "^0.5.1",
-    "stylus": "^0.54.5",
-    "stylus-loader": "^3.0.2",
-    "vue-template-compiler": "^2.5.21"
+    "vue-template-compiler": "^2.6.11"
   }
 }

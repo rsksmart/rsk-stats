@@ -116,6 +116,7 @@ export default {
       .svg-icon {
         width $icon-size
         height @width
+        fill $txt-color
       }
     }
 

@@ -34,7 +34,8 @@ export default {
   },
   computed: {
     iconStyle () {
-      let color = this.color
+      let { color } = this
+      // color = color || 'red'
       return { color, fill: color }
     },
     color () {
@@ -43,6 +44,4 @@ export default {
   }
 }
 </script>
-<style lang="stylus">
-
-</style>
+<style lang="stylus"></style>

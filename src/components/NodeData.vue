@@ -174,7 +174,7 @@ export default {
     },
     timeStatus () {
       let status = this.status(this.fields.time)
-      if (status) return status.number
+      return (status) ? status.number : undefined
     },
     styleObj () {
       let width = this.w
@@ -274,119 +274,128 @@ export default {
 }
 </script>
 <style lang='stylus'>
- @import '../lib/styl/vars.styl'
-.node-info
-  box-sizing border-box
-  position: absolute
-  pointer-events: none
-  user-select none
-  .entity-value
+  @import '../lib/styl/vars.styl'
+
+  .node-info
+    box-sizing border-box
     position absolute
-  svg
-    overflow visible
-    position absolute
+    pointer-events none
+    user-select none
 
-  svg.cube path
-    stroke black
-    // fill-opacity .9
-    stroke-width 1
-    stroke-opacity 0.25
-    // stroke-dasharray 3
+    .entity-value
+      position absolute
 
-  //ellipse.time
-    //stroke-dasharray 1
+    svg
+      overflow visible
+      position absolute
 
-.cubes
-  .cube
-    stroke $darkness
-    stroke-width .5
-    stroke-opacity 0.85
+    svg.cube path
+      stroke black
+      // fill-opacity .9
+      stroke-width 1
+      stroke-opacity 0.25
+      // stroke-dasharray 3
 
-.node-info-data
-  width 100%
-  height @width
-  display flex
-  position absolute
-  top 0
-  left 0
-  justify-content center
-  align-items center
+    .cubes
+      .cube
+        stroke $darkness
+        stroke-width 0.5
+        stroke-opacity 0.85
 
-.over-node
-  opacity .6
+    .node-info-data
+      width 100%
+      height @width
+      display flex
+      position absolute
+      top 0
+      left 0
+      justify-content center
+      align-items center
 
-.block-cube
-  will-change: opacity transform
-  transform: translate3d(0,0,0)
-  fill $color
-  opacity 1
-  .cube
-    transform: translate3d(0,0,0)
-    will-change: opacity transform
-    transform-origin center center
-    animation bcube-anim .5s ease
-    opacity 0
+    .over-node
+      opacity 0.6
 
-.cube-shadow
-  opacity 0
-  fill alpha(black, .1)
-  transform: translate3d(0,0,0)
-  will-chage transform opacity
-  transform-origin center center
-  animation cube-shadow-anim .5s ease
+    .block-cube
+      will-change opacity transform
+      transform translate3d(0, 0, 0)
+      fill $color
+      opacity 1
 
-@keyframes cube-shadow-anim
-  0%
-    opacity 0
-    transform scale(.1,.1)
-  20%
-    transform scale(.1,.1)
-    opacity 1
-  90%
-    opacity 1
-    transform scale(1,1)
-  100%
-    transform scale(.1,.1)
-    opacity 0
+      .cube
+        transform translate3d(0, 0, 0)
+        will-change opacity transform
+        transform-origin center center
+        animation bcube-anim 0.5s ease
+        opacity 0
 
-$start = translate(-120%,-300%) scale(2,2)
-$mid = translate(-120%,-200%) scale(1,1)
-$end = translate(-120%,0%) scale(1,1)
-@keyframes bcube-anim
-  0%
-    opacity 0
-    transform $start
-  20%
-    opacity 1
-    transform $mid
-  90%
-    opacity .9
-    transform $end
-  100%
-    transform $end
-    opacity 0
+    .cube-shadow
+      opacity 0
+      fill alpha(black, 0.1)
+      transform translate3d(0, 0, 0)
+      will-chage transform opacity
+      transform-origin center center
+      animation cube-shadow-anim 0.5s ease
 
-.block-cube-enter
-  opacity 0
+    @keyframes cube-shadow-anim
+      0%
+        opacity 0
+        transform scale(0.1, 0.1)
 
-.block-cube-enter-active
-  transition all 2s ease-in
-  opacity 1
+      20%
+        transform scale(0.1, 0.1)
+        opacity 1
 
-.trans-value
-  fill: $color
-  // transform rotateY(20deg)
+      90%
+        opacity 1
+        transform scale(1, 1)
 
-.time
-  will-change opacity
-  animation etime 3s infinite
+      100%
+        transform scale(0.1, 0.1)
+        opacity 0
 
-@keyframes etime
-  0%
-    opacity .1
-  50%
-    opacity .8
-  100%
-    opacity .1
+    $start = translate(-120%, -300%) scale(2, 2)
+    $mid = translate(-120%, -200%) scale(1, 1)
+    $end = translate(-120%, 0%) scale(1, 1)
 
+    @keyframes bcube-anim
+      0%
+        opacity 0
+        transform $start
+
+      20%
+        opacity 1
+        transform $mid
+
+      90%
+        opacity 0.9
+        transform $end
+
+      100%
+        transform $end
+        opacity 0
+
+    .block-cube-enter
+      opacity 0
+
+    .block-cube-enter-active
+      transition all 2s ease-in
+      opacity 1
+
+    .trans-value
+      fill $color
+      // transform rotateY(20deg)
+
+    .time
+      will-change opacity
+      animation etime 3s infinite
+
+    @keyframes etime
+      0%
+        opacity 0.1
+
+      50%
+        opacity 0.8
+
+      100%
+        opacity 0.1
 </style>

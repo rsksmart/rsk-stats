@@ -67,18 +67,18 @@
         node-data(v-for='node,id in nodes' :node='node' :size='options.nodeSize' :key='id')
     transition(name='fade-nodes')
       d3-network#network.net(
-      v-if='hasNodes'
-      :netNodes="nodes"
-      :netLinks="links"
-      :selection="selection"
-      :node-sym='nodeSym'
-      :options='options'
-      :nodeCb='nodeFilter'
-      @node-click="nodeClick"
-      @link-click="linkClick"
-      :class='netClass'
-      :style='mainStyle'
-      )
+        v-if='hasNodes'
+        :netNodes="nodes"
+        :netLinks="links"
+        :selection="selection"
+        :node-sym='nodeSym'
+        :options='options'
+        :nodeCb='nodeFilter'
+        @node-click="nodeClick"
+        @link-click="linkClick"
+        :class='netClass'
+        :style='mainStyle'
+        )
 
       //- interface background
     iface-back(:size='options.size'  :style='mainStyle' :center='center')
@@ -220,9 +220,11 @@ export default {
       return this.addPx(Object.assign({}, this.mainVp))
     },
     center () {
-      let mvp = this.mainVp
-      let x = mvp.width / 2 + this.options.offset.x
-      let y = mvp.height / 2 + this.options.offset.y
+      let { width, height } = this.mainVp
+      let { offset } = this.options
+      offset = offset || { x: 0, y: 0 }
+      let x = width / 2 + offset.x
+      let y = height / 2 + offset.y
       return { x, y }
     },
     hasNodes () {
