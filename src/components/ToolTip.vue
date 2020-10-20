@@ -137,7 +137,7 @@ export default {
           vm.anim = false
         }, 600)
       } catch (err) {
-        console.info('Unable to copy')
+        // console.info('Unable to copy')
       }
       this.$emit('copy', this.value)
     }
