@@ -33,7 +33,7 @@ export default function (types) {
           minimized: false
         },
         hashrateComparedToBtcNetwork: {
-          show: false,
+          show: true,
           minimized: false
         },
         uncles: {
