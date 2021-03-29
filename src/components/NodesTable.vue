@@ -1,7 +1,8 @@
 <template lang="pug">
   .nodes-table
     .search
-      icon(name='search')
+      button
+        icon(name='search')
       input(name="search" type='search' v-model='filterRows' @mousedown.stop='' @touchstart.stop='' id="search" placeholder="type to filter")
 
       .hidden-fields(v-if='hiddenFields.length')
