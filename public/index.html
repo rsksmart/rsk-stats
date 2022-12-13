@@ -15,7 +15,16 @@
   <meta name="msapplication-TileImage" content="<%= BASE_URL %>icons/mstile-144x144.png">
   <meta name="msapplication-config" content="<%= BASE_URL %>icons/browserconfig.xml">  
   <meta name="theme-color" content="#ffffff">
-  <link href="https://fonts.googleapis.com/css?family=Titillium+Web:400,600" rel="stylesheet">
+  <style>
+    @font-face {
+      font-family: Rootstock-Sans-Body;
+      src:
+        url('<%= BASE_URL %>fonts/Rootstock-Sans-Body.woff2') format('woff2'),
+        /* Super Modern Browsers */
+        url('<%= BASE_URL %>fonts/Rootstock-Sans-Body.woff') format('woff');
+      /* Pretty Modern Browsers */
+    }
+  </style>
   <script src="<%= BASE_URL %>js/primus.js"></script>
 </head>
 <body>
