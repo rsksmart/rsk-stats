@@ -1,11 +1,11 @@
 <template lang="pug">
   .iface-back(:style='styleObj')
-    svg(:width='size.w' :height='size.h' id="iface-back-svg" )
+    svg(:width='1350' :height='950' id="iface-back-svg" )
       radialGradient#bg-gradient(:cx='gCenter.x' :cy='gCenter.y' gradientUnits='userSpaceOnUse' )
         stop.stop-1(stop-color='white' offset='0')
         stop.stop-2(stop-color='black' offset='90%')
         stop.stop-3(stop-color='black' offset='100%')
-      rect(:width='size.w' :height='size.h' fill='url(#bg-gradient)')
+      rect(:width='1350' :height='950' fill='url(#bg-gradient)')
       //- selection lines
       g(id="selections" class="selection-lines")
         path(v-for='dialog,key in dialogs' :key='key' :d='quadCurve(dialog)' )
@@ -21,13 +21,13 @@ export default {
       nodes: 'getNodes'
     }),
     styleObj () {
-      let width = this.size.w + 'px'
-      let height = this.size.h + 'px'
-      return { width, height }
+      // let width = this.size.w + 'px'
+      // let height = this.size.h + 'px'
+      return { width: '1350px', height: '970px' }
     },
     gCenter () {
-      let x = this.center.x * 100 / this.size.w + '%'
-      let y = this.center.y * 100 / this.size.h + '%'
+      let x = this.center.x * 100 / 1350 + '%'
+      let y = this.center.y * 100 / 950 + '%'
       return { x, y }
     }
   },

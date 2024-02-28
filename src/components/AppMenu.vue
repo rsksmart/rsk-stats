@@ -100,23 +100,3 @@ export default {
   }
 }
 </script>
-<style lang="stylus">
-@import '../lib/styl/vars.styl'
-
-.app-menu
-  .panel.tools
-    padding-bottom 1em
-    button.badge
-      margin-top 0
-
-.slide-r
-  border red solid 2px
-.slide-r-enter-active, .slide-r-leave-active
-  will-change transform
-  transition all .5s ease
-  position fixed
-
-.slide-r-enter, .slide-r-leave-to
-  transform translateX(100%)
-
-</style>

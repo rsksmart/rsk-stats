@@ -1,0 +1,76 @@
+.chart {
+  padding: 0.5em 0;
+  position: relative;
+
+  .header {
+    display: flex;
+
+    .icon, .svg-icon {
+      width: 1em;
+      height: 1em;
+      margin-right: 1em;
+      top: 0.5em;
+    }
+  }
+
+  svg {
+    overflow: visible;
+  }
+}
+
+.node-chart {
+  svg {
+    overflow: visible;
+  }
+}
+
+.chart-title {
+  .max {
+    position: absolute;
+    top: 1em;
+    right: 2em;
+    z-index: 50;
+    pointer-events: initial;
+
+    &:hover {
+      color: $cyan_300;
+    }
+  }
+}
+
+.dialog {
+  position: absolute;
+  z-index: 999;
+  left: 0;
+  top: 0;
+  min-width: 100%;
+}
+
+.max-chart {
+  padding: 1em 1.5em;
+}
+
+.chart {
+  .label {
+    fill: $cyan_300;
+  }
+  .axis-label {
+    fill: orange;
+  }
+}
+
+.dialog-header {
+  .title {
+    color: blue;
+  }
+}
+
+.curve-back {
+  path {
+    opacity: 0.2;
+    stroke: none;
+  }
+}
+.chart {
+  padding: unset;
+}

@@ -1,0 +1,209 @@
+.header-wrapper {
+  padding: 24px 0 10px;
+  height: 10vh;
+  color: $white_400;
+  .logo-content {
+    display: flex;
+    justify-content: center;
+  }
+  .hint {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+    align-items: center;
+    font-size: 15px;
+  }
+  svg {
+    fill: $orange_900;
+    width: 16px;
+    height: 16px;
+  }
+}
+.content {
+  margin: 0 auto;
+  width: 100%;
+  padding-bottom: 12px;
+  // height: 90vh;
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  .content-blocks {
+    width: 100%;
+    flex: 1;
+    height: 100%;
+    padding: 0 12px;
+    // overflow-x: auto;
+    // @include scroll;
+  }
+  .content-nodes {
+    flex: 1;
+    height: 100%;
+    .container-nodes {
+      position: relative;
+      color: $white_100;
+      border: 1px solid $newbw_800;
+      border-radius: 12px;
+      padding: 24px 0;
+      // overflow: hidden;
+      .nodes-title {
+        font-size: 18px;
+        font-weight: 600;
+        margin: 13px 24px;
+      }
+      height: 100%;
+      // overflow-x: auto;
+      // @include scroll;
+      .items {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        flex-wrap: wrap;
+        gap: 12px;
+        padding: 24px;
+        
+        .item {
+          border: 1px solid $newbw_800;
+          border-radius: 12px;
+          padding: 24px;
+          height: 91px;
+          display: flex;
+          justify-content: space-between;
+          .detail {
+            color: $white_400;
+            text-decoration: underline;
+            font-size: 12px;
+          }
+          img {
+            width: 32px;
+            height: 32px;
+          }
+        }
+      }
+    }
+  }
+  .content-chart {
+    flex: 1;
+    height: 100%;
+    .col-content {
+      // height: 100%;
+      // overflow-x: auto;
+      // @include scroll;
+
+      .box {
+        border-radius: 12px;
+        padding: 12px 24px;
+        height: 172px;
+        background-color: $newbw_800;
+        margin-top: 6px;
+        .mini-chart {
+          height: 100%;
+          display: flex;
+          .chart {
+            flex: 1;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            .chart-container {
+              margin-top: 20px;
+              height: 100%;
+              flex: 1;
+            }
+          }
+          .chart-title {
+            color: $white_100;
+          }
+        }
+      }
+    }
+  }
+}
+.tracked-nodes {
+  width: 100%;
+  height: 60px;
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 24px;
+  align-items: center;
+  background-color: $newbw_800;
+  border-radius: 12px;
+  button {
+    font-size: 18px;
+  }
+}
+
+.miners-chart {
+  margin-top: 6px;
+  padding: 24px;
+  background-color: $newbw_800;
+  border-radius: 12px;
+  height: 147px;
+  .chart-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .content-icon {
+      position: relative;
+      .badge {
+        position: absolute;
+        width: 12px;
+        height: 12px;
+        border: 4px solid $newbw_800;
+        border-radius: 50%;
+        background-color: $orange_900;
+        top: -5px;
+        right: 0;
+      }
+    }
+  }
+ .miners {
+    margin-top: 21px;
+    .miner {
+      margin-top: 12px;
+      display: flex;
+      justify-content: space-between;
+      color: $white_100;
+    }
+    .blocks {
+      display: flex;
+      align-items: center;
+      color: $white_400;
+      gap: 10px;
+      span {
+        min-width: 20px;
+      }
+      svg {
+        width: 14px;
+        fill: $white_400;
+      }
+    }
+  } 
+}
+
+.big-data {
+  width: 100%;
+  background-color: $newbw_800;
+  border-radius: 12px;
+  padding: 20px 24px;
+  margin-top: 6px;
+  display: flex;
+  justify-content: space-between;
+  height: 102px;
+  .bd-title {
+    text-transform: capitalize;
+    margin-bottom: 14px;
+  }
+  .subtitle {
+    font-size: 14px;
+  }
+  .entity-icon {
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+  .entity-value {
+    color: $white_100;
+  }
+}
+li {
+  list-style: none;  
+}

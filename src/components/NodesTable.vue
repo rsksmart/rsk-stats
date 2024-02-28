@@ -1,53 +1,113 @@
-<template lang="pug">
-  .nodes-table
-    .search
-      icon(name='search')
-      input(name="search" type='search' v-model='filterRows' @mousedown.stop='' @touchstart.stop='' id="search" placeholder="type to filter")
+<template>
+  <div class="nodes-table">
+    <div class="search">
+      <button>
+        <icon name="search"></icon>
+      </button>
+      <input
+        name="search"
+        type="search"
+        v-model="filterRows"
+        @mousedown.stop=""
+        @touchstart.stop=""
+        id="search"
+        placeholder="type to filter"
+      />
 
-      .hidden-fields(v-if='hiddenFields.length')
-        small Hidden fields:
-        button(v-for='field in hiddenFields' @click='showField(field)' @touchstart.passive='showField(field)' )
-          entity-icon(:entity='entity[field]')
+      <div class="hidden-fields" v-if="hiddenFields.length">
+        <small>Hidden fields:</small>
+        <button
+          v-for="(field, i) in hiddenFields"
+          @click="showField(field)"
+          @touchstart.passive="showField(field)"
+          :key="i"
+        >
+          <entity-icon :entity="entity[field]"></entity-icon>
+        </button>
+      </div>
+    </div>
 
-    table.nodes.dark(v-if='fields')
-      thead
-        tr.field-actions
-          //- fields
-          th(v-for='field,key in fields' v-if='!isHidden(field)' @touchstart.passive='hideField(field)')
-            button(@click='hideField(field)')
-              icon(name='close')
-          th
-        tr
-          //- fields
-          th(v-for='field,key in fields' v-if='!isHidden(field)')
-            button(@click='sortBy(field)' @touchstart.passive='sortBy(field)')
-              entity-icon(:entity='entity[field]')
-                .order(slot='badge' v-if='field === sortKey')
-                  span.arrow.up(v-if='sortOrders[field] > 0')
-                  span.arrow.down(v-else)
-          th
-            icon(name='pin')
-      tbody
+    <table class="nodes dark" v-if="fields">
+      <thead>
+        <tr class="field-actions">
+          <!-- fields -->
+          <th
+            v-for="(field, key) in fields"
+            @touchstart.passive="hideField(field)"
+            :key="key"
+          >
+            <button @click="hideField(field)" v-if="!isHidden(field)">
+              <icon name="close"></icon>
+            </button>
+          </th>
+          <th></th>
+        </tr>
+        <tr>
+          <!-- fields -->
+          <th
+            v-for="(field, i) in fields"
+            :key="i"
+          >
+            <button v-if="!isHidden(field)" @click="sortBy(field)" @touchstart.passive="sortBy(field)">
+              <entity-icon :entity="entity[field]">
+                <div class="order" v-if="field === sortKey" slot="badge">
+                  <span class="arrow up" v-if="sortOrders[field] > 0"></span>
+                  <span class="arrow down" v-else></span>
+                </div>
+              </entity-icon>
+            </button>
+          </th>
+          <th>
+            <icon name="pin"></icon>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- no content -->
+        <tr class="full" v-if="rows.length === 0">
+          <td :colspan="fields.length + 2">There are no results that match your search</td>
+        </tr>
 
-        //- no content
-        tr.full(v-if='rows.length === 0')
-          td(:colspan='fields.length + 2') There are no results that match your search
-
-        //- rows
-        tr(v-for='node,index in rows' :class='rowClass(index,node.id)')
-          //- fields
-          td(v-for='field,key in fields' v-if='!isHidden(field)' :class='toKebab(field)')
-            node-chart.node-history(v-if='field === "nodeHistory"' :data='nodeChart(node.id)' name='nodeChart2')
-            entity-value(v-else :value='node[field]' :entity='entity[field]' :fields='node')
-
-          //- Pin button
-          td
-            .pin(@click='pinRow(node.id)' @touchstart.passive='pinRow(node.id)')
-              icon.color2(v-if='isPinned()([node.id])' name='pinned' )
-              icon(v-else name='pin')
-    .loading(v-else)
-      h2 loading data...
-
+        <!-- rows -->
+        <tr
+          v-for="(node, index) in rows"
+          :class="rowClass(index, node.id)"
+          :key="index"
+        >
+          <!-- fields -->
+          <td
+            v-for="(field, i) in fields"
+            :class="toKebab(field)"
+            :key="i"
+          >
+            <template v-if="!isHidden(field)">
+              <node-chart
+              v-if="field === 'nodeHistory'"
+              :data="nodeChart(node.id)"
+              name="nodeChart2"
+              ></node-chart>
+              <entity-value
+              v-else
+              :value="node[field]"
+              :entity="entity[field]"
+              :fields="node"
+              ></entity-value>
+            </template>
+          </td>
+          <!-- Pin button -->
+          <td>
+            <div class="pin" @click="pinRow(node.id)" @touchstart.passive="pinRow(node.id)">
+              <icon v-if="isPinned(node.id)" name="pinned" color2></icon>
+              <icon v-else name="pin"></icon>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="loading" v-else>
+      <h2>loading data...</h2>
+    </div>
+  </div>
 </template>
 <script>
 import { mapGetters, mapActions } from 'vuex'
@@ -121,7 +181,6 @@ export default {
 }
 </script>
 <style lang="stylus">
-  @import '../lib/styl/vars.styl'
 
   .nodes-table
     overflow visible

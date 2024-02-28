@@ -137,7 +137,7 @@ export default {
           vm.anim = false
         }, 600)
       } catch (err) {
-        console.info('Unable to copy')
+        // console.info('Unable to copy')
       }
       this.$emit('copy', this.value)
     }
@@ -145,7 +145,6 @@ export default {
 }
 </script>
 <style lang="stylus">
-  @import '../lib/styl/vars.styl'
 
   $tip-arrow-size = 5px
   $tip-bg = white
@@ -156,7 +155,6 @@ export default {
     position relative
     display inline-block
     overflow visible
-    z-index 1000
 
   .nowrap
     white-space nowrap
@@ -175,7 +173,7 @@ export default {
       {v} vv
 
     &:after
-      border-{pos}-color $tip-bg
+      border-{pos}-color #000
       margin-{v} $tip-arrow-size * -1
 
     &:before
@@ -192,11 +190,13 @@ export default {
       color $dark
       display flex
       justify-content flex-start // arrow on start
+      text-transform capitalize
+      z-index 200
 
       .value
         border-radius 3px
         padding 0.125em 0.25em
-        background-color $tip-bg
+        background-color #000
         word-break break-all
         display flex
         justify-content center

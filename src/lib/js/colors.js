@@ -8,8 +8,6 @@ export const mapColor = (domain, range, type) => {
   if (name) {
     if (d3[name]) {
       cf = d3[name]
-    } else {
-      console.info('Unknown scale ' + name + ' see colors.js')
     }
   }
   cf = cf || d3.scaleLinear
