@@ -5,10 +5,10 @@
   "description": "RSK network interactive visualization",
   "author": "emi",
   "scripts": {
-    "dev:mainnet": ". ./.env.mainnet && npx vue-cli-service serve",
-    "dev:testnet": ". ./.env.testnet && npx vue-cli-service serve",
-    "build:mainnet": ". ./.env.mainnet && npx vue-cli-service build",
-    "build:testnet": ". ./.env.testnet && npx vue-cli-service build",
+    "dev:mainnet": "env-cmd -f .env.mainnet npx vue-cli-service serve",
+    "dev:testnet": "env-cmd -f .env.testnet npx vue-cli-service serve",
+    "build:mainnet": "env-cmd -f .env.mainnet npx vue-cli-service build",
+    "build:testnet": "env-cmd -f .env.testnet npx vue-cli-service build",
     "lint": "npx vue-cli-service lint",
     "svg": "npx vsvg -s ./public/svg/icons -t ./src/icons --es6"
   },
@@ -17,6 +17,7 @@
     "core-js": "^3.6.4",
     "d3-scale": "^1.0.7",
     "d3-scale-chromatic": "^1.5.0",
+    "env-cmd": "^10.1.0",
     "lodash": "^4.17.15",
     "moment": "^2.22.2",
     "vue": "^2.6.10",
