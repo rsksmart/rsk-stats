@@ -1,4 +1,4 @@
-name: RSK Explorer mainnet build and deploy
+name: RSK mainnet stats build and deploy
 
 on:
   push:

@@ -1,4 +1,4 @@
-name: RSK Explorer testnet build and deploy
+name: RSK testnet stats build and deploy
 
 on:
   push:
