@@ -1,111 +1,111 @@
-<template lang="pug">
-#app(@keyup.esc='keyEsc')
-  .wrapper
-    //- snapshots hint
-    .snapshot-hint(v-if='!isLive')
-      small.hint.color2 running in snapshot mode
-      button.btn.live(@click='goLive()') go Live
-    //- Menu
-    app-menu(v-if='showMenu' @close='menuShow(false)')
-    .header-wrapper
-      header#header
-        .head-1
-          logo
-        .head-2
-          .hint(v-if='showHint')
-            small This page does not represent the entire state of the RSK Network.
-            button(@click='showHint=false')
-              icon.color2(name='close')
-        .head-3
-          //- Menu Button & tools
-          transition(name='menu-buttons')
-            .main-menu(v-if='!showMenu')
-              button.btn.dark.big(v-for='t,tool in tools' @click='setTool(tool)' :class='toolClass(tool)' aria-label="tools")
-                icon(:name='t.icon')
-              button.btn.big.dark( @click='menuShow' aria-label="main menu")
-                icon(name='equalizerh')
-    .content
-      //- COl-A
-      .col-a#col-a
-        .col-content
-          .node-box.big-data.mini(v-if='hasNodes' @touchstart.passive='showHideTable()')
-            .bd-main
-              button.btn.dark.badge(@click.prevent='showHideTable()' @touchstart.passive='showHideTable()' aria-label="table")
-                icon(name='table')
-                span.badge {{ activeNodes.length }}
-              button.big-txt(@click.prevent='showHideTable()' @touchstart.passive='showHideTable()' aria-label="table") &nbsp&nbsptracked nodes {{ nodes.length }}
-          //-Miners
-          miners-chart
-          //- Totals
-          big-data( v-for='bd,name,index in bigDataFields '
-          v-if='bd.show && !isVisibleDialog()(types.TOTAL,name)'
-          :key='name'
-          :name='name'
-          :options='{minimized:bd.minimized}'
-          )
+<template>
+  <div id="app" @keyup.esc="keyEsc">
+    <div class="wrapper">
+      <div class="snapshot-hint" v-if="!isLive"><small class="hint color2">running in snapshot mode</small>
+        <button class="btn live" @click="goLive()">go Live</button>
+      </div>
+      <app-menu v-if="showMenu" @close="menuShow(false)"></app-menu>
+      <header id="header" class="header-wrapper">
+        <logo />
+        <div class="hint" v-if="showHint">
+          This page does not represent the entire state of the RSK Network
+          <button @click="showHint=false">
+            <icon class="color2" name="close"></icon>
+          </button>
+        </div>
+        <!-- Pending TO DO -->
+        <!-- <div class="content-network">
+          <a :href="isNetworkmainnet ? DOMAIN_TESTNET : 'javascript:void(0)'" class="btn" :class="!isNetworkmainnet ? 'btn-active' : 'btn-go'">
+            <span class="large-text">Testnet</span>
+            <span class="short-text">TN</span>
+            <img v-if="isNetworkmainnet" src="@/assets/svg/arrow-go.svg" alt="">
+          </a>
+          <a :href="isNetworkmainnet ? 'javascript:void(0)' : DOMAIN_MAINNET" class="btn" :class="isNetworkmainnet ? 'btn-active' : 'btn-go'">
+            <span class="large-text">Mainnet</span>
+            <span class="short-text">MN</span>
+            <img v-if="!isNetworkmainnet" src="@/assets/svg/arrow-go.svg" alt="">
+          </a>
+        </div> -->
+      </header>
+      <div class="content" v-if="connected && hasNodes">
+        <div class="content-blocks" id="col-a">
+          <div class="col-content">
+            <div class="node-box" v-if="hasNodes" @touchstart.passive="showHideTable()">
+              <div class="tracked-nodes">
+                <!-- pending Table -->
+                <!-- <button class="chart-title" @click.prevent="showHideTable()" @touchstart.passive="showHideTable()" aria-label="table"> -->
+                <div class="chart-title">
+                  Tracked Nodes {{ nodes.length }}
+                </div>
+                <div class="content-img">
+                  <img src="@/assets/svg/server.svg" alt="">
+                </div>
+              </div>
+            </div>
+            <miners-chart />
+            <template v-for="(bd, name) in bigDataFields">
+              <big-data v-if="bd.show && !isVisibleDialog()(types.TOTAL, name)"
+                :key="name"
+                :name="name"
+                :options="{minimized: bd.minimized}">
+              </big-data>
+            </template>
+          </div>
+        </div>
+        <div class="content-nodes" id="main">
+          <div class="loading" v-if="!hasNodes">
+            <h2 class="center" v-if="!connected">connecting to server...</h2>
+            <h2 class="center" v-else>requesting server data...</h2>
+          </div>
+          <div v-else class="container-nodes">
+            <div class="nodes-title">List of Nodes</div>
+            <div class="items">
+              <div class="item" v-for="node, i in nodes" :key="i">
+                <div class="info">
+                  <div>{{ node.name.substring(0, 20) }}...</div>
+                  <button class="detail" @click="nodeClick('', node)">see detail</button>
+                </div>
+                <img src="@/assets/svg/world.svg" alt="">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="content-chart" id="col-c" v-if="connected">
+          <div class="col-content">
+            <div class="box" v-for="show,name,index in charts" :key="index">
+              <mini-chart v-if="show" :name="name" :key="index+name" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="content-spiner" v-else>
+        <spinner :height="300" :width="300" :border="5" />
+      </div>
+      <transition name="fade-nodes">
+        <div id="node-data" v-if="hasNodes && config.showNodeInfo" :style="mainStyle">
+          <node-data v-for="node,id in nodes" :node="node" :size="options.nodeSize" :key="id"></node-data>
+        </div>
+      </transition>
+      <transition name="fade-nodes">
+        <!-- <d3-network class="net" id="network" v-if="hasNodes" :netNodes="nodes" :netLinks="links" :selection="selection" :node-sym="nodeSym" :options="options" :nodeCb="nodeFilter" @node-click="nodeClick" @link-click="linkClick" :class="netClass" :style="mainStyle"></d3-network> -->
+      </transition>
+      <!-- <iface-back :size="options.size" :style="mainStyle" :center="center"></iface-back> -->
+      <main-dialog v-for="(dialog) in dialogs" :key="dialog._key" :dialog="dialog"></main-dialog>
 
-      //- COl-B Main
-      .col-b#main
-        //- Not connected
-        .loading(v-if='!hasNodes')
-          h2.center(v-if='!connected') connecting to server...
-          h2.center(v-else) requesting server data...
-
-      //- COl-C
-      .col-c#col-c
-        .col-content
-          //- charts
-          .box(v-if='connected' v-for='show,name,index in charts')
-            //- v-if fails in firefox
-            mini-chart(v-if='show'  :name='name' :key='index+name')
-
-    //-  footer
-        p rsk
-    //- Node data
-    transition(name='fade-nodes')
-      #node-data(v-if='hasNodes && config.showNodeInfo' :style='mainStyle')
-        node-data(v-for='node,id in nodes' :node='node' :size='options.nodeSize' :key='id')
-    transition(name='fade-nodes')
-      d3-network#network.net(
-        v-if='hasNodes'
-        :netNodes="nodes"
-        :netLinks="links"
-        :selection="selection"
-        :node-sym='nodeSym'
-        :options='options'
-        :nodeCb='nodeFilter'
-        @node-click="nodeClick"
-        @link-click="linkClick"
-        :class='netClass'
-        :style='mainStyle'
-        )
-
-      //- interface background
-    iface-back(:size='options.size'  :style='mainStyle' :center='center')
-    //-transition(name='apply-mask')
-      iface-mask(v-if='hasNodes' :size='options.size'  :style='mainStyle' :center='center')
-      //- Dialogs
-    .dialogs
-      main-dialog(v-for="(dialog,index) in dialogs" :key='dialog._key' :dialog='dialog')
-
+    </div>
+  </div>
 </template>
 <script>
 import { mapState, mapActions, mapGetters } from 'vuex'
 import { locStorage as storage } from './lib/js/io.js'
-
-import D3Network from 'vue-d3-network'
-import DialogDrag from 'vue-dialog-drag'
+import { DOMAIN_TESTNET, DOMAIN_MAINNET } from './config/network'
 import Logo from './components/Logo.vue'
-import IfaceBack from './components/ifaceBack.vue'
-import NodeWatcher from './components/NodeWatcher.vue'
 import NodeData from './components/NodeData.vue'
 import BigData from './components/BigData.vue'
 import MiniChart from './components/MiniChart.vue'
 import MinersChart from './components/MinersChart.vue'
-import NodesTable from './components/NodesTable.vue'
 import MainDialog from './components/MainDialog.vue'
 import AppMenu from './components/AppMenu.vue'
-import IfaceMask from './components/IfaceMask.vue'
 import { nodeFilter } from './filters/nodes.js'
 import { tSecondsAgo, mSecondsAgo, sSeconds } from './filters/TimeFilters.js'
 import { nodeType, yesNo } from './filters/TextFilters.js'
@@ -113,22 +113,18 @@ import { percent, numerals, toInt, numeralsSuffix } from './filters/NumberFilter
 
 import nodeIcon from './assets/node.svg?raw'
 import './icons'
+import Spinner from './components/Loaders/Spinner.vue'
 export default {
   name: 'rsk-stats',
   components: {
     Logo,
-    D3Network,
-    DialogDrag,
-    NodeWatcher,
     BigData,
     MiniChart,
-    NodesTable,
-    IfaceBack,
     NodeData,
     MainDialog,
     MinersChart,
     AppMenu,
-    IfaceMask
+    Spinner
   },
   filters: {
     tSecondsAgo,
@@ -143,6 +139,8 @@ export default {
   },
   data () {
     return {
+      DOMAIN_MAINNET,
+      DOMAIN_TESTNET,
       mainVp: {
         left: 0,
         top: 0,
@@ -294,7 +292,7 @@ export default {
         let header = document.querySelector('#header')
         let vW = window.innerWidth
         let width = vm.$el.clientWidth
-        let height = main.scrollHeight
+        let height = main?.scrollHeight || 0
         let left = 0
         let top = 0
         let x = 0
@@ -371,102 +369,102 @@ export default {
 </script>
 
 <style lang="stylus">
-  @import './lib/styl/vars.styl'
-  @import './lib/styl/app.styl'
-  @import './lib/styl/nodes.styl'
+  // @import './lib/styl/vars.styl'
+  // @import './lib/styl/app.styl'
+  // @import './lib/styl/nodes.styl'
 
-  #network
-    z-index 90
-    overflow hidden
+  // #network
+  //   z-index 90
+  //   overflow hidden
 
-  #node-data
-    position absolute
-    pointer-events none
-    z-index 91
+  // #node-data
+  //   position absolute
+  //   pointer-events none
+  //   z-index 91
 
-  .main-menu
-    z-index 190
+  // .main-menu
+  //   z-index 190
 
-  .app-menu
-    z-index 200
+  // .app-menu
+  //   z-index 200
 
-  .iface-back, .iface-mask
-    position absolute
-    top 0
-    left 0
-    border 0
-    margin 0
-    z-index 1
+  // .iface-back, .iface-mask
+  //   position absolute
+  //   top 0
+  //   left 0
+  //   border 0
+  //   margin 0
+  //   z-index 1
 
-  // -pointer-events: none
-  .iface-mask
-    z-index 91
-    mix-blend-mode multiply
-    opacity 1
-    will-change opacity
+  // // -pointer-events: none
+  // .iface-mask
+  //   z-index 91
+  //   mix-blend-mode multiply
+  //   opacity 1
+  //   will-change opacity
 
-  .apply-mask-enter-active
-    transition opacity 0.5s ease-out
+  // .apply-mask-enter-active
+  //   transition opacity 0.5s ease-out
 
-  .apply-mask-enter, .apply-mask-leave-to
-    will-change opacity
-    opacity 0
+  // .apply-mask-enter, .apply-mask-leave-to
+  //   will-change opacity
+  //   opacity 0
 
-  .fade-nodes
-    will-change opacity
+  // .fade-nodes
+  //   will-change opacity
 
-  .fade-nodes-enter-active
-    transition opacity 3s ease-out
-    opacity 1
+  // .fade-nodes-enter-active
+  //   transition opacity 3s ease-out
+  //   opacity 1
 
-  .fade-nodes-enter, .fade-nodes-leave-to
-    opacity 0
+  // .fade-nodes-enter, .fade-nodes-leave-to
+  //   opacity 0
 
-  .menu-buttons-enter-active
-    transition opacity 0.5s ease
-    opacity 1
+  // .menu-buttons-enter-active
+  //   transition opacity 0.5s ease
+  //   opacity 1
 
-  .menu-buttons-enter, .menu-buttons-leave-to
-    opacity 0
+  // .menu-buttons-enter, .menu-buttons-leave-to
+  //   opacity 0
 
-  .hint
-    display flex
-    align-items center
-    justify-content center
-    color $color2
+  // .hint
+  //   display flex
+  //   align-items center
+  //   justify-content center
+  //   color $color2
 
-    button
-      margin 0.25em 0.5em
+  //   button
+  //     margin 0.25em 0.5em
 
-  .snapshot-hint
-    position absolute
-    min-height 99.5%
-    min-width 99.5%
-    display inline-block
-    text-align center
-    box-sizing border-box
-    top 0
-    left 0
-    border $warn dashed 1px
-    z-index 900
-    pointer-events none
+  // .snapshot-hint
+  //   position absolute
+  //   min-height 99.5%
+  //   min-width 99.5%
+  //   display inline-block
+  //   text-align center
+  //   box-sizing border-box
+  //   top 0
+  //   left 0
+  //   border $warn dashed 1px
+  //   z-index 900
+  //   pointer-events none
 
-  .live
-    position absolute
-    pointer-events all
-    z-index 1000 !important
+  // .live
+  //   position absolute
+  //   pointer-events all
+  //   z-index 1000 !important
 
-  .loading
-    position relative
-    z-index 1000
-    display flex
-    justify-content center
-    align-items center
-    min-width 100%
-    min-height 100%
+  // .loading
+  //   position relative
+  //   z-index 1000
+  //   display flex
+  //   justify-content center
+  //   align-items center
+  //   min-width 100%
+  //   min-height 100%
 
-  .mini-chart, .big-data
-    z-index 50
-    position relative
-    pointer-events all
+  // .mini-chart, .big-data
+  //   z-index 50
+  //   position relative
+  //   pointer-events all
 </style>

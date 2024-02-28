@@ -1,5 +1,5 @@
 <template lang="pug">
-  .node-chart
+  .node-chart.chart
     d3-bar-chart(:data='data' :options='chart.options')
 </template>
 <script>
@@ -29,15 +29,3 @@ export default {
   }
 }
 </script>
-<style lang="stylus">
- @import '../lib/styl/vars.styl'
-.node-chart
-  background-color: $darkness
-  padding: .25em
-.d3-bar-chart
-  max-height: 100%
-  max-width 100%
-  svg
-    width 100%
-    overflow: visible
-</style>

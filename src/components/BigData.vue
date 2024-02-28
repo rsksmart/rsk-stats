@@ -1,11 +1,13 @@
-<template lang="pug">
-  .big-data(v-if='value' @dblclick='toDialog' :class='(options.minimized) ? "mini":""')
-    entity-icon.bd-icon(:entity='entity' :value='value' :options='{ hideTooltip:true }')
-    .bd-main
-      .bd-title(:style='titleStyle') {{entity.title}}
-        small.subtitle.gray(v-if='entity.subtitle') {{entity.subtitle}}
-      entity-value.bd-data(:entity='entity' :value='value')
-
+<template>
+  <div class="big-data" v-if="value" @dblclick="toDialog" :class="(options.minimized) ? 'mini': ''">
+    <div class="bd-main">
+      <div class="bd-title">{{entity.title}}
+        <small class="subtitle" v-if="entity.subtitle">{{entity.subtitle}}</small>
+      </div>
+      <entity-value class="bd-data" :entity="entity" :value="value"></entity-value>
+    </div>
+    <entity-icon class="bd-icon" :entity="entity" :value="value" :options="{ hideTooltip:true }"></entity-icon>
+  </div>
 </template>
 <script>
 import { mapGetters, mapActions } from 'vuex'
@@ -87,131 +89,3 @@ export default {
   }
 }
 </script>
-<style lang="stylus">
-  @import '../lib/styl/vars.styl'
-  @import '../lib/styl/mixins.styl'
-
-  $icon-size = 3em
-  $mini-icon-size = ($icon-size / 2)
-
-  .big-data {
-    box()
-    display flex
-    align-items center
-    user-select none
-    width 100%
-    height auto
-    z-index 100
-    pointer-events all
-    overflow visible
-
-    .bd-icon {
-      width $icon-size
-      height @width
-      opacity 0.6
-      box-sizing border-box
-      margin-right 0.125rem
-      margin-left 1em
-
-      .svg-icon {
-        width $icon-size
-        height @width
-        fill $txt-color
-      }
-    }
-
-    .bd-main {
-      width auto
-      display inline-block
-      margin-left 1em
-
-      // border blue solid 1px
-      .bd-title {
-        small-titles()
-      }
-
-      .bd-title small {
-        &::before {
-          content ' '
-        }
-      }
-
-      .bd-data {
-        font-size 2.5rem
-        line-height @font-size * 1.2
-        min-height @font-size
-      }
-
-      .bd-data.big-number {
-        font-size 1.25rem
-      }
-    }
-  }
-
-  // minimized
-  .big-data.mini {
-    min-height auto
-
-    .bd-main {
-      display flex
-      justify-content center
-
-      .bd-title {
-        display flex
-        justify-content center
-        flex-direction column
-        margin 0
-        margin-right 0.5em
-        font-size 80%
-      }
-    }
-
-    .bd-data {
-      font-size 1.25rem
-    }
-
-    .bd-icon {
-      margin-right 0
-      width $mini-icon-size
-      height @width
-
-      .svg-icon {
-        width $mini-icon-size
-        height @width
-      }
-    }
-  }
-
-  // as dialog
-  .totals-dialog {
-    background none !important
-    box-shadow none !important
-
-    .big-data {
-      margin-top 0
-      background lighten($bg-color, 3%)
-    }
-
-    .buttons, .dialog-header {
-      position absolute
-      top 1em
-      right 0
-      height 1em
-      margin 0
-    }
-
-    button.close {
-      position absolute
-      z-index 1000
-      pointer-events all
-      width 1em
-      height @width
-      right 0
-      top -2em
-    }
-
-    .dialog-body {
-      padding 0
-    }
-  }
-</style>

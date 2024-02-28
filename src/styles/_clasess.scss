@@ -1,0 +1,134 @@
+@font-face {
+  font-family: 'Rootstock Sans Body';
+  src: url('../assets/font/Rootstock-Sans-Body.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: $newbw_900;
+  font-family: 'Rootstock Sans Body', sans-serif;
+}
+.content {
+  margin: 0 auto;
+  max-width: 1350px;
+  width: 100%;
+  padding-top: 10px;
+}
+button {
+  background-color: transparent;
+  border: none;
+  color: $white_100;
+  cursor: pointer;
+}
+
+.chart-title, .bd-title {
+  font-weight: 600;
+  font-size: 18px;
+  color: $white_100;
+}
+.capitalize {
+  text-transform: capitalize;
+}
+.content-spiner {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+}
+a {
+  text-decoration: none;
+  color: $white_100;
+}
+.content-network {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  .btn {
+    font-size: 18px;
+    padding: unset;
+    display: flex;
+    justify-content: center;
+    border-radius: 12px;
+    &.btn-active {
+      width: 89px;
+      height: 26px;
+      background-color: $purple_900;
+      color: $newbw_900;
+      font-weight: 700;
+      cursor: default;
+    }
+    &.btn-go {
+      display: flex;
+      width: 113px;
+      height: 36px;
+      border: 1px solid $white_100;
+      border-radius: 100px;
+      position: relative;
+      background-color: $newbw_900;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      color: $white_100;
+      &::before {
+        content: '';
+        position: absolute;
+        top: 3px;
+        left: 3px;
+        width: 113px;
+        height: 36px;
+        border: 1px solid $white_100;
+        background-color: $newbw_900;
+        border-radius: 100px;
+        z-index: -1;
+      }
+    }
+    .short-text {
+      display: none;
+    }
+    img {
+      margin-left: 8px;
+    }
+  }
+}
+.spinner {
+  border-color: rgba(170, 170, 170, 0.1);
+  border-style: solid;
+  border-radius: 50%;
+  border-left-color: $cyan_300;
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  0% {
+      transform: rotate(0deg);
+  }
+  100% {
+      transform: rotate(360deg);
+  }
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgb(54, 54, 54);   
+  border-radius: 12px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgb(125, 125, 125);
+  border-radius: 20px;
+  border: 1px solid rgb(49, 49, 49);
+}
+
+svg {
+  fill: $white_100;
+}

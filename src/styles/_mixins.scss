@@ -1,0 +1,48 @@
+
+// Media Queries
+@mixin phone {
+    @media only screen and (max-width: #{$phone}) {
+        @content;
+    }
+}
+
+@mixin laptop {
+    @media only screen and (max-width: #{$laptop}){
+        @content;
+    }
+}
+
+@mixin tablet {
+    @media only screen and (max-width: #{$tablet}){
+        @content;
+    }
+}
+
+@mixin desktop {
+    @media only screen and (max-width: #{$desktop}){
+        @content;
+    }
+}
+
+@mixin scroll {
+    &::-webkit-scrollbar-track {
+        background: $newbw_900;   
+        border-radius: 12px;
+    }
+    &::-webkit-scrollbar-thumb {
+        background-color: $newbw_900;
+        border-radius: 20px;
+        border: 1px solid $newbw_900;
+    }
+    &:hover {
+        &::-webkit-scrollbar-track {
+            background-color: rgb(58, 58, 58);
+            border-radius: 12px;
+        }
+        &::-webkit-scrollbar-thumb {
+            background: rgb(112, 112, 112);   
+            border-radius: 20px;
+            border: 1px solid rgb(29, 29, 29);
+        }
+    }
+}
