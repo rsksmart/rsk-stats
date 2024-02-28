@@ -5,9 +5,11 @@
   "description": "RSK network interactive visualization",
   "author": "emi",
   "scripts": {
-    "build": "npx vue-cli-service build",
+    "dev:mainnet": ". ./.env.mainnet && npx vue-cli-service serve",
+    "dev:testnet": ". ./.env.testnet && npx vue-cli-service serve",
+    "build:mainnet": ". ./.env.mainnet && npx vue-cli-service build",
+    "build:testnet": ". ./.env.testnet && npx vue-cli-service build",
     "lint": "npx vue-cli-service lint",
-    "dev": "npx vue-cli-service serve",
     "svg": "npx vsvg -s ./public/svg/icons -t ./src/icons --es6"
   },
   "main": "index.js",
