@@ -78,8 +78,6 @@ const filter = (filterName, value, args) => {
   if (filter) {
     if (args) value = filter(value, ...args)
     else value = filter(value)
-  } else {
-    console.info('Unknown filter ' + filterName)
   }
   return value
 }

@@ -1,14 +1,18 @@
-<template lang="pug">
-  .entity-icon(v-if='entity' :class='($slots.badge) ? "w-badge" : ""' )
-    tool-tip(v-if='tooltip' :value='entity.title' :options='toolTipOptions')
-      icon(:name='entity.icon' :style='iconStyle || ""')
-    .icon.tooltip(v-else)
-      icon(:name='entity.icon' :style='iconStyle || ""')
-    slot
-    .badge(v-if='$slots.badge')
-      slot(name="badge")
-
+<template>
+  <div v-if="entity" class="entity-icon">
+    <tool-tip v-if="tooltip" :value="entity.title" :options="toolTipOptions">
+      <icon :name="entity.icon"></icon>
+    </tool-tip>
+    <div v-else class="icon tooltip">
+      <icon :name="entity.icon"></icon>
+    </div>
+    <slot></slot>
+    <div v-if="$slots.badge" class="badge">
+      <slot name="badge"></slot>
+    </div>
+  </div>
 </template>
+
 <script>
 import ToolTip from './ToolTip.vue'
 export default {

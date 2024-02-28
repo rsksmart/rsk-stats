@@ -1,13 +1,15 @@
 {
   "name": "rsk-stats",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "description": "RSK network interactive visualization",
   "author": "emi",
   "scripts": {
-    "build": "npx vue-cli-service build",
+    "dev:mainnet": "env-cmd -f .env.mainnet npx vue-cli-service serve",
+    "dev:testnet": "env-cmd -f .env.testnet npx vue-cli-service serve",
+    "build:mainnet": "env-cmd -f .env.mainnet npx vue-cli-service build",
+    "build:testnet": "env-cmd -f .env.testnet npx vue-cli-service build",
     "lint": "npx vue-cli-service lint",
-    "dev": "npx vue-cli-service serve",
     "svg": "npx vsvg -s ./public/svg/icons -t ./src/icons --es6"
   },
   "main": "index.js",
@@ -15,6 +17,7 @@
     "core-js": "^3.6.4",
     "d3-scale": "^1.0.7",
     "d3-scale-chromatic": "^1.5.0",
+    "env-cmd": "^10.1.0",
     "lodash": "^4.17.15",
     "moment": "^2.22.2",
     "vue": "^2.6.10",
@@ -25,18 +28,21 @@
     "vuex": "^3.0.1"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^4.1.2",
-    "@vue/cli-plugin-eslint": "^4.1.2",
-    "@vue/cli-service": "^4.1.2",
+    "@vue/cli-plugin-babel": "^4.5.8",
+    "@vue/cli-plugin-eslint": "^4.5.8",
+    "@vue/cli-service": "^4.5.8",
     "@vue/eslint-config-standard": "^4.0.0",
     "babel-eslint": "^10.0.3",
     "eslint": "^6.8.0",
     "eslint-plugin-vue": "^6.1.2",
-    "stylus": "^0.54.7",
-    "stylus-loader": "^3.0.2",
-    "pug": "^2.0.3",
+    "fibers": "^5.0.3",
+    "pug": "^3.0.2",
     "pug-plain-loader": "^1.0.0",
     "raw-loader": "^0.5.1",
+    "sass": "^1.70.0",
+    "sass-loader": "^10.5.2",
+    "stylus": "^0.54.7",
+    "stylus-loader": "^3.0.2",
     "vue-template-compiler": "^2.6.11"
   }
 }

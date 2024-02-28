@@ -1,41 +1,53 @@
-<template lang="pug">
-  .main-dialog
-    dialog-drag(:options='dialog' :id='dialog.id'
-      :class='dialog.type + "-dialog"'
-      :event-cb='dialogEventFormatter(dialog.type)'
-      @close='close'
-      @move='updateDialog'
-      @load='updateDialog'
-      @pin='updateDialog'
-      @focus='bringDialogToFront(dialog)'
-      )
+<template>
+  <div class="main-dialog">
+    <div class="dialog-background">
+      <div class="content-dialog">
+        <!-- <div :options="dialog" :id="dialog.id" @close="close"> -->
+          <!-- <template v-if="!isDialog(types.TOTAL)">
+            <icon v-if="buttonClose" name="close" slot="button-close"></icon>
+            <icon v-if="buttonPin" name="pin" slot="button-pin"></icon>
+            <icon v-if="buttonPin" name="pinned" slot="button-pinned"></icon>
+          </template> -->
 
-      template(v-if='!isDialog(types.TOTAL)')
-        icon( v-if='buttonClose' name='close' slot='button-close')
-        icon( v-if='buttonPin' name='pin' slot='button-pin')
-        icon( v-if='buttonPin' name='pinned' slot='button-pinned')
+          <!-- Node Dialog -->
+          <template v-if="isDialog(types.NODE)">
+            <div slot="title" class="node-header">
+              <button @click="close(dialog)">
+                <img class="close-icon" src="../assets/svg/close-icon.svg" alt="close-icon">
+              </button>
+              <!-- <icon class="med" name="rsk"></icon> -->
+              <!-- <h3 class="node-title title">{{ dialog.name | txt-trim }}</h3> -->
+              <node-watcher :dialog="dialog" />
+            </div>
+          </template>
 
-      //- Node Dialog
-      template(v-if='isDialog(types.NODE)')
-        .node-header(slot='title')
-          icon.med(name='rsk')
-          h3.node-title.title {{ dialog.name | txt-trim  }}
-        node-watcher(:dialog='dialog')
-      //- Chart Dialog
-      template(v-if='isDialog(types.CHART)')
-        h3.node-title(slot='title') {{ dialog.name }}
-        chart(:name='dialog.id' :max='true')
+          <!-- Chart Dialog -->
+          <template v-if="isDialog(types.CHART)">
+            <h3 slot="title" class="node-title">{{ dialog.name }}</h3>
+            <chart :name="dialog.id" :max="true"></chart>
+          </template>
 
-      template(v-if='isDialog(types.TOTAL)')
-        big-data(:name='dialog.id')
-        icon( v-if='buttonClose' name='close' slot='button-close')
-      template(v-if='isDialog(types.TABLE)')
-        nodes-table
-
+          <template v-if="isDialog(types.TOTAL)">
+            <big-data :name="dialog.id"></big-data>
+            <icon v-if="buttonClose" name="close" slot="button-close"></icon>
+          </template>
+          <template v-if="isDialog(types.TABLE)">
+            <div>
+              <button @click="close(dialog)">
+                <img class="close-icon" src="../assets/svg/close-icon.svg" alt="close-icon">
+              </button>
+              <nodes-table />
+            </div>
+          </template>
+        <!-- </div> -->
+      </div>
+    </div>
+  </div>
 </template>
+
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import DialogDrag from 'vue-dialog-drag'
+// import DialogDrag from 'vue-dialog-drag'
 import NodeWatcher from './NodeWatcher.vue'
 import Chart from './Chart.vue'
 import NodesTable from './NodesTable.vue'
@@ -49,7 +61,7 @@ import '../icons/rsk'
 export default {
   name: 'main-dialog',
   components: {
-    DialogDrag,
+    // DialogDrag,
     NodeWatcher,
     Chart,
     BigData,
@@ -59,7 +71,8 @@ export default {
   data () {
     return {
       buttonPin: true,
-      buttonClose: true
+      buttonClose: true,
+      showDialog: false
     }
   },
   created () {

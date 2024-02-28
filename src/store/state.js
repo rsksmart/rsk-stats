@@ -32,6 +32,11 @@ export default function () {
     appPrevState: null,
     backendData: {},
     snapshots: {},
-    config: {}
+    config: {
+      size: {
+        w: 1359,
+        h: 1000
+      }
+    }
   }
 }

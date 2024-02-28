@@ -5,6 +5,7 @@ import Vuex from 'vuex'
 import store from './store'
 import VueSVGIcon from 'vue-svgicon'
 import App from './App.vue'
+import './styles/index.scss'
 
 Vue.use(VueSVGIcon, { tagName: 'icon' })
 Vue.use(Vuex)

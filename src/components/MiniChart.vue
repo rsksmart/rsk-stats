@@ -1,8 +1,13 @@
-<template lang="pug">
-  .mini-chart(v-if='name')
-    chart(:name='name' :xsize='size.w')
-      button.max(@click='maximize' slot='header' aria-label="maximize-chart")
-        icon.maximize(name='enlarge')
+<template>
+  <div v-if="name" class="mini-chart">
+    <chart :name="name" :xsize="size.w">
+      <template v-slot:header>
+        <button class="max" @click="maximize" aria-label="maximize-chart">
+          <icon name="enlarge" class="maximize"></icon>
+        </button>
+      </template>
+    </chart>
+  </div>
 </template>
 <script>
 import { mapActions, mapGetters } from 'vuex'
@@ -30,11 +35,11 @@ export default {
   }
 }
 </script>
- <style lang="stylus">
+ <!-- <style lang="stylus">
   .mini-chart
     display flex
     flex-flow column nowrap
     margin-top .25rem
     .curve
       stroke-width 2px
- </style>
+ </style> -->

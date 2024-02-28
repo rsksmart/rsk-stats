@@ -274,7 +274,6 @@ export default {
 }
 </script>
 <style lang='stylus'>
-  @import '../lib/styl/vars.styl'
 
   .node-info
     box-sizing border-box

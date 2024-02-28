@@ -62,7 +62,6 @@ export const SET_CHARTS = (state, payload) => {
 }
 
 export const UPDATE_NODE_STATS = (state, stats) => {
-  if (!stats.id) console.log('UDPATE_STATS error')
   let node = state.nodes[stats.id]
   if (node) {
     for (let s in stats.stats) {

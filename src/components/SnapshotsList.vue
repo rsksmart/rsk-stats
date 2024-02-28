@@ -117,7 +117,6 @@ export default {
 }
 </script>
 <style lang="stylus">
-@import '../lib/styl/vars.styl'
   .snapshots-list
     width 100%
     .controls

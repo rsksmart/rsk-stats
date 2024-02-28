@@ -4,8 +4,6 @@ export default function (socket) {
       let action = 'backend/socket_' + data.action.replace('-', '_')
       if (store._actions[action]) {
         store.dispatch(action, data.data)
-      } else {
-        console.info('Unknown action received: ' + action)
       }
     })
 
