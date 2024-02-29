@@ -70,9 +70,9 @@ export const SET_CONFIG = (state, config) => {
 }
 
 export const SET_CONFIG_GROUP = (state, payload) => {
-  let group = payload[0]
-  let config = payload[1]
-  for (let c in config) {
-    Vue.set(state.config[group], c, config[c])
-  }
+  // let group = payload[0]
+  // let config = payload[1]
+  // for (let c in config) {
+  //   Vue.set(state.config[group], c, config[c])
+  // }
 }

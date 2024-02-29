@@ -1,29 +1,28 @@
-<template lang="pug">
-  .watcher
-      ul.node-data(:class='nodeClass')
-        li(v-for='ent in ["latency","peers","pending","uncles","blockTrans","totalDiff","lastBlockTime","lastBlockDifference"]')
-          entity-icon(:entity='entity[ent]' :value='fields[ent]' :fields='fields')
-          entity-value.txt(:entity='entity[ent]' :value='fields[ent]' :fields='fields')
-
-        li.double
-          .label {{ entity.lastBlock.title }}
-          .data
-            entity-value(:entity='entity.lastBlock' :value='fields.lastBlock' :fields='fields')
-
-        li.double
-          .label {{ entity.bestBlock.title }}
-          .data
-            tool-tip(:value='fields.bestBlock' trim='8' :options='{ trimAt:"end" }')
-
-        //- TOTAL Diff
-        //-li.quad
-          .label {{entity.totalDiff.title}}
-          .data {{fields.totalDiff}}
-            //-tool-tip(:value='node.stats.block.totalDifficulty' trim='8' trimend='true')
-
-      //- CHART Node History
-      node-chart.dark-chart(:data='node.history')
-
+<template>
+  <div class="watcher">
+    <ul :class="nodeClass" class="node-data">
+      <li v-for="ent in ['latency', 'peers', 'pending', 'uncles', 'blockTrans', 'totalDiff', 'lastBlockTime', 'lastBlockDifference']" :key="ent">
+        <entity-icon :entity="entity[ent]" :value="fields[ent]" :fields="fields"></entity-icon>
+        <entity-value class="txt" :entity="entity[ent]" :value="fields[ent]" :fields="fields"></entity-value>
+      </li>
+    </ul>
+    <div class="content-block-chart">
+      <li class="double">
+        <div class="label">{{ entity.lastBlock.title }}</div>
+        <div class="data">
+          <entity-value :entity="entity.lastBlock" :value="fields.lastBlock" :fields="fields"></entity-value>
+        </div>
+      </li>
+      <li class="double">
+        <div class="label">{{ entity.bestBlock.title }}</div>
+        <div class="data">
+          <tool-tip :value="fields.bestBlock" trim="8" :options="{ trimAt: 'end' }"></tool-tip>
+        </div>
+      </li>
+      <!-- CHART Node History -->
+      <node-chart class="dark-chart" :data="node.history"></node-chart>
+    </div>
+  </div>
 </template>
 <script>
 import { mapActions, mapGetters } from 'vuex'
@@ -59,12 +58,13 @@ export default {
     }
   },
   created () {
-    this.left = this.dialog.x
-    this.top = this.dialog.y
+    // this.left = this.dialog.x
+    // this.top = this.dialog.y
   },
   mounted () {
-    this.width = this.$el.clientWidth
-    this.height = this.$el.clientHeight
+    // this.width = this.$el.clientWidth
+    // this.height = this.$el.clientHeight
+    this.onResize()
   },
   watch: {
     dialog (newValue) {
@@ -80,7 +80,14 @@ export default {
     ...mapGetters(['getNode']),
     ...mapGetters('app/entity', [
       'createNodeEntity'
-    ])
+    ]),
+    onResize () {
+      const chartContainer = this.$el.querySelector('.content-block-chart')
+      this.width = chartContainer.offsetWidth
+      this.height = Math.max(chartContainer.offsetHeight, 130)
+      this.width = 300
+      this.height = 300
+    }
   },
   computed: {
     node () {
@@ -97,34 +104,32 @@ export default {
   }
 }
 </script>
-<style lang="stylus">
+<!-- <style lang="stylus">
   @import '../lib/styl/vars.styl'
   @import '../lib/styl/colors.styl'
 
   .watcher
-    width auto
-    max-width 20em
+    width 100%
+    height: 100%
+    // max-width 20em
 
     .node-chart
+      width: 141px
       height 50px
-      padding-top 1em
       border none
 
   .header
     display block
     position relative
-    background $darkness
 
     .svg-icon
       margin-right 0.25em
 
   .svg-icon
-    color $color
     display inline
 
   .node-title
     display inline-block
-    color $darkness
     position relative
 
   $item-min = 7.25em
@@ -137,7 +142,6 @@ export default {
     flex-wrap wrap
     list-style none
     padding 0 0.125em
-    background $darkness-even
     margin 0
 
     li
@@ -145,19 +149,15 @@ export default {
       margin 0.5%
       text-align center
       // box-shadow: 1px 1px 0.5px alpha(black,.5)
-      box-shadow 1px 1px 1px alpha($color, 0.2)
       box-sizing border-box
       min-width $item-min
       padding 1em 0.25em 0.25em 0.25em
-      color-dark()
-      color $color
 
       .label, .entity-icon .svg-icon
-        color $dark
 
       .entity-icon .svg-icon
         width 2.5em
-        height 2.5em
+        // height 2.5em
         display block
 
       .entity-icon .tip
@@ -186,4 +186,4 @@ export default {
 
       .data
         font-size 2em
-</style>
+</style> -->

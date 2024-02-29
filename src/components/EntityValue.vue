@@ -1,7 +1,11 @@
-<template lang="pug">
-  .entity-value(v-if='entity' :style='styleObj' :class='valueClass') {{ filteredValue }}
-    span.suffix(v-if='entity.suffix') {{ entity.suffix }}
-    slot
+<template>
+  <div class="entity-value" v-if="entity" :class="valueClass">
+    {{ filteredValue }}
+    <span class="suffix" v-if="entity.suffix">
+      {{ entity.suffix }}
+    </span>
+    <slot></slot>
+  </div>
 </template>
 <script>
 

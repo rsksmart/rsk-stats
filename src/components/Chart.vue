@@ -1,14 +1,17 @@
-<template lang="pug">
-  .chart.dark-chart(v-if='chart' :class='(max)?"max-chart":"mini-chart"' :key='(max)?"max"+name:name')
-      .header
-        slot(name='header')
-      .chart-title-cont
-        h3.chart-title {{ chart.title }}
-          small.gray &nbsp;{{chart.subtitle}}
-      .chart-container(v-if='chart.data')
-        d3-bar-chart(:data='chart.data' :options='chartOptions')
-      slot
+<template>
+  <div v-if="chart" class="chart">
+    <div class="chart-title-cont">
+      <h3 class="chart-title capitalize">
+        {{ chart.title }} {{ chart.subtitle }}
+      </h3>
+    </div>
+    <div class="chart-container" v-if="chart.data">
+      <d3-bar-chart :data="chart.data" :options="chartOptions" />
+    </div>
+    <slot></slot>
+  </div>
 </template>
+
 <script>
 import D3BarChart from 'vue-d3-barchart'
 import { mapState, mapGetters } from 'vuex'
@@ -70,6 +73,13 @@ export default {
           }
         }
       }
+      const axis = {
+        valuesY: false,
+        linesY: true,
+        linesX: true,
+        valuesX: false
+      }
+      options = Object.assign({ axis }, options)
       return options
     }
   },
@@ -79,7 +89,7 @@ export default {
     ]),
     onResize () {
       this.size.w = this.$el.clientWidth
-      this.size.h = this.size.w / 4.5
+      this.size.h = 100
     },
     formatLabel (bar, formatX, formatY) {
       return [
@@ -90,21 +100,3 @@ export default {
 }
 </script>
 <style src="vue-d3-barchart/dist/vue-d3-barchart.css"></style>
-<style lang="stylus">
-  @import '../lib/styl/vars.styl'
-  @import '../lib/styl/mixins.styl'
-
-  .chart-container
-    display flex
-    justify-content space-around
-
-  .chart .header button
-    position absolute
-    right 0
-    z-index 10
-
-  .chart-title
-    small-titles()
-    margin-left 2em
-    margin-bottom 0.5em
-</style>
