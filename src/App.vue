@@ -81,17 +81,7 @@
       <div class="content-spiner" v-else>
         <spinner :height="300" :width="300" :border="5" />
       </div>
-      <transition name="fade-nodes">
-        <div id="node-data" v-if="hasNodes && config.showNodeInfo" :style="mainStyle">
-          <node-data v-for="node,id in nodes" :node="node" :size="options.nodeSize" :key="id"></node-data>
-        </div>
-      </transition>
-      <transition name="fade-nodes">
-        <!-- <d3-network class="net" id="network" v-if="hasNodes" :netNodes="nodes" :netLinks="links" :selection="selection" :node-sym="nodeSym" :options="options" :nodeCb="nodeFilter" @node-click="nodeClick" @link-click="linkClick" :class="netClass" :style="mainStyle"></d3-network> -->
-      </transition>
-      <!-- <iface-back :size="options.size" :style="mainStyle" :center="center"></iface-back> -->
       <main-dialog v-for="(dialog) in dialogs" :key="dialog._key" :dialog="dialog"></main-dialog>
-
     </div>
   </div>
 </template>
@@ -100,7 +90,6 @@ import { mapState, mapActions, mapGetters } from 'vuex'
 import { locStorage as storage } from './lib/js/io.js'
 import { DOMAIN_TESTNET, DOMAIN_MAINNET } from './config/network'
 import Logo from './components/Logo.vue'
-import NodeData from './components/NodeData.vue'
 import BigData from './components/BigData.vue'
 import MiniChart from './components/MiniChart.vue'
 import MinersChart from './components/MinersChart.vue'
@@ -120,7 +109,6 @@ export default {
     Logo,
     BigData,
     MiniChart,
-    NodeData,
     MainDialog,
     MinersChart,
     AppMenu,
