@@ -31,7 +31,7 @@
         <div class="content-blocks" id="col-a">
           <div class="col-content">
             <div class="node-box" v-if="hasNodes">
-              <div class="tracked-nodes">
+              <div class="tracked-nodes" @click="showHideTable()">
                 <!-- pending Table -->
                 <button class="chart-title" @click="showHideTable()">
                 <!-- <div class="chart-title"> -->
