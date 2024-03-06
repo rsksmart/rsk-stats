@@ -32,7 +32,7 @@
             <icon v-if="buttonClose" name="close" slot="button-close"></icon>
           </template>
           <template v-if="isDialog(types.TABLE)">
-            <div>
+            <div class="head-tables-node">
               <button @click="close(dialog)">
                 <img class="close-icon" src="../assets/svg/close-icon.svg" alt="close-icon">
               </button>

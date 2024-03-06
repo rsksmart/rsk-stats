@@ -85,8 +85,8 @@ export default {
       const chartContainer = this.$el.querySelector('.content-block-chart')
       this.width = chartContainer.offsetWidth
       this.height = Math.max(chartContainer.offsetHeight, 130)
-      this.width = 300
-      this.height = 300
+      // this.width = 300
+      // this.height = 300
     }
   },
   computed: {
@@ -105,8 +105,6 @@ export default {
 }
 </script>
 <!-- <style lang="stylus">
-  @import '../lib/styl/vars.styl'
-  @import '../lib/styl/colors.styl'
 
   .watcher
     width 100%

@@ -33,10 +33,10 @@
             <div class="node-box" v-if="hasNodes" @touchstart.passive="showHideTable()">
               <div class="tracked-nodes">
                 <!-- pending Table -->
-                <!-- <button class="chart-title" @click.prevent="showHideTable()" @touchstart.passive="showHideTable()" aria-label="table"> -->
-                <div class="chart-title">
+                <button class="chart-title" @click.prevent="showHideTable()" @touchstart.passive="showHideTable()" aria-label="table">
+                <!-- <div class="chart-title"> -->
                   Tracked Nodes {{ nodes.length }}
-                </div>
+                </button>
                 <div class="content-img">
                   <img src="@/assets/svg/server.svg" alt="">
                 </div>

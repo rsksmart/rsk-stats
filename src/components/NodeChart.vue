@@ -1,6 +1,7 @@
-<template lang="pug">
-  .node-chart.chart
-    d3-bar-chart(:data='data' :options='chart.options')
+<template>
+  <div class="node-chart chart">
+    <d3-bar-chart :data="data" :options="chart.options" />
+  </div>
 </template>
 <script>
 import { mapGetters } from 'vuex'
@@ -21,6 +22,7 @@ export default {
   created () {
     if (this.name) this.chartName = this.name
     this.chart = this.getChart()(this.chartName, this.data)
+    console.log('this.chart: ', this.chart)
   },
   methods: {
     ...mapGetters('app/charts', [
@@ -29,3 +31,13 @@ export default {
   }
 }
 </script>
+<style lang="stylus">
+.node-chart
+  padding: .25em
+.d3-bar-chart
+  max-height: 100%
+  max-width 100%
+  svg
+    width 100%
+    overflow: visible
+</style>
