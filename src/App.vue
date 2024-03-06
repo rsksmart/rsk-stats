@@ -38,7 +38,7 @@
                   Tracked Nodes {{ nodes.length }}
                 </button>
                 <div class="content-img">
-                  <img src="@/assets/svg/server.svg" alt="">
+                  <icon name="server" />
                 </div>
               </div>
             </div>
