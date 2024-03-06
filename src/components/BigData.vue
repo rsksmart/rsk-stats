@@ -1,5 +1,5 @@
 <template>
-  <div class="big-data" v-if="value" @dblclick="toDialog" :class="(options.minimized) ? 'mini': ''">
+  <div class="big-data" v-if="value" :class="(options.minimized) ? 'mini': ''">
     <div class="bd-main">
       <div class="bd-title">{{entity.title}}
         <small class="subtitle" v-if="entity.subtitle">{{entity.subtitle}}</small>

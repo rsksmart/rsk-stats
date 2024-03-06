@@ -11,11 +11,11 @@
         @mousedown.stop=""
         @touchstart.stop=""
         id="search"
-        placeholder="type to filter"
+        placeholder="Type to filter"
       />
 
       <div class="hidden-fields" v-if="hiddenFields.length">
-        <small>Hidden fields:</small>
+        <div>Hidden fields:</div>
         <button
           v-for="(field, i) in hiddenFields"
           @click="showField(field)"
@@ -57,9 +57,9 @@
               </entity-icon>
             </button>
           </th>
-          <th>
+          <!-- <th>
             <icon name="pin"></icon>
-          </th>
+          </th> -->
         </tr>
       </thead>
       <tbody>
@@ -95,12 +95,12 @@
             </template>
           </td>
           <!-- Pin button -->
-          <td>
+          <!-- <td>
             <div class="pin" @click="pinRow(node.id)" @touchstart.passive="pinRow(node.id)">
               <icon v-if="isPinned(node.id)" name="pinned" color2></icon>
               <icon v-else name="pin"></icon>
             </div>
-          </td>
+          </td> -->
         </tr>
       </tbody>
     </table>
