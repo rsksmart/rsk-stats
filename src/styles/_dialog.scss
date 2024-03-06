@@ -86,6 +86,10 @@
             line-height: 2em;
             padding: 0.125em 1em;
             white-space: nowrap;
+            text-align: center;
+            &.name {
+              text-align: left;
+            }
           }
         }
         .entity-icon {
@@ -113,6 +117,7 @@
       .search {
         margin: 10px 0;
         input {
+          color: $white_100;
           margin: 0 10px;
           background-color: $newbw_700;
           border: none;
