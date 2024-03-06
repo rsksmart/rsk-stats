@@ -125,8 +125,21 @@
   align-items: center;
   background-color: $newbw_800;
   border-radius: 12px;
+  cursor: pointer;
+  svg {
+    width: 22px;
+    height: 20px;
+  }
   button {
     font-size: 18px;
+  }
+  &:hover {
+    button {
+      color: $orange_900;
+    }
+    svg {
+      fill: $orange_900;
+    }
   }
 }
 

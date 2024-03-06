@@ -30,15 +30,15 @@
       <div class="content" v-if="connected && hasNodes">
         <div class="content-blocks" id="col-a">
           <div class="col-content">
-            <div class="node-box" v-if="hasNodes" @touchstart.passive="showHideTable()">
-              <div class="tracked-nodes">
+            <div class="node-box" v-if="hasNodes">
+              <div class="tracked-nodes" @click="showHideTable()">
                 <!-- pending Table -->
-                <!-- <button class="chart-title" @click.prevent="showHideTable()" @touchstart.passive="showHideTable()" aria-label="table"> -->
-                <div class="chart-title">
+                <button class="chart-title" @click="showHideTable()">
+                <!-- <div class="chart-title"> -->
                   Tracked Nodes {{ nodes.length }}
-                </div>
+                </button>
                 <div class="content-img">
-                  <img src="@/assets/svg/server.svg" alt="">
+                  <icon name="server" />
                 </div>
               </div>
             </div>
@@ -81,17 +81,7 @@
       <div class="content-spiner" v-else>
         <spinner :height="300" :width="300" :border="5" />
       </div>
-      <transition name="fade-nodes">
-        <div id="node-data" v-if="hasNodes && config.showNodeInfo" :style="mainStyle">
-          <node-data v-for="node,id in nodes" :node="node" :size="options.nodeSize" :key="id"></node-data>
-        </div>
-      </transition>
-      <transition name="fade-nodes">
-        <!-- <d3-network class="net" id="network" v-if="hasNodes" :netNodes="nodes" :netLinks="links" :selection="selection" :node-sym="nodeSym" :options="options" :nodeCb="nodeFilter" @node-click="nodeClick" @link-click="linkClick" :class="netClass" :style="mainStyle"></d3-network> -->
-      </transition>
-      <!-- <iface-back :size="options.size" :style="mainStyle" :center="center"></iface-back> -->
       <main-dialog v-for="(dialog) in dialogs" :key="dialog._key" :dialog="dialog"></main-dialog>
-
     </div>
   </div>
 </template>
@@ -100,7 +90,6 @@ import { mapState, mapActions, mapGetters } from 'vuex'
 import { locStorage as storage } from './lib/js/io.js'
 import { DOMAIN_TESTNET, DOMAIN_MAINNET } from './config/network'
 import Logo from './components/Logo.vue'
-import NodeData from './components/NodeData.vue'
 import BigData from './components/BigData.vue'
 import MiniChart from './components/MiniChart.vue'
 import MinersChart from './components/MinersChart.vue'
@@ -120,7 +109,6 @@ export default {
     Logo,
     BigData,
     MiniChart,
-    NodeData,
     MainDialog,
     MinersChart,
     AppMenu,

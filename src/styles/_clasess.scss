@@ -96,6 +96,19 @@ a {
     }
   }
 }
+.arrow {
+  border: solid #dcfaf3;
+  border-width: 0 0 3px 3px;
+  display: inline-block;
+  padding: 3px;
+}
+.arrow.down {
+  -webkit-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+}
+.arrow.up {
+  transform: translateY(3px) rotate(135deg);
+}
 .spinner {
   border-color: rgba(170, 170, 170, 0.1);
   border-style: solid;

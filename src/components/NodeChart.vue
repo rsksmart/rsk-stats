@@ -1,6 +1,7 @@
-<template lang="pug">
-  .node-chart.chart
-    d3-bar-chart(:data='data' :options='chart.options')
+<template>
+  <div class="node-chart chart">
+    <d3-bar-chart :data="data" :options="chart.options" />
+  </div>
 </template>
 <script>
 import { mapGetters } from 'vuex'
