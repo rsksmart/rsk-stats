@@ -7,10 +7,15 @@
   z-index: 100;
   margin: 0 auto;
   .dialog-background {
-    background-color: rgba(0, 0, 0, 0.9);
     width: 100%;
     height: 100%;
     overflow: auto;
+    &.nodes {
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+    &.table {
+      background-color: rgba(0, 0, 0, 0.9);
+    }
   }
   .content-dialog {
     width: 100%;

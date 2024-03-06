@@ -132,10 +132,9 @@ export const updateDialog = ({ state, commit }, payload) => {
   }
 }
 
-export const showHideTable = ({ state, commit, dispatch }, show) => {
-  if (undefined === show) show = !state.showTable
+export const showHideTable = ({ commit, dispatch }, show) => {
   let dialog = { type: types.TABLE, id: 'table-dialog', centered: 'viewport' }
-  if (show) dispatch('createDialog', dialog)
-  else dispatch('closeDialog', dialog)
+  dispatch('closeDialog', dialog)
+  dispatch('createDialog', dialog)
   commit('SET_SHOW_TABLE', show)
 }

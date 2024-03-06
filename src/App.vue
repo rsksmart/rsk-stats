@@ -30,10 +30,10 @@
       <div class="content" v-if="connected && hasNodes">
         <div class="content-blocks" id="col-a">
           <div class="col-content">
-            <div class="node-box" v-if="hasNodes" @touchstart.passive="showHideTable()">
+            <div class="node-box" v-if="hasNodes">
               <div class="tracked-nodes">
                 <!-- pending Table -->
-                <button class="chart-title" @click.prevent="showHideTable()" @touchstart.passive="showHideTable()" aria-label="table">
+                <button class="chart-title" @click="showHideTable()">
                 <!-- <div class="chart-title"> -->
                   Tracked Nodes {{ nodes.length }}
                 </button>
