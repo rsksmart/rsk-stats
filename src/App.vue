@@ -8,13 +8,12 @@
       <header id="header" class="header-wrapper">
         <logo />
         <div class="hint" v-if="showHint">
-          This page does not represent the entire state of the RSK Network
+          <p>This page does not represent the entire state of the RSK Network</p>
           <button @click="showHint=false">
             <icon class="color2" name="close"></icon>
           </button>
         </div>
-        <!-- Pending TO DO -->
-        <!-- <div class="content-network">
+        <div class="content-network">
           <a :href="isNetworkmainnet ? DOMAIN_TESTNET : 'javascript:void(0)'" class="btn" :class="!isNetworkmainnet ? 'btn-active' : 'btn-go'">
             <span class="large-text">Testnet</span>
             <span class="short-text">TN</span>
@@ -25,7 +24,7 @@
             <span class="short-text">MN</span>
             <img v-if="!isNetworkmainnet" src="@/assets/svg/arrow-go.svg" alt="">
           </a>
-        </div> -->
+        </div>
       </header>
       <div class="content" v-if="connected && hasNodes">
         <div class="content-blocks" id="col-a">
@@ -88,7 +87,7 @@
 <script>
 import { mapState, mapActions, mapGetters } from 'vuex'
 import { locStorage as storage } from './lib/js/io.js'
-import { DOMAIN_TESTNET, DOMAIN_MAINNET } from './config/network'
+import { DOMAIN_TESTNET, DOMAIN_MAINNET, isNetworkmainnet } from './config/network'
 import Logo from './components/Logo.vue'
 import BigData from './components/BigData.vue'
 import MiniChart from './components/MiniChart.vue'
@@ -129,6 +128,7 @@ export default {
     return {
       DOMAIN_MAINNET,
       DOMAIN_TESTNET,
+      isNetworkmainnet,
       mainVp: {
         left: 0,
         top: 0,

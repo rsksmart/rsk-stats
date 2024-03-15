@@ -16,7 +16,7 @@
         .msg(v-if='show && opts.copyMsg' :class='(anim) ? "anim" : ""') copied!
         .copy-txt(@touchend.stop='show = !show' @click.stop='show = !show')
           .tip-txt(:class='tipClass') {{value}}
-          textarea(ref='cptxt' rows='1' :cols='value.length') {{ value }}
+          //- textarea(ref='cptxt' rows='1' :cols='value.length') {{ value }}
 </template>
 <script>
 /**
