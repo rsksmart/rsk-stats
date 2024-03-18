@@ -175,6 +175,9 @@
       display: flex;
       justify-content: space-between;
       color: $white_100;
+      svg {
+        width: 12px;
+      }
     }
     .blocks {
       display: flex;
