@@ -4,15 +4,18 @@
       <button>
         <icon name="search"></icon>
       </button>
-      <input
-        name="search"
-        type="search"
-        v-model="filterRows"
-        @mousedown.stop=""
-        @touchstart.stop=""
-        id="search"
-        placeholder="Type to filter"
-      />
+      <div class="content-search">
+        <input
+          name="search"
+          type="text"
+          v-model="filterRows"
+          @mousedown.stop=""
+          @touchstart.stop=""
+          id="search"
+          placeholder="Type to filter"
+        />
+        <button class="btn-clean" v-if="filterRows" @click="filterRows = ''">x</button>
+      </div>
 
       <div class="hidden-fields" v-if="hiddenFields.length">
         <div>Hidden fields:</div>
@@ -233,9 +236,6 @@ export default {
 
   .search
     display flex
-
-    input
-      margin-right 0.5em
 
   .hidden-fields
     z-index 500
