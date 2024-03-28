@@ -81,6 +81,7 @@
         <spinner :height="300" :width="300" :border="5" />
       </div>
       <main-dialog v-for="(dialog) in dialogs" :key="dialog._key" :dialog="dialog"></main-dialog>
+      <Footer v-if="connected && hasNodes" />
     </div>
   </div>
 </template>
@@ -98,7 +99,7 @@ import { nodeFilter } from './filters/nodes.js'
 import { tSecondsAgo, mSecondsAgo, sSeconds } from './filters/TimeFilters.js'
 import { nodeType, yesNo } from './filters/TextFilters.js'
 import { percent, numerals, toInt, numeralsSuffix } from './filters/NumberFilters.js'
-
+import Footer from './components/Footer.vue'
 import nodeIcon from './assets/node.svg?raw'
 import './icons'
 import Spinner from './components/Loaders/Spinner.vue'
@@ -111,7 +112,8 @@ export default {
     MainDialog,
     MinersChart,
     AppMenu,
-    Spinner
+    Spinner,
+    Footer
   },
   filters: {
     tSecondsAgo,
