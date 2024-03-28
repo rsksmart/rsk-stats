@@ -16,7 +16,7 @@
         .msg(v-if='show && opts.copyMsg' :class='(anim) ? "anim" : ""') copied!
         .copy-txt(@touchend.stop='show = !show' @click.stop='show = !show')
           .tip-txt(:class='tipClass') {{value}}
-          textarea(ref='cptxt' rows='1' :cols='value.length') {{ value }}
+          //- textarea(ref='cptxt' rows='1' :cols='value.length') {{ value }}
 </template>
 <script>
 /**
@@ -125,10 +125,8 @@ export default {
     },
     copyText () {
       let text = this.$refs.cptxt
-      text.value = this.value
-      text.select()
       try {
-        document.execCommand('copy')
+        navigator.clipboard.writeText(this.value)
         this.anim = true
         text.value = ''
         let vm = this
@@ -286,7 +284,7 @@ export default {
     display block
 
   .msg
-    color $color
+    color white
     position absolute
     top -1.5em
     left 0
