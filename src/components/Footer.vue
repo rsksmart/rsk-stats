@@ -2,7 +2,7 @@
   <footer>
     <div>
       Built by <span class="title">RootstockLabs</span>
-      <div class="copy">Copyright &copy; {{ new Date().getFullYear() }} Roostock Labs. All rights reserved.</div>
+      <div class="copy">Copyright &copy; {{ new Date().getFullYear() }} Rootstock Labs. All rights reserved.</div>
     </div>
     <div>
       <ul class="navigation">
